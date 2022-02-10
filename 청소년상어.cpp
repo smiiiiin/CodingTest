@@ -33,7 +33,7 @@ void solve(int board[4][4], FISH fish[], int shark_y, int shark_x, int sum) {
     selected_fish[fish_number].dir = -1; //방향
     selected_board[shark_y][shark_x] = -1;//보드에는 물고기 사이즈가 있다.
 
-    sum += (fish_number + 1); //아까 --a, --b해서
+    sum += (fish_number+1); 
     if (ret < sum) { //내 결과보다 크면 그게 결과다 (근데 이거 왜함?) 안하면 틀림.
         ret = sum;
     }
@@ -50,7 +50,6 @@ void solve(int board[4][4], FISH fish[], int shark_y, int shark_x, int sum) {
         int nx = cx + dx[cd];
         int ny = cy + dy[cd];
         int nd = cd;
-        
         while (nx < 0 || ny < 0 || nx >= 4 || ny >= 4 || (nx == shark_x && ny == shark_y)) {// 갈데가 없으면
             nd = (nd + 1) % 8; //왼쪽으로 45도씩 회전- mod8 8안에서만 노니까: 필수
             nx = cx + dx[nd];
@@ -83,12 +82,12 @@ void solve(int board[4][4], FISH fish[], int shark_y, int shark_x, int sum) {
     for (int step = 1; step < 4; ++step) {
         int nx = shark_x + dx[shark_dir] * step;
         int ny = shark_y + dy[shark_dir] * step;
-            if (nx < 0 || ny < 0 || nx >= 4|| ny >= 4) {
-                break;// 중단
-            }
-            if (selected_board[ny][nx] != -1) {
-                solve(selected_board, selected_fish, ny, nx, sum);//재귀함수
-            }
+        if (nx < 0 || ny < 0 || nx >= 4|| ny >= 4) {
+            break;// 중단
+        }
+        if (selected_board[ny][nx] != -1) {
+            solve(selected_board, selected_fish, ny, nx, sum);//재귀함수
+        }
     }
 }
 
@@ -100,22 +99,23 @@ int main()
     // int* arr= new int[sz];
     // class Node{Node* n; }; Node* n; n= new Node;
     int board[4][4];
-        for (int y = 0; y < 4; ++y) {
-            for (int x = 0; x < 4; ++x) {
-                int a, b;
-                cin>>a; cin>>b;
-                --a; //--b;
-                fish[a].y = y; //ex)물고기 사이즈4는 0부터 시작하는 배열에 4번째인 index3에 들어가도록
-                //4번째 FISH덩어리에 정보 집어넣기
-                fish[a].x = x;
-                fish[a].dir = b;
-                board[y][x] = a;
-                //보드판도 완성하기
-            }
+    for (int y = 0; y < 4; ++y) {
+        for (int x = 0; x < 4; ++x) {
+            int a, b;
+            cin>>a; cin>>b;
+            --a; --b;
+            fish[a].y = y; //ex)물고기 사이즈4는 0부터 시작하는 배열에 4번째인 index3에 들어가도록
+            //4번째 FISH덩어리에 정보 집어넣기
+            fish[a].x = x;
+            fish[a].dir = b;
+            board[y][x] = a;
+            //보드판도 완성하기
         }
+    }
     ret = 0;
     solve(board, fish, 0, 0, 0);
     cout<<ret;
     return 0;
 }
+
 
