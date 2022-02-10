@@ -1,57 +1,51 @@
-//DFS, 재귀, 백트래킹, (스택! or 복사), 모든노드, visited(큐도 마찬가지)
+//DFS, 재귀, 백트래킹, (스택 or 복사), 모든노드, visited(큐도 마찬가지)
 #include <iostream>
-#include <vector> //이거 치킨거리처럼 해보기
 #include <algorithm>
-
 using namespace std;
-struct POSI{
-    int y,x;
-};
-vector <POSI> pick, person, candi;
-POSI target;
 
-int type;
+int pan[20][20];
+int team1[10]; //1에 들어온 사람들(=사람들이름=인덱스번호) //넣어보고 빼보고를 1에서 한다고 해봐.
+int team2[10];
+int pick[20]; //사원별로 pick의 bool상태
 int n, ret;
 
-void update(){ //이 함수가 호출됐다는거= 지금 딱 찼다는 거 이때 값을 구해놓아야한다(중요)
-    int pick_size{0}, team2_size{0};
+void update(){
+    int team1_size{0}, team2_size{0};
     for(int i=0; i<n; ++i){
-        if(person[i]==1){ //1번으로 들어오면 인덱스 그 해당 사람이 들어온다.
-            pick[pick_size++]= i;
+        if(pick[i]==1){ //1번으로 들어오면 인덱스 그 해당 사람이 들어온다.
+            team1[team1_size++]= i;
         }
         else
             team2[team2_size++]= i;
     }//
     
     int sum_1=0; int sum_2=0;
-    for(int i=0;i<n/2;++i){ //team1의 0,1,2인덱스에 1,2,7사원이 있으면 1,2의 조합 + 1,7의
-     //조합 다하면 2,7의 조합을 보기 때문에 이중for문이 필수다.
-            for(int j=i+1;j<n/2;++j){
-                sum_1+=pan[team1[i]][team1[j]]+pan[team1[j]][team1[i]];
-                sum_2+=pan[team2[i]][team2[j]]+pan[team2[j]][team2[i]];
-            }
+    for(int i=0;i<n/2;++i){
+        for(int j=i+1;j<n/2;++j){
+            sum_1+=pan[team1[i]][team1[j]]+pan[team1[j]][team1[i]];
+            sum_2+=pan[team2[i]][team2[j]]+pan[team2[j]][team2[i]];
         }
-   
+    }
     if(ret> abs(sum_1-sum_2)){
         ret=abs(sum_1-sum_2);
-    }}
+    }
     
    
-
+}
 
 void dfs(int cur, int pick_count){ //치킨거리에서 pick_count를 변수로 안넣은 방법
-    //변수가 왜 cur과 pick_count 2개인지?
     if(pick_count==n/2){
         update(); //
         return;
     }
-    for(int i=cur;i<n;++i){ //이부분 못 떠올림. //cur부터인지 왜
-        person[i]=1; //채우고
-        dfs (i+1, pick_count+1); //i+1이 아니라 pick_count+1; ??
-        person[i]=0; //비우고
-        
-    }
+    for(int i=cur;i<n;++i){ //이부분 못 떠올림.
+        pick[i]=1;
+        dfs (i+1, pick_count+1); //i+1이 아니라 pick_count+1;
+        pick[i]=0;}
 }
+//0부터 4까지
+//pick[0], [1]에 각각1표시 즉, 1에 들어간다.
+//dfs(2)= update()하고 pick[2]=1 dfs(3,3) pick[3]=1 , pick[3]=0;
 
 int main() {
     cin>>n;
