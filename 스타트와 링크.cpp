@@ -17,7 +17,7 @@ void update(){
         }
         else
             team2[team2_size++]= i;
-    }//
+    } 
     
     int sum_1=0; int sum_2=0;
     for(int i=0;i<n/2;++i){
@@ -26,16 +26,15 @@ void update(){
             sum_2+=pan[team2[i]][team2[j]]+pan[team2[j]][team2[i]];
         }
     }
-    if(ret> abs(sum_1-sum_2)){
+    if(ret> abs(sum_1-sum_2))
+    {
         ret=abs(sum_1-sum_2);
-    }
-    
-   
+    }   
 }
 
 void dfs(int cur, int pick_count){ //치킨거리에서 pick_count를 변수로 안넣은 방법
     if(pick_count==n/2){
-        update(); //
+        update(); 
         return;
     }
     for(int i=cur;i<n;++i){ //이부분 못 떠올림.
