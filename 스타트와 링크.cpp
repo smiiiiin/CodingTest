@@ -16,7 +16,7 @@ void update(){
             team1[team1_size++]= i;
         }
         else
-            team2[team2_size++]= i;
+        {team2[team2_size++]= i;}
     } 
     
     int sum_1=0; int sum_2=0;
