@@ -81,7 +81,7 @@ for (int y = 0; y < N; ++y) {
     for (int x = 0; x < N; ++x) {
         cin>> board[0][y][x];
         if (board[0][y][x] != 0) {
-            int shark_number = board[0][y][x] - 1;
+            int shark_number = board[0][y][x] - 1; //여기서 -1했기때문에 위에서 new_board[0][ny][nx] = i + 1; 하는거다. 
             shark[shark_number].y = y; shark[shark_number].x = x;
             board[1][y][x] = board[0][y][x]; board[2][y][x] = K; } } }
     
