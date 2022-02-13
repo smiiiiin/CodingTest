@@ -30,20 +30,20 @@ for (int i = 0; i < M; ++i) { //상어 번호 다 둘러보면서
     
     bool is_move = false;
     
-    // 질문1 : 다음상어와 자멸의 차이는?
+    
     
     for(int d = 0; d < 4; ++d){ // 방향의 우선순위대로 따라가는데 업데이트 해야함. 하나를 골라야하니까
         //작은 DFS: 다 해보기
         int nd = shark[i].priority[cd][d];
         int ny = cy + dy[nd]; int nx = cx + dx[nd];
-        //1번: 다음에 갈 곳이 없거나 영역표시 되어있으면 다음 상어; (!!!그게 내 영역일 수도 있는데)
+        //1번: 다음에 갈 곳이 없거나 영역표시 되어있으면 다른방향 
         if (ny < 0 || ny >= N || nx < 0 || nx >= N || board[2][ny][nx] != 0) { continue; }
         is_move = true; new_board[0][cy][cx] = 0;
         //2번: 다음에 갈곳에 상어가 없으면 움직이기 (내영역으로 돌아가는거 여기 포함 0판에는 그거 없음)
         if (new_board[0][ny][nx] == 0) {
             new_board[0][ny][nx] = i + 1; new_board[1][ny][nx] = i + 1; new_board[2][ny][nx] = K;
             shark[i].y = ny; shark[i].x = nx; shark[i].d = nd; }
-        //3번: 노답이면 자멸.
+        //3번: 노답이면 자멸. (방향선택안하고 자멸)
         else { ++kill_shark; shark[i].y = -1; } break;
     
     }
@@ -53,16 +53,16 @@ for (int i = 0; i < M; ++i) { //상어 번호 다 둘러보면서
         for (int d = 0; d < 4; ++d)
             { int nd = shark[i].priority[cd][d];
               int ny = cy + dy[nd]; int nx = cx + dx[nd];
-                //1-1번: 다음 갈 곳이 없을 때, 다음 상어
+                //1-1번: 다음 갈 곳이 없을 때, 다른방향 
                 if (ny < 0 || ny >= N || nx < 0 || nx >= N) { continue; }
-                //1-2번:냄새 남아있는데 그게 내것이 아닐때, 다음 상어
+                //1-2번:냄새 남아있는데 그게 내것이 아닐때, 다른방향
                 if (board[2][ny][nx] != 0 && board[1][ny][nx] != i + 1) { continue; }
                 new_board[0][cy][cx] = 0;
                 //2번: 없으면 움직이기
                 if (new_board[0][ny][nx] == 0) {
                     new_board[0][ny][nx] = i + 1; new_board[1][ny][nx] = i + 1; new_board[2][ny][nx] = K;
                     shark[i].y = ny; shark[i].x = nx; shark[i].d = nd; }
-                //3번: 자멸
+                //3번: 자멸(방향선택 안하고) 
                 else { ++kill_shark; shark[i].y = -1; } break; } } }
 
 //죽은 상어가 1빼고 다 죽으면 중단
