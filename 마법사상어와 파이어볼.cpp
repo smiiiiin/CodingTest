@@ -11,7 +11,8 @@ vector<FIRE> fire;
 vector<int> map[50][50];
 
 void move() {
-    vector<int> new_map[50][50];
+    vector<int> new_map[50][50]; //2차월 배열을 갖는 벡터 1차원 배열이다.
+    //NOT LIKE vector<vector<int>> v;
     for (int i = 0; i < fire.size(); ++i)
     { int dir = fire[i].d; int speed = (fire[i].s % N); //여러바퀴 돌면 %를 한다.
         int ny = (fire[i].y + (dy[dir] * speed) + N) % N;//근데 얘는 왜 +N;
