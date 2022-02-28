@@ -19,7 +19,7 @@ struct info { //prioirity_queue로 알맹이(struct)를 구성하면, 안에서 
     bool operator <(const info& i) const {
         if (friendCnt == i.friendCnt) {
             if (blankCnt == i.blankCnt) {
-                if (x == i.x) return y > i.y;
+                if (x == i.x) return y > i.y; //!!! 완전 중요: 뒤에 있는게 더 우선순위가 높은 거다. 
                 else return x > i.x;
             }
             else return blankCnt < i.blankCnt;
