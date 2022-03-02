@@ -1,0 +1,54 @@
+//백준 10953
+
+/*#include<iostream>
+#include<vector>
+
+using namespace std;
+
+int main(){
+    vector<pair<int,int>> res;
+    int n,fir,sec;
+    cin>>n;
+    char c;
+    for(int i=0;i<n;++i){
+        cin>>fir;
+        cin>>c;
+        cin>>sec;
+        res.push_back(pair<int,int>(fir,sec));
+    }
+    
+    for(int i=0; i<res.size() ;++i){
+        cout<<res[i].first + res[i].second <<endl;
+    }
+    
+return 0;   
+}*/
+
+#include<iostream>
+#include<vector>
+
+using namespace std;
+struct NUM{
+    int a,b;
+};
+
+int main(){
+    vector<NUM> res;
+    int n,fir,sec;
+    cin>>n;
+    char c;
+    for(int i=0;i<n;++i){
+        cin>>fir;
+        cin>>c;
+        cin>>sec;
+        res.push_back({fir,sec});
+    }
+    
+    for(int i=0; i<res.size() ;++i){
+        cout<<res[i].a + res[i].b <<endl;
+    }
+    
+return 0;   
+}
+
+
