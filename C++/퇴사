@@ -5,21 +5,16 @@ using namespace std;
 
 int n; //전역 변수 남은 일수(일하는 일수)
 int T[15], P[15]; //time, pay 배열
-int cache[15];//이게 뭐지?
+int ret{0};
 
 int solve(int day){ //day부터 막날까지 최대이익 함수
-    if(day>n) return -987654321;//왜 이 숫자- 어차피 max택하니까 작은값 넣기
-    if(day==n) return 0; //일수는 n이고 index는 0부터 시작해서 헷갈림.
-    //얘 뭐지..?
-    // day+1 = n 일때 둘 다, 마지막날.
+    if(day>n+1) return -0x7ffffff;//어차피 max택하니까 작은값 넣기
+    if(day==n+1) return 0; //호출될 수도 있어서
     
-    int&ret= cache[day];
-    //참조: 불필요한 복사방지= ret변하면 cache[day]값이 같이 변함
-    
-    if(ret!= -1) return ret; //이 전에 구했다는 의미다. -1이 아니면//재귀함수니까
     //DP 동적계획법
-    //max(그 날 일 안할경우,할 경우 현재 일수에서 그날 일한다면 걸리는 날을 더해서
+    //max(그 날 일 안할경우, 할 경우 현재 일수에서 그날 일한다면 걸리는 날을 더해서
     //다음기회의 일수 일때 최대이익+ 그날 해서 나오는 돈:P[day] ) 중 하나를 고른다.
+    //고르는 순간 solve에 의해서 일수가 자동으로 밀린다.
     ret= max(solve(day+1),solve(day+T[day])+P[day]);
     return ret;
 }
@@ -27,11 +22,12 @@ int solve(int day){ //day부터 막날까지 최대이익 함수
 int main() {
     
     cin>>n;
+    //--n; 여기다 놓으면 for문 돌때 입력이 모자르게 된다.
+    
     for(int i=0;i<n;++i){
         cin>>T[i]; cin>>P[i];
-        cache[i]=-1;
     }
-    
+    --n;
     int ret= solve(0);
     cout<<ret;
     
