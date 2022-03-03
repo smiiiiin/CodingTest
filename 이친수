@@ -5,17 +5,17 @@ typedef long long ll;
 using namespace std;
 int n;
 ll dp[3][105];
+
 int main(){
     ll res{0};
     cin>>n;
     dp[0][0]=0; dp[1][0]=1;
     
     for(int x=0;x<n;x++){
-        for(int y=1;y<2;y++){
-            dp[y][0]+=(dp[y-1][0]+dp[y-1][1]);
-            dp[y][1]+=dp[y-1][0];
-           // dp[y][0]+=dp[y-1][1];
-        }
+        
+            dp[1][x]=dp[0][x-1];
+            dp[0][x]=(dp[0][x-1]+dp[1][x-1]);
+        
     }
     
     for(int y=0;y<2;y++){
