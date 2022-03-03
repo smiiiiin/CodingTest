@@ -1,0 +1,33 @@
+//백준 11057
+#include<iostream>
+using namespace std;
+#define MOD 1000000000
+int n;
+typedef long long ll;
+ll dp[105][15];
+
+int main(){
+    ll res{0};
+    cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
+    
+    cin>>n;
+    for(int y=0;y<10;y++) {dp[y][0]=1;}
+    for(int x=1;x<n;x++){ 
+        for(int y=0;y<10;y++){
+            for(int z=0;z<=y;z++){
+            dp[y][x]+=dp[z][x-1];
+            dp[y][x]%=MOD;
+            }
+        }
+    }
+    
+    for(int y=0;y<10;y++){
+        res+= dp[y][n-1];
+        res%=MOD;
+    }
+    
+    cout<<res%MOD<<"\n";
+    return 0;
+}
+
+//왜 틀리지?
