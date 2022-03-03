@@ -1,7 +1,7 @@
 //백준 11057
 #include<iostream>
 using namespace std;
-#define MOD 1000000000
+#define MOD 10007
 int n;
 typedef long long ll;
 ll dp[105][15];
