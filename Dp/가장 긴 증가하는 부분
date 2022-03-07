@@ -1,6 +1,8 @@
 //백준 11053
+//이것도 돼고 
 #include <iostream>
 #include <vector>
+#include <bits/stdc++.h>
 
 using namespace std;
 int main()
@@ -10,16 +12,27 @@ int main()
     int dp[1001];
 
     cin >> n;
-    fill(dp, dp + n, 1);
+    fill(dp, dp+ n, 1);
     for (int i = 0; i < n; i++)
         cin >> a[i];
-    for (int i = 0; i < n; i++)
+    
+    
+    for (int i = 1; i < n; i++)
     {
         for (int j = 0; j<i; j++)
         {
             if (a[j] < a[i])
-                dp[i] = max(dp[i], dp[j] + 1);
+            {dp[i]=max(dp[i],dp[j]+1);}
+            
+            //위에 if문 아래 주석단 걸로 대체해도 된다 : 다음문제 11055풀려고 
+            /*
+            if(dp[i]<dp[j]+1){
+                    dp[i]=dp[j]+1;
+                }
+                */
         }
     }
+    
     cout << *max_element(dp,dp+n);
 }
+
