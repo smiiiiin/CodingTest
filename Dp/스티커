@@ -96,3 +96,44 @@ int main(void)
 }
 
 */
+
+/*정성스레 쓴건데 출력초과임. 답은 테스트케이스는 맞음. 좀 방법 고안할것
+
+//backjoon: 9465
+#include <iostream>
+#include <algorithm>
+using namespace std;
+#define MAX 100001
+int t{0},n;
+int map[2][MAX];
+int dp[2][MAX];
+
+int sol(){
+    int ret;
+    dp[0][0]=map[0][0]; dp[1][0]=map[1][0];
+    dp[0][1]=map[0][1]+dp[1][0]; dp[1][1]=map[1][1]+dp[0][0];
+    for(int x=2;x<n;x++){
+        for(int y=0;y<2;y++){
+            dp[y][x]= max(map[y][x]+dp[1-y][x-1], map[y][x]+dp[1-y][x-2]);
+        }
+    }
+    ret= dp[1][n-1];
+    return ret;
+}
+
+int main(){
+    cin>>t;
+    while(t){
+    cin>>n;
+    for(int y=0;y<2;y++){
+        for(int x=0;x<n;x++){
+            cin>>map[y][x];
+            dp[y][x]=map[y][x];
+        }
+    }
+        cout<<sol();
+        t++;
+    }
+    return 0;}
+
+*/
