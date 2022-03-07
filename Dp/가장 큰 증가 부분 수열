@@ -1,0 +1,32 @@
+//백준 11055
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+int main()
+{
+    int n;
+    int a[1001];
+    int dp[1001];
+    
+    cin >> n;
+    fill(dp, dp+ n, 1);
+    
+    for (int i = 0; i < n; i++){
+      cin >> a[i];
+        dp[i]=a[i];}
+    
+    
+    for (int i = 1; i < n; i++)
+    {
+        for (int j = 0; j<i; j++)
+        {
+            if (a[j] < a[i]){
+                dp[i]=max(dp[i], dp[j]+a[i]);//이부분 이해안됨. 이해하기 
+                }
+            }
+            
+        }
+    cout << *max_element(dp,dp+n)<<endl;
+}
