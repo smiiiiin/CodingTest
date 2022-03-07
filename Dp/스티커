@@ -48,13 +48,14 @@ using namespace std;
 int dy[] = { -1,1,0,0 };
 int dx[] = { 0,0,-1,1 };
 int map[2][100001];
+int cache[2][100001];
 int n;
 
 int dp(int y, int x)
 {
     
     if (x >= n) return 0;
-    int ret = map[y][x];
+    int& ret = cache[y][x];
     if (ret != -1) return ret;
 
     if (y == 0)
@@ -82,7 +83,7 @@ int main(void)
     while (T--)
     {
         cin >> n;
-        memset(map, -1, sizeof map);
+        memset(cache, -1, sizeof cache);
 
         for (int i = 0; i < 2; ++i)
         {
