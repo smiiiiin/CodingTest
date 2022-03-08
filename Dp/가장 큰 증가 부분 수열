@@ -23,7 +23,7 @@ int main()
         for (int j = 0; j<i; j++)
         {
             if (a[j] < a[i]){
-                dp[i]=max(dp[i], dp[j]+a[i]);//이부분 이해안됨. 이해하기 
+                dp[i]=max(dp[i], dp[j]+a[i]);//!!!! 빠르게 움직이는 j에 다다다다 sum에서 더해줘서 나온 dp갱신된 dp를 뛰어넘지 못하면 그냥 그 상태로 머문다. !!!!
                 }
             }
             
