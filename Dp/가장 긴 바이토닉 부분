@@ -59,3 +59,61 @@ int main()
     
     return 0;
 }
+
+
+
+
+
+
+
+
+
+//백준 11054
+#include <iostream>
+#include<vector>
+#include <algorithm>
+using namespace std;
+int dp[1000];
+int reverse_dp[1000];
+int a[1000];
+int n;
+
+int main()
+{
+    cin>>n;
+    for(int y=0;y<n;y++){
+        cin>>a[y];
+        dp[y]=a[y];
+        reverse_dp[n-y]=a[y];
+    }
+    
+    for(int y=0;y<n;y++){
+        for(int x=0;x<y;x++){
+            if(a[x]<a[y]){
+                dp[y]=max(dp[y],dp[x]+1);//가만히 있는게 나으면 가만히 있어 
+                 reverse_dp[y]=max(reverse_dp[y],reverse_dp[x]+1);
+            }
+        }
+    }
+     for(int i=0;i<n;i++){
+        cout<<dp[i]<<" ";
+     }
+    /*
+    int iy{0}; int increase{0}; int max{0};
+    for(int i=0;i<n;i++){
+        cout<<dp[i]<<" ";
+        if(increase<dp[i]){
+            increase=dp[i];
+            iy++;
+        }
+        cout<<"increase:"<<increase<<"\n";
+        cout<<"iy: "<<iy<<"\n";
+        if(max<reverse_dp[n-iy]+increase-1)
+        {max= reverse_dp[n-iy]+increase-1;}
+    }
+    
+   
+    cout<<max<<endl;
+  */
+    return 0;
+}
