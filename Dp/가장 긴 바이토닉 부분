@@ -1,0 +1,55 @@
+//백준 11054
+#include <iostream>
+#include<vector>
+#include <algorithm>
+using namespace std;
+int dp[10001];
+int reverse_dp[10001];
+int a[10001];
+int n;
+int ret;
+
+int main()
+{
+    cin>>n;
+    for(int y=0;y<n;y++){
+        cin>>a[y];
+        dp[y]=a[y];
+        reverse_dp[n-y]=a[y];
+    }
+    
+    for(int y=0;y<n;y++){
+        for(int x=0;x<y;x++){
+            if(a[x]<a[y]){
+                dp[y]=max(dp[y],dp[x]+1);
+                 reverse_dp[y]=max(reverse_dp[y],reverse_dp[x]+1);
+            }
+        }
+    }
+    int iy{0}, dy{0}; int increase{0},decrease{0};
+    for(int i=0;i<n;i++){
+        if(increase<dp[i]){
+            increase=dp[i];
+            ci++;
+        }
+        
+        if(decrease<reverse_dp[i]){
+            decrease=reverse_dp[i];
+            di++;
+        }
+    }
+    
+   
+    int posi= max(increase,decrease);
+    
+    if(posi==increase){
+        ret= increase+ reverse_dp[n-iy]-1;
+    }
+    
+    if(posi==decrease){
+        ret= decrease+ dp[n-dy]-1;
+    }
+    cout<<ret;
+    
+    return 0;
+}
