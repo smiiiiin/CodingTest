@@ -1,4 +1,5 @@
 //백준 11054
+
 #include <iostream>
 #include<vector>
 #include <algorithm>
@@ -7,7 +8,7 @@ int dp[1000];
 int reverse_dp[1000];
 int a[1000];
 int n;
-int ret;
+int ret{0};
 
 int main()
 {
@@ -38,9 +39,14 @@ int main()
             dy++;
         }
     }
-    
    
     int posi= max(increase,decrease);
+    if(increase==decrease){
+        if(iy<n-dy){
+            posi=increase;
+        }
+        else posi= decrease;
+    }
     
     if(posi==increase){
         ret= increase+ reverse_dp[n-iy]-1;
