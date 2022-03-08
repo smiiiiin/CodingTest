@@ -3,9 +3,9 @@
 #include<vector>
 #include <algorithm>
 using namespace std;
-int dp[10001];
-int reverse_dp[10001];
-int a[10001];
+int dp[1000];
+int reverse_dp[1000];
+int a[1000];
 int n;
 int ret;
 
@@ -30,12 +30,12 @@ int main()
     for(int i=0;i<n;i++){
         if(increase<dp[i]){
             increase=dp[i];
-            ci++;
+            iy++;
         }
         
         if(decrease<reverse_dp[i]){
             decrease=reverse_dp[i];
-            di++;
+            dy++;
         }
     }
     
