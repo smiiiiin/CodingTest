@@ -1,5 +1,5 @@
 //백준 2225 
-//백준 2225
+//왜 틀?
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -32,9 +32,9 @@ int main()
      */
     
     for(int i=0;i<=n;i++) {map[i][0]=0; map[i][1]=1;}
-     for(int x=0;x<=n;x++){
+     for(int x=0;x<=k;x++){
         for(int y=0;y<=n;y++){
-           map[y][x]+= map[y][x-1];}}
+           map[y][x]+= map[n-y][x-1];}}
      
      cout<<map[n][k]%1000000000;
 
