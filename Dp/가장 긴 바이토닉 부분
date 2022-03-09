@@ -1,132 +1,45 @@
 //백준 11054
-//틀린 내 풀이 dp는 a랑 다르지!!!
+//이건 왜 안돼는거야 도대체? 밑에 건 되면서..
 #include <iostream>
-#include<vector>
 #include <algorithm>
 using namespace std;
-int dp[1000];
-int reverse_dp[1000];
-int a[1000];
-int n;
-int ret{0};
 
-int main()
-{
+
+int main(){
+
+    int n;
+    int a[1010] = {0,}, dp[1010] = {0,}, b[1010] = {0,}, c[1010] = {0,};
+    int max = 0;
+
     cin>>n;
-    for(int y=0;y<n;y++){
-        cin>>a[y];
-        dp[y]=a[y]; //DP랑 a랑 같냐? 옮겨담으면 안돼지!!! 
-        reverse_dp[n-y]=a[y];
+
+    for(int i = 0; i < n; i++){
+        cin>>a[i];
     }
-    
-    for(int y=0;y<n;y++){
-        for(int x=0;x<y;x++){
-            if(a[x]<a[y]){
-                dp[y]=max(dp[y],dp[x]+1); ////가만히 있는게 나으면 가만히 있어
-                 reverse_dp[y]=max(reverse_dp[y],reverse_dp[x]+1);
-            }
+
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < i; j++){
+            if(a[j] < a[i]){
+                dp[i]= max(dp[i], dp[j]+1);
         }
+        b[i] = dp[i];}
     }
-    int iy{0}, dy{0}; int increase{0},decrease{0};
-    for(int i=0;i<n;i++){
-        if(increase<dp[i]){
-            increase=dp[i];
-            iy++;
-        }
-        
-        if(decrease<reverse_dp[i]){
-            decrease=reverse_dp[i];
-            dy++;
-        }
+    for(int i = n-1; i >= 0; i--){
+        for(int j = n-1; j > i; j--){
+            if(a[j] < a[i]){
+                dp[i]= max(dp[i], dp[j]+1);
+        }}
+        c[i] = dp[i];
     }
-   
-    int posi= max(increase,decrease);
-    if(increase==decrease){
-        if(iy<n-dy){
-            posi=increase;
-        }
-        else posi= decrease;
+
+    for(int i = 0; i < n; i++){
+        if(max < b[i] + c[i]) max = b[i] + c[i];
     }
-    
-    if(posi==increase){
-        ret= increase+ reverse_dp[n-iy]-1;
-    }
-    
-    if(posi==decrease){
-        ret= decrease+ dp[n-dy]-1;
-    }
-    cout<<ret;
-    
+
+    cout<<max-1;
+
+
     return 0;
-}
-
-
-//백준 11054
-#include <iostream>
-#include<vector>
-#include <algorithm>
-using namespace std;
-int dp[1000];
-int reverse_dp[1000];
-int a[1000];
-int n;
-
-
-int main()
-{
-    cin>>n;
-    fill(dp, dp+ n, 1);
-    fill(reverse_dp, reverse_dp+ n, 1);
-    for(int y=0;y<n;y++){
-        cin>>a[y];
-    }
-    
-    for(int y=0;y<n;y++){
-        for(int x=0;x<y;x++){
-            if(a[x]<a[y]){
-                dp[y]=max(dp[y],dp[x]+1);//가만히 있는게 나으면 가만히 있어 
-            }
-        }
-    }
-    
-    for(int y=n-1;y>=0;--y){
-        for(int x=n-1;x>y;--x){
-            if(a[x]<a[y]){
-                reverse_dp[y]=max(reverse_dp[y],reverse_dp[x]+1);
-            }
-        }
-    }
-     
-     int iy{0}, dy{0}; int increase{0},decrease{0};
-     for(int i=0;i<n;i++){
-         if(increase<dp[i]){
-             increase=dp[i];
-             iy++;
-         }
-         
-         if(decrease<reverse_dp[i]){
-            decrease=reverse_dp[i];
-            dy++;
-        }
-     }
-     
-     int posi= max(increase,decrease);
-    if(increase==decrease){
-        if(iy<dy){
-            posi=increase;
-        }
-        else posi= decrease;
-    }
-    int ret;
-    if(posi==increase){
-        ret= increase+ reverse_dp[n-iy]-1;
-    }
-    
-    if(posi==decrease){
-        ret= decrease+ dp[n-dy]-1;
-    }
-    cout<<ret;
-    
 }
     
     
