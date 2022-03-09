@@ -1,15 +1,16 @@
 //백준 2225 
-
 //백준 2225
 #include <iostream>
 #include <vector>
 #include <algorithm>
 int n,k;
+int map[200][200];
 using namespace std;
 int main()
 {
     cin>>n; cin>>k;
     /*합이 n이 되는데 정수k개를 더한다.
+    20 1 20 1개
     20 2 (0,20) (1,19) (2,18) ... (19,1) (20,0) 21개
     19 2 (0,19) (1,18) (2,17) ... (18,1) (19,0) 20개
      x의 dp[2]는 항상 x+1
@@ -25,5 +26,16 @@ int main()
      map[y][x]로 구성해서 저장하고 마지막에
      n의 dp[k]칸에서 답을 구하는 걸로 구성해볼까?
      
-*/
+     map[n][1]=1;
+     map[n][2]= n+1; map[n][1]+=n; // for(int i=0;i<=n;i++){+=map[i][1];}
+     map[n][3]= i=0;i<=n;i++ +=map[i][2];
+     */
+    
+    for(int i=0;i<=n;i++) {map[i][0]=0; map[i][1]=1;}
+     for(int x=0;x<=n;x++){
+        for(int y=0;y<=n;y++){
+           map[y][x]+= map[y][x-1];}}
+     
+     cout<<map[n][k]%1000000000;
+
 }
