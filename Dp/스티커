@@ -38,102 +38,36 @@ int main() {
     return 0;
 }
 
-/*
-#include <vector>
+//백준 9465
+//맞왜틀? 대각선 전에서 오는 경우, 전전대각선에서 오는 경우 (2)중에 max+ a[] 하면 되는거 아닌가? 
+
 #include <iostream>
 #include <algorithm>
-#include <string.h> //memset(배열, 초기화값, sizeof())
 using namespace std;
-//materials
-int map[2][100001];
-int cache[2][100001];
-int n;
+int t; int n;
+long long dp[2][101]={0,};
+long long a[2][101];
 
-int dp(int y, int x)
-{
-    
-    if (x >= n) return 0;
-    int& ret = cache[y][x];
-    if (ret != -1) return ret;
-
-    if (y == 0)
-    {
-        return ret = max(map[0][x] + dp(1, x + 1), dp(1,x));
-    }
-    else if(y==1)
-    {
-        if (x + 1 >= n)
-        {map[0][x + 1] = 0;}
-        ret = max(map[1][x] + map[0][x + 1] + dp(1, x + 2),
-                  map[1][x] + dp(0, x + 2));
-        
-        return ret = max(ret, dp(0, x + 1));
-    }
-
-    return ret;
-}
 
 int main(void)
-{
-    int T;
-    cin >> T;
-
-    while (T--)
-    {
-        cin >> n;
-        memset(cache, -1, sizeof cache);
-
-        for (int i = 0; i < 2; ++i)
-        {
-            for (int j = 0; j < n; ++j)
-            {
-                cin >> map[i][j];
-            }
-        }
-
-        cout << dp(0, 0) << endl;
-    }
-}
-
-*/
-
-/*정성스레 쓴건데 출력초과임. 답은 테스트케이스는 맞음. 좀 방법 고안할것
-
-//backjoon: 9465
-#include <iostream>
-#include <algorithm>
-using namespace std;
-#define MAX 100001
-int t{0},n;
-int map[2][MAX];
-int dp[2][MAX];
-
-int sol(){
-    int ret;
-    dp[0][0]=map[0][0]; dp[1][0]=map[1][0];
-    dp[0][1]=map[0][1]+dp[1][0]; dp[1][1]=map[1][1]+dp[0][0];
-    for(int x=2;x<n;x++){
-        for(int y=0;y<2;y++){
-            dp[y][x]= max(map[y][x]+dp[1-y][x-1], map[y][x]+dp[1-y][x-2]);
-        }
-    }
-    ret= dp[1][n-1];
-    return ret;
-}
-
-int main(){
+{   cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
     cin>>t;
-    while(t){
+    while(t--){
     cin>>n;
     for(int y=0;y<2;y++){
-        for(int x=0;x<n;x++){
-            cin>>map[y][x];
-            dp[y][x]=map[y][x];
+        for(int x=1;x<=n;x++){
+            cin>>a[y][x];
+        }}
+    dp[0][1]= a[0][1]; dp[1][1]= a[1][1];
+    dp[0][2]= a[0][2]+a[1][1]; dp[1][2]= a[1][2]+a[0][1];
+    
+    for(int x=3;x<=n;x++){
+        for(int y=0;y<2;y++){
+            dp[y][x]= a[y][x]+ max(dp[1-y][x-1], dp[1-y][x-2]);
         }
     }
-        cout<<sol();
-        t++;
+        cout<<max(dp[0][n], dp[1][n])<<endl;
+        
     }
-    return 0;}
-
-*/
+    return 0;
+}
