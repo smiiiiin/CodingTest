@@ -6,6 +6,25 @@ dp[n]= dp[n-1]+dp[n-2]
 2x2짜리 타일이 두개 추가된 경우는 2X1이 추가된 경우니까 제외하고 1X2가 두개 누워서 추가된 경우
 3부터는 앞에 경우에 다 추가됨으로
 
-이어서 비슷한 문제 2133번 타일채우기를 해결해보자.
+이어서 비슷한 문제 11727이랑 2133번 타일채우기를 해결해보자.
 
 정리완. 동빈나꺼 봐 
+
+
+//백준 11727
+#include <iostream>
+using namespace std;
+#define MOD 10007
+int n;
+int dp[1000];
+
+int main(void)
+{
+    cin>>n;
+    dp[1]=1; dp[2]=3;  //*2되게하려고 임의로 지정
+    for(int i=3;i<=n;i++){
+        dp[i]=dp[i-1]+2*dp[i-2]%MOD;
+    }
+    cout<<dp[n]%MOD;
+    return 0;
+}
