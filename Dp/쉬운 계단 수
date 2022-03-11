@@ -1,4 +1,44 @@
 //백준 10844
+
+//가로세로 변경하는게 난 이해가 더 잘되는데 이건 왜 안돼? 
+//백준 10844
+#include <iostream>
+using namespace std;
+#define MOD 1000000000
+int n;
+long long dp[15][105];
+
+int main(void)
+{
+    cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
+    int sum{0};
+    cin>>n;
+    dp[0][1]=0;
+    for(int i=1;i<=9;i++) {dp[i][1]=1;}
+    for(int x=2;x<=n;x++) {
+        dp[0][x]= dp[1][x-1]; dp[9][x]= dp[8][x-1];
+    
+    
+    //for(int x=2;x<=n;x++){
+        for(int y=1;y<=8;y++){
+            dp[y][x]= dp[y-1][x-1]+dp[y+1][x-1];
+        }
+    }
+    
+    for(int i=0;i<=9;i++){
+        sum+= dp[i][n]% MOD;
+    }
+    
+    cout<<sum% MOD;
+    return 0;
+}
+
+
+
+
+
+
+//이게 정답 
 #include <iostream>
 using namespace std;
 #define MOD 1000000000
