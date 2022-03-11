@@ -1,33 +1,30 @@
 //백준 11057
-#include<iostream>
-using namespace std;
+//long long 하고 범위를 크게 써야지 안틀린다. 
+#include <iostream>
 #define MOD 10007
+using namespace std;
 int n;
-typedef long long ll;
-ll dp[105][15];
+long long dp[10][1005];
+long long ret;
 
-int main(){
-    ll res{0};
+int main(void)
+{
     cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
-    
     cin>>n;
-    for(int y=0;y<10;y++) {dp[y][0]=1;}
-    for(int x=1;x<n;x++){ 
-        for(int y=0;y<10;y++){
-            for(int z=0;z<=y;z++){
-            dp[y][x]+=dp[z][x-1];
-            dp[y][x]%=MOD;
-            }
+    for(int i=1;i<=n;i++) dp[0][i]=1;
+    for(int i=0;i<10;i++) dp[i][1]=1;
+    
+    
+    for(int x=2;x<=n;x++) {
+        for(int y=1;y<=9;y++){
+            dp[y][x]= (dp[y-1][x]+dp[y][x-1])% MOD;
         }
     }
-    
-    for(int y=0;y<10;y++){
-        res+= dp[y][n-1];
-        res%=MOD;
+    ret=0;
+    for(int i=0;i<=9;i++){
+        ret+= dp[i][n]% MOD; //MOD 금지
     }
     
-    cout<<res%MOD<<"\n";
+    cout<<ret % MOD;
     return 0;
 }
-
-//왜 틀리지?
