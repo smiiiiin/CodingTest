@@ -37,7 +37,7 @@ int main()
 }
 
 
-//백준 11053 왜 마지막에 +1을 해야할까? 
+//백준 11053 왜 마지막에 +1을 해야할까?  *max_element는 마지막 것을 추가 안한대
 #include <iostream>
 #include <algorithm>
 #include <vector>
@@ -59,6 +59,6 @@ int main(void)
             dp[y]=max(dp[y], dp[x]+1);
         }
         }}
-    cout<<*max_element(dp+1, dp+n+1)+1; //왜 여기서 +1을 해야할까?
+    cout<<*max_element(dp+1, dp+n+1)+1; //왜 여기서 +1을 해야할까? *max_element는 마지막 것을 추가 안한대
     return 0;
 }
