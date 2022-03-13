@@ -1,50 +1,42 @@
 //백준 11054
-//이건 왜 안돼는거야 도대체? 밑에 건 되면서..
-#include <iostream>
-#include <algorithm>
+//이거 대체 왜 안됨?
+
+#include <bits/stdc++.h>
 using namespace std;
 
+int n;
+int inc_dp[1010]={1,};
+int dec_dp[1010]={1,};
+int a[1010];
 
 int main(){
-
-    int n;
-    int a[1010] = {0,}, dp[1010] = {0,}, b[1010] = {0,}, c[1010] = {0,};
-    int max = 0;
-
     cin>>n;
-
-    for(int i = 0; i < n; i++){
-        cin>>a[i];
-    }
-
-    for(int i = 0; i < n; i++){
-        for(int j = 0; j < i; j++){
-            if(a[j] < a[i]){
-                dp[i]= max(dp[i], dp[j]+1);
+    for(int i=1;i<=n;i++){
+        cin>>a[i];}
+    for(int y=2;y<=n;y++){
+        for(int x=1;x<y;x++){
+            if(a[y]>a[x]){
+            inc_dp[y]= max(inc_dp[y], inc_dp[x]+1);
+            }
         }
-        b[i] = dp[i];}
     }
-    for(int i = n-1; i >= 0; i--){
-        for(int j = n-1; j > i; j--){
-            if(a[j] < a[i]){
-                dp[i]= max(dp[i], dp[j]+1);
-        }}
-        c[i] = dp[i];
+    for(int y=n-1;y>=1;y--){
+        for(int x=n;x>y;x--){
+            if(a[y]>a[x]){
+            dec_dp[y]= max(dec_dp[y], dec_dp[x]+1);
+            }
+        }
     }
-
-    for(int i = 0; i < n; i++){
-        if(max < b[i] + c[i]) max = b[i] + c[i];
-    }
-
+    
+    int max{0};
+    for(int i=1;i<=n;i++){
+        if(max<inc_dp[i]+dec_dp[i]){
+       max=inc_dp[i]+dec_dp[i];}}
     cout<<max-1;
-
-
     return 0;
-}
-    
-    
-    
-    //괜찮아보이는 답
+}   
+  
+    //이건됌: 괜찮아보이는 답
     
     #include <stdio.h>
 
