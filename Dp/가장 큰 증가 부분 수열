@@ -1,32 +1,25 @@
 //백준 11055
-#include <iostream>
-#include <vector>
-#include <algorithm>
-
+#include<iostream>
+#include<algorithm>
 using namespace std;
-int main()
-{
-    int n;
-    int a[1001];
-    int dp[1001];
+int n;
+int a[1002];
+int dp[1002];
+int sum{0};
+
+int main(){
+    cin>>n;
+    for(int y=1;y<=n;y++){
+        cin>>a[y]; 
+        dp[y]=a[y];
+    }
+   
+    for(int y=2;y<=n;y++){
+        for(int x=1;x<y;x++){
+            if(a[y]>a[x]){
+                dp[y]= max(dp[y],a[y]+dp[x]);
+    }}}
     
-    cin >> n;
-    fill(dp, dp+ n, 1);
+    cout<<*max_element(dp+1,dp+n+1);
     
-    for (int i = 0; i < n; i++){
-      cin >> a[i];
-        dp[i]=a[i];}
-    
-    
-    for (int i = 1; i < n; i++)
-    {
-        for (int j = 0; j<i; j++)
-        {
-            if (a[j] < a[i]){
-                dp[i]=max(dp[i], dp[j]+a[i]);//!!!! 빠르게 움직이는 j에 다다다다 sum에서 더해줘서 나온 dp갱신된 dp를 뛰어넘지 못하면 그냥 그 상태로 머문다. !!!!
-                }
-            }
-            
-        }
-    cout << *max_element(dp,dp+n)<<endl;
-}
+return 0;}
