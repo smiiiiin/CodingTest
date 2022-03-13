@@ -1,5 +1,5 @@
 //백준 11054
-//이거 대체 왜 안됨?
+//이거 대체 왜 안됨? 초기화할때 1때문에 안돼는 것 같다. 
 
 #include <bits/stdc++.h>
 using namespace std;
