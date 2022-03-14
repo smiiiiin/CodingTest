@@ -1,18 +1,22 @@
 //백준 11054
-//이거 대체 왜 안됨? 초기화할때 1때문에 안돼는 것 같다. 
-
 #include <bits/stdc++.h>
 using namespace std;
 
 int n;
-int inc_dp[1010]={1,};
-int dec_dp[1010]={1,};
+//int a[1010]={1,}; 너무 중요한 사실!!! 이거는 0으로 초기화하는거다. 처음에 a[0]=1만 하고!!
 int a[1010];
+int inc_dp[1010];
+int dec_dp[1010];
 
 int main(){
+   
     cin>>n;
+   fill_n(inc_dp+1,n,1);
+   fill_n(dec_dp+1,n,1);
+   
     for(int i=1;i<=n;i++){
         cin>>a[i];}
+        
     for(int y=2;y<=n;y++){
         for(int x=1;x<y;x++){
             if(a[y]>a[x]){
@@ -20,6 +24,7 @@ int main(){
             }
         }
     }
+    
     for(int y=n-1;y>=1;y--){
         for(int x=n;x>y;x--){
             if(a[y]>a[x]){
@@ -32,47 +37,7 @@ int main(){
     for(int i=1;i<=n;i++){
         if(max<inc_dp[i]+dec_dp[i]){
        max=inc_dp[i]+dec_dp[i];}}
-    cout<<max-1;
+    cout<<max-1<<endl;
+   
     return 0;
 }   
-  
-    //이건됌: 괜찮아보이는 답
-    
-    #include <stdio.h>
-
-int main(){
-
-    int n;
-    int a[1010] = {0,}, b[1010] = {0,}, c[1010] = {0,};
-    int max = 0;
-
-    scanf("%d", &n);
-
-    for(int i = 0; i < n; i++){
-        scanf("%d", &a[i]);
-    }
-
-    for(int i = 0; i < n; i++){
-        int temp_max = 0;
-        for(int j = 0; j < i; j++){
-            if(a[j] < a[i] && temp_max < b[j]) temp_max = b[j];
-        }
-        b[i] = temp_max + 1;
-    }
-    for(int i = n-1; i >= 0; i--){
-        int temp_max = 0;
-        for(int j = n-1; j > i; j--){
-            if(a[j] < a[i] && temp_max < c[j]) temp_max = c[j];
-        }
-        c[i] = temp_max + 1;
-    }
-
-    for(int i = 0; i < n; i++){
-        if(max < b[i] + c[i]) max = b[i] + c[i];
-    }
-
-    printf("%d", max - 1);
-
-
-    return 0;
-}
