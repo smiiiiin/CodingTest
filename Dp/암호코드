@@ -18,3 +18,4 @@ int main(){
     }
     cout<<dp[(int)s.size()-1];
 }
+ 
