@@ -1,0 +1,34 @@
+//백준 10809
+#include <iostream>
+#include <string>
+using namespace std;
+int mid[27];
+int ret[27];
+string str;
+int main() {
+    cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
+    cin>>str;
+    for(int i=0;i<str.size();i++){
+        str[i]-=97;
+        if(mid[str[i]]==1){
+            ret[mid[i]]=str[i];
+        }
+        mid[str[i]]++;
+        //str[i]는 위치이자 알파벳 번호다.
+        //baekjoon
+        // idx = 0 1 2 3 4 5 6 7 8 9        14
+        // mid = 1 1 0 0 1 0 0 0 0 0 1 0 0 1 2 0
+        // ret = 1 0 -1  2
+        // e가 0 1 2 2로 나오는 과정을 보자.
+        
+    }
+    for(int i=0; i<26; i++){
+        if(mid[i]==0){
+            ret[i]=-1;
+        }
+    }
+    for(int i=0;i<26;i++){
+        cout<<ret[i]<<" ";
+    }
+    return 0;
+}
