@@ -1,0 +1,48 @@
+//백준 1406
+//삽입, 삭제에 용이한 linked list를 떠올렸다, 물론 vector로도 가능하다. 
+
+#include <iostream>
+#include <list>
+#include <string>
+using namespace std;
+
+string str,st, op;
+int num;
+string ret;
+list <string> l; 
+list <string>::iterator cur;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+	cin.tie(NULL); cout.tie(NULL);
+	cin>>str;
+	
+	for(int i=0;i<str.size();i++){
+	    l.push_back(str[i]);
+	}
+	cur=l.end();  //커서는 맨처음에 맨 끝에 위치한다. 
+	
+	while(num--){
+	    cin>>op;
+	    if(op=="P"){//insert
+	        cin>>st;
+	         l.insert(cur,st); //링크드리스트.insert(어디다가, 뭐를);
+	    }
+	    else if(op=="L"){//left
+	        if(cur!=l.begin()) cur--;
+	    }
+	    else if(op=="D"){ //right
+	        if(cur!=l.begin()) cur++;
+	    }
+	    else {//B delete
+	       if(cur!=l.begin())
+	    }
+	}
+	
+	for(int i=0;i<str.size();i++){
+	    cout<<l[i]<<"\n";
+	}
+	
+    
+    return 0;
+}
