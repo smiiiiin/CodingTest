@@ -1,0 +1,27 @@
+//백준 1158 //되게 그럴듯하게 짰다고 생각했는데 왜 output이 없냐;;
+//삽입, 삭제에 용이한 linked list
+#include <iostream>
+#include <list>
+
+using namespace std;
+int n,k;
+list<int> l;
+list<int>:: iterator cur;
+
+int main(){
+    cin>>n>>k;
+    for(int i=1;i<=n;i++){
+        l.push_back(i);
+    }
+    
+    cur= l.begin();
+    cout<<"<";
+    while(n--){
+        cur++; cur++;
+        cout<<*cur<<",";
+        l.erase(cur);
+        
+    }
+    cout<<">";
+    return 0;
+}
