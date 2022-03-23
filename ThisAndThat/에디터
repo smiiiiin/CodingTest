@@ -1,14 +1,16 @@
 //백준 1406
 //삽입, 삭제에 용이한 linked list를 떠올렸다, 물론 vector로도 가능하다. 
-
+//백준 1406
+//삽입, 삭제에 용이한 linked list를 떠올렸다, 물론 vector로도 가능하다. 
+#include <vector> 
 #include <iostream>
 #include <list>
 #include <string>
 using namespace std;
 
+int num; 
 string str,st, op;
-int num;
-string ret;
+
 list <string> l; 
 list <string>::iterator cur;
 
@@ -18,10 +20,11 @@ int main() {
 	cin>>str;
 	
 	for(int i=0;i<str.size();i++){
-	    l.push_back(str[i]);
+	    l.push_back(str); //왜 str은 들어가는데 str[i]는 안되는 걸까요? char로하면 되던데 
 	}
 	cur=l.end();  //커서는 맨처음에 맨 끝에 위치한다. 
 	
+	cin>>num;
 	while(num--){
 	    cin>>op;
 	    if(op=="P"){//insert
@@ -34,14 +37,17 @@ int main() {
 	    else if(op=="D"){ //right
 	        if(cur!=l.begin()) cur++;
 	    }
-	    else {//B delete
-	       if(cur!=l.begin())
+	    else {//B delete 커서 바로 앞에 한문자만 삭제한다. 
+	       if(cur!=l.begin()) {
+	           cur--; l.erase(cur);} //erase(커서위치) 커서 바로 뒤에 것 삭제한다. 
 	    }
 	}
 	
-	for(int i=0;i<str.size();i++){
-	    cout<<l[i]<<"\n";
+	for(list <string>::iterator i=l.begin(); i!=l.end(); i++){
+	    cout<<*i;
 	}
+	cout<<"\n";
+	
 	
     
     return 0;
