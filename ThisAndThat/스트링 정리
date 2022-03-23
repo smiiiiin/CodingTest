@@ -1,0 +1,19 @@
+#include <string>
+
+ getline(cin , s); //입력 받을때 띄어쓰기 포함해서 받고 싶으면
+ 
+  if('a' <= c && c <= 'z') return (char)((c-'a'+13)%26+'a');// 앞에 char붙이면 숫자->문자 가능
+  long long ret;
+  ret= stoll(a); //long long 이랑 stoll이용하면 문자-> 숫자 가능
+  
+   else if(str[i]>='A'&&str[i]<='Z'){
+            b++;
+        }
+        else if(str[i]>='0'&&str[i]<='9'){
+            c++;
+        } //이런식으로 b는 그 문자하나가 대문자인 경우, 숫자인 경우, 공백인경우는 ' '이렇게 표현가능
+        
+       fill_n(ret,26,-1); //ret라는 배열에 사이즈26만큼 -1로 채우기
+       
+       
+  
