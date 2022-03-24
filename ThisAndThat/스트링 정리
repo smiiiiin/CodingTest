@@ -2,9 +2,30 @@
 
  getline(cin , s); //입력 받을때 띄어쓰기 포함해서 받고 싶으면
  
+ //string s;
+ //!!!!!!!s= "whatislove"; //제발 선언할때 "로해라. '하면 틀린다고 !!!!!!
+ 
   if('a' <= c && c <= 'z') return (char)((c-'a'+13)%26+'a');// 앞에 char붙이면 숫자->문자 가능
   long long ret;
   ret= stoll(a); //long long 이랑 stoll이용하면 문자-> 숫자 가능 //!!근데 이건 "23" 이런 경우만, "a"는 97로 변하지 않는다. 
+  
+  string에서 숫자 연산 가능하다. 'a'-97 하면 0 나오고 +1하면 98나오고.
+  근데 크기비교나 범위 if문에서 돌릴때는 숫자를 ''안에 넣어서 string화 해야한다. 
+  밑에 2가지  예시참고 
+  
+  //예시 1: 2745번 
+#include <algorithm>
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    string s;
+    s="Aa";
+    
+  if( s[0]-97 < '1' ) {cout<<"응";}} //응 나옴
+  
+  //예시 2 
   
    else if(str[i]>='A'&&str[i]<='Z'){
             b++;
