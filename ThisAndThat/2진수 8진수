@@ -1,0 +1,36 @@
+//백준 1373
+//도대체가 왜 틀리는 걸까?
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+
+using namespace std;
+string str;
+int ret{0};
+int main(){
+    vector<int> v;
+    cin>>str;
+    for(int i=0; i<str.size(); i++){ //개인적 메모: 1110 != 0111 
+        if(str[i]=='1'){
+            ret= (ret*2)+1;}
+        else {ret= ret*2;}
+        
+        }
+    
+    //cout<<ret<<"2->10진수로 변환완료 "<<"\n";
+    
+    //10->8진수 
+    while(ret>0){
+        int m= ret%8; //나머지
+        ret/=8; v.push_back(m);
+        
+    }
+    
+    reverse(v.begin(), v.end());
+    if(ret==0) cout<<0;
+    for(auto i:v) cout<<i;
+    cout<<"\n";
+   
+}//8하면 왜 1이 안나오지?
