@@ -1,0 +1,48 @@
+//백준 11005
+// 58을 3진법으로 했을때 2011을 만들고 싶은데 될 것 같은데 왜 안돼는거죠? 1 -1 -1 -1 -1만 나오네요 ㅠ 
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+int n,b;
+int arr[31];
+
+int main()
+{
+    fill_n(arr,31,-1);
+    
+    cin.tie(0); cout.tie(0); 
+    ios_base::sync_with_stdio(false);
+    cin>>n>>b;
+    string ret;
+    int max_index{0};
+    
+    int k{0};
+    
+    while(n>0){
+    int t=0; int i=1; 
+    while(i<n){
+         i*=b;
+        t++;
+    }
+    n-=i;
+    k++;
+    arr[t]=k;
+    
+    if(t>max_index){
+        max_index=t;
+    }
+        
+    }
+    
+    for(int j=max_index;j>=0;j--){
+        cout<<arr[j];
+    }
+    cout<<"\n";
+    
+    return 0;
+}
+
+
+
