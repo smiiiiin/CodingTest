@@ -1,36 +1,28 @@
 //백준 1373
-//도대체가 왜 틀리는 걸까?
-
+//백준 1373 1212
 #include<iostream>
 #include<vector>
 #include<string>
 #include<algorithm>
 
 using namespace std;
-string str;
-int ret{0};
+vector <int> v;
 int main(){
-    vector<int> v;
-    cin>>str;
-    for(int i=0; i<str.size(); i++){ //개인적 메모: 1110 != 0111 
-        if(str[i]=='1'){
-            ret= (ret*2)+1;}
-        else {ret= ret*2;}
-        
-        }
-    
-    //cout<<ret<<"2->10진수로 변환완료 "<<"\n";
-    
-    //10->8진수 
-    while(ret>0){
-        int m= ret%8; //나머지
-        ret/=8; v.push_back(m);
-        
+    string s="";
+    getline(cin,s);
+    while(s.size()%3!=0){ //s의 size가 3의 배수일때 까지 s뒤에0붙이기
+        s.insert(0,"0");
     }
-    
-    reverse(v.begin(), v.end());
-    if(ret==0) cout<<0;
+    string ans="";
+    for(int i=0;i<s.size();i+=3){
+        int tmp=0;
+        for(int j=i;j<i+3;j++){
+            tmp= tmp*2 + (s[j]-'0');
+        }
+        v.push_back(tmp);
+    }
+   
     for(auto i:v) cout<<i;
     cout<<"\n";
-   
-}//8하면 왜 1이 안나오지?
+    return 0;
+}
