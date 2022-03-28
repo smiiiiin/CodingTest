@@ -78,7 +78,59 @@ int main() {
 }
 
 //3. matrix+BFS
+//3. matrix X bfs 
+#include <iostream>
+#include <queue>
+#include <vector>
+#include <stdio.h>
+#define MAX_SIZE 1000+1
+using namespace std;
+ 
+void bfs(int start);
+bool map[MAX_SIZE][MAX_SIZE];
+bool visited[MAX_SIZE];
+int n, m; // 정점의 개수, 간선의 개수
 
+void bfs(int start) {
+    queue<int> q;
+ 
+    visited[start] = true;
+    q.push(start); //일단 나는 들어와서 가게를 채워주고 
+    while (!q.empty()) { //내가 들어온 이상, 비지 않는 동안 
+        int current = q.front(); //나 왔어. 
+        q.pop();//나 나가. 대신 소개 해줄게. 
+ 
+        
+        for (int i = 1; i <= n; i++) {
+            if (!visited[i]&&map[current][i]) {//unchecked라면 소개로 왔어요 
+                visited[i] = true;
+                q.push(i);
+            }
+        }
+    }
+}
+ 
+int main() {
+    scanf("%d %d", &n, &m);
+    for (int i = 0; i < m; i++) { // 간선의 연결
+        int u, v;
+        scanf("%d %d", &u, &v);
+        map[u][v]=1;
+        map[v][u]=1;
+    }
+ 
+    int cnt = 0;
+    fill_n(visited,n,0);
+    
+    for (int i = 1; i <= n; i++) {
+        if (!visited[i]) {
+            cnt++;
+            bfs(i);
+        }
+    }
+    printf("%d\n", cnt);
+    return 0;
+}
 
 
 
