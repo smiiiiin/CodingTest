@@ -82,33 +82,17 @@ int main() {
 
 
 
-
-//4. list+ BFS 
+// 4. list X BFS 
 #include <iostream>
 #include <queue>
 #include <vector>
 #include <stdio.h>
-#include <cstring> // memset
- 
 #define MAX_SIZE 1000+1
- 
 using namespace std;
  
-void dfs(int start);
 void bfs(int start);
- 
 vector<int> connected[MAX_SIZE];
 bool visited[MAX_SIZE];
- 
-void dfs(int start) {
-    visited[start] = true;
-    for (int i = 0; i < connected[start].size(); i++) {
-        int next = connected[start][i];
-        if (!visited[next]) {
-            dfs(next);
-        }
-    }
-}
  
 void bfs(int start) {
     queue<int> q;
@@ -141,16 +125,14 @@ int main() {
     }
  
     int cnt = 0;
-    memset(visited, false, sizeof(visited));
+    fill_n(visited,n,0);
+    
     for (int i = 1; i <= n; i++) {
         if (!visited[i]) {
             cnt++;
             bfs(i);
-            //dfs(i);
         }
     }
     printf("%d\n", cnt);
     return 0;
 }
-
-
