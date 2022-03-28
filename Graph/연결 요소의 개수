@@ -1,3 +1,4 @@
+//백준 11724 연결 요소의 개수 
 #include <iostream>
 using namespace std;
 // 4가지 방법이 있다. Matrix, List 2가지 버전과 X DFS, BFS 2가지 버전의 조합. 
