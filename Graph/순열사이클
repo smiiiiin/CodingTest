@@ -31,7 +31,7 @@ int main(){
          }
         //visited[i]=false; //이렇게 하는게 맞다. 
          //       }
-        fill_n(visited,n,0);//방문안함으로 초기화 //시간이 너무 오래걸린다. 
+        fill_n(visited,n,0);//방문안함으로 초기화 //fill_n은 처음에 선언한 크기에 딱맞게 해야한다. n이 아니라 1001로  
         int no;
     for(int i=1;i<=n;i++){
         cin>>no;
