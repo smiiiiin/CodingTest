@@ -81,59 +81,51 @@ int main(){
 
 
 //3. Matrix X BFS 
-#include <iostream>
-#include <queue>
-#include <vector>
-#include <stdio.h>
-#define MAX_SIZE 1000+1
-using namespace std;
- 
-void bfs(int start);
-bool map[MAX_SIZE][MAX_SIZE];
-bool visited[MAX_SIZE];
-int n, m; // 정점의 개수, 간선의 개수
+//3. Matrix X BFS 
+#include<iostream>
+#include<vector>
+#include<queue>
 
-void bfs(int start) {
+using namespace std;
+
+int n,m,a,b,ret{0};
+bool map[10001][10001];
+bool visited[10001];
+
+void bfs(int node){
     queue<int> q;
- 
-    visited[start] = true;
-    q.push(start); //일단 나는 들어와서 가게를 채워주고 
-    while (!q.empty()) { //내가 들어온 이상, 비지 않는 동안 
-        int current = q.front(); //나 왔어. 
-        q.pop();//나 나가. 대신 소개 해줄게. 
- 
+    q.push(node);
+    visited[node]=1;
+    
+    while(!q.empty()){
+        int itsyour_turn= q.front();//지금 네가 맨 앞이야, 소개해줄 얘들있으면 소개해주고 나가. 
+        q.pop();
         
-        for (int i = 1; i <= n; i++) {
-            if (!visited[i]&&map[current][i]) {//unchecked라면 소개로 왔어요 
-                visited[i] = true;
+        for(int i=1;i<=n;i++){
+            if(map[itsyour_turn][i]&&!visited[i]){
                 q.push(i);
+                visited[i]=1;
             }
         }
     }
 }
- 
-int main() {
-    scanf("%d %d", &n, &m);
-    for (int i = 0; i < m; i++) { // 간선의 연결
-        int u, v;
-        scanf("%d %d", &u, &v);
-        map[u][v]=1;
-        map[v][u]=1;
-    }
- 
-    int cnt = 0;
-    fill_n(visited,n,0);
-    
-    for (int i = 1; i <= n; i++) {
-        if (!visited[i]) {
-            cnt++;
-            bfs(i);
-        }
-    }
-    printf("%d\n", cnt);
-    return 0;
-}
 
+int main(){
+    cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
+    cin>>n>>m;
+    for(int i=0;i<m;i++){
+        cin>>a>>b;
+        map[a][b]=1;
+        map[b][a]=1;}
+        
+    fill_n(visited,n,0); //초기화 안해도 돌아가지만 하자. 
+    for(int i=1;i<=n;i++){
+        if(!visited[i]) {ret++; bfs(i);}
+    }
+    
+    cout<<ret<<"\n";
+      
+}
 
 
 // 4. List X BFS 
