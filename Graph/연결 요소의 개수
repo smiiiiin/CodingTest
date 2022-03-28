@@ -177,6 +177,20 @@ int main(){
 }
 
 
+    while(!q.empty()){
+        //q.front();
+        q.pop();
+        
+        for(int i=1;i<=n;i++){
+            if(map[node][i]&&!visited[node]){
+                q.push(i);
+                visited[i]=1;
+            }
+        }
+    }
+}
+
+
 
 // 4. List X BFS 
 #include <iostream>
