@@ -40,3 +40,40 @@ int main()
    solution();
     return 0;
 }
+
+
+//2. list + DFS
+#include <bits/stdc++.h>
+using namespace std;
+#define N 1'000
+vector<int> adj[N+1];
+bool visited[N+1];
+int ans;
+int n,m;
+
+void dfs(int u) {
+    visited[u]=1;
+    for (int v: adj[u]) //노드들의 번호들을 하나하나 넣어보면서 
+        if (!visited[v]) dfs(v);
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cin>>n>>m;
+    for (int i=0; i<m; ++i) {
+        int a,b;cin>>a>>b;
+        adj[a].push_back(b);
+        adj[b].push_back(a);
+    }
+    for (int i=1; i<=n; ++i) {
+        if (!visited[i]) {
+            ans++;
+            dfs(i);
+        }
+    }
+    cout << ans;
+
+    return 0;
+}
+
