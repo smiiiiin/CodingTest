@@ -30,7 +30,7 @@ cin>>n>>m;
         if(!visited[i]){//visited가 안되어있어야 그 부분부터 시작하는게 맞다. 
         ret++; 
         dfs(i);}
-    }
+    } 
    
    cout<<ret<<"\n";
 }
