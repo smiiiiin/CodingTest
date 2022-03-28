@@ -1,13 +1,42 @@
 #include <iostream>
 using namespace std;
+// 4가지 방법이 있다. matrix, list 2가지 버전과 X DFS, BFS 2가지 버전의 조합. 
+// 1. matrix X DFS 
+bool map[1001][1001];
+bool visited[1001];
+int n,m,a,b,ret{0};
 
+void dfs(int n){
+    visited[n];
+    
+    for(int j=1;j<=n;j++){
+        if(map[n][j]&&!visited[j]){
+            dfs(j);
+        }
+    }
+}
 
-int map[10001][10001];
-int n,m;
+void solution(){
+cin>>n>>m;
+    for(int i=0;i<m;i++){
+        cin>>a>>b;
+        map[a][b]=1; 
+        map[b][a]=1;//무방향에서 필수 잊지말기:) 
+        
+    }
+        
+    for(int i=1;i<=n;i++){
+        if(!visited[i]){//visited가 안되어있어야 그 부분부터 시작하는게 맞다. 
+        ret++; 
+        dfs(i);}
+    }
+   
+   cout<<ret<<"\n";
+}
 
 int main()
 {
-   cin>>n>>m;
-   
+    cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
+   solution();
     return 0;
 }
