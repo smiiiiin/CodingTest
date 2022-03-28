@@ -9,7 +9,7 @@ int visited[MAX];
 void DFS(int num){
         visited[num]++; //반복구간이 한번 반복되었다는 것을 의미
 
-        if (visited[num] == 3) return;//왜 2가 아니라 3? 
+        if (visited[num] == 3) return;//3번이상 반복되면 삭제 
         int sum = 0;
         while (num){
                  sum += (int)pow((num % 10), P);
