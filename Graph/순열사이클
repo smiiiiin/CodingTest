@@ -42,7 +42,7 @@ int main(){
     for(int i=1;i<=n;i++){
         if(!visited[i]){
             dfs(i);
-            ret++;
+            ret++;//ret 이 여깄으면, 연결요소의 개수와의 차이점이 뭐야, 그냥 끝이 처음과 같지 않으면 어쩌려고..
         }
     }
     cout<<ret<<"\n";
