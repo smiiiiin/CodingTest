@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
-// 4가지 방법이 있다. matrix, list 2가지 버전과 X DFS, BFS 2가지 버전의 조합. 
-// 1. matrix X DFS 
+// 4가지 방법이 있다. Matrix, List 2가지 버전과 X DFS, BFS 2가지 버전의 조합. 
+// 1. Matrix X DFS 
 bool map[1001][1001];
 bool visited[1001];
 int n,m,a,b,ret{0};
@@ -42,43 +42,45 @@ int main()
 }
 
 
-//2. list + DFS
-#include <bits/stdc++.h>
+// 2. List X DFS 
+#include<iostream>
+#include<vector>
 using namespace std;
-#define N 1'000
-vector<int> adj[N+1];
-bool visited[N+1];
-int ans;
-int n,m;
 
-void dfs(int u) {
-    visited[u]=1;
-    for (int v: adj[u]) //노드들의 번호들을 하나하나 넣어보면서 
-        if (!visited[v]) dfs(v);
-}
+vector<int> li[10001]; //vector는 유동적이다 푹신푹신 밑으로 늘어난다. 
+bool visited[10001];
 
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(0);
-    cin>>n>>m;
-    for (int i=0; i<m; ++i) {
-        int a,b;cin>>a>>b;
-        adj[a].push_back(b);
-        adj[b].push_back(a);
-    }
-    for (int i=1; i<=n; ++i) {
-        if (!visited[i]) {
-            ans++;
-            dfs(i);
+int n,m,a,b,ret{0};
+
+void dfs(int node){
+    visited[node]=1; //이걸 안하면 어떻하냐? 
+    for(auto v: li[node]) {
+        if(!visited[v]){
+            dfs(v);
         }
     }
-    cout << ans;
-
-    return 0;
 }
 
-//3. matrix+BFS
-//3. matrix X bfs 
+int main(){
+    cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
+    
+    cin>>n>>m;
+    for(int i=0;i<m;i++){//선 개수 만큼 입력해야한다. 
+        cin>>a>>b;
+        li[a].push_back(b);
+        li[b].push_back(a);
+    }
+    
+    for(int i=1;i<=n;i++){
+        if(!visited[i]) {ret++; dfs(i);}
+    }
+    
+    cout<<ret<<"\n";
+    
+}
+
+
+//3. Matrix X BFS 
 #include <iostream>
 #include <queue>
 #include <vector>
@@ -134,7 +136,7 @@ int main() {
 
 
 
-// 4. list X BFS 
+// 4. List X BFS 
 #include <iostream>
 #include <queue>
 #include <vector>
