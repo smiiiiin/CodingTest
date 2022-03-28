@@ -135,6 +135,48 @@ int main() {
 }
 
 
+//3. Matrix X BFS 
+#include<iostream>
+#include<vector>
+#include<queue>
+using namespace std;
+
+int n,m,a,b,ret{0};
+bool map[10001][10001];
+bool visited[10001];
+
+void bfs(int node){
+    queue<int> q;
+    q.push(node);
+    visited[node]=1;
+    while(!q.empty()){
+        q.front();
+        q.pop();
+        for(int i=1;i<=n;i++){
+            if(map[node][i]&&!visited[node]){
+                q.push(i);
+            }
+        }
+    }
+}
+
+int main(){
+    cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
+    cin>>n>>m;
+    for(int i=0;i<m;i++){
+        cin>>a>>b;
+        map[a][b]=1;
+        map[b][a]=1;}
+    
+    for(int i=1;i<=n;i++){
+        if(!visited[n]) {ret++; bfs(n);}
+    }
+    
+    cout<<ret<<"\n";
+      
+}
+
+
 
 // 4. List X BFS 
 #include <iostream>
