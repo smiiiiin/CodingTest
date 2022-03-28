@@ -1,0 +1,13 @@
+#include <iostream>
+using namespace std;
+
+
+int map[10001][10001];
+int n,m;
+
+int main()
+{
+   cin>>n>>m;
+   
+    return 0;
+}
