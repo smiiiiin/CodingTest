@@ -1,21 +1,17 @@
 //내가 쓴건데 틀린건데 이거 조금만 수정해서 사용하고 싶다. 
 
-// 백준 9466 텀 프로젝트 
+// 9466 텀 프로젝트
 #include<iostream>
-#include<vector>
-#include <stdio.h>
-#include <cmath>
 using namespace std;
-#define MAX 3000001
-int t,n,p,ret{0};
-int visited[MAX]; //자기 노드번호= 인덱스에 횟수 넣으면 된다.  
-vector<int> li[MAX];
+#include<vector>
+int ret{0};
+bool visited[100001];
+vector<int> li[100001];
 
 void dfs(int node){
-    visited[node]++;
-    for(auto i:li[node])
-    {
-        if(visited[i]<3){
+    visited[node]=1;
+    for(auto i: li[node]){
+        if(!visited[i]){
             dfs(i);
         }
     }
@@ -23,30 +19,27 @@ void dfs(int node){
 
 int main(){
     cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
+    int t;
     cin>>t;
     while(t--){
+        int n;
         cin>>n;
-         for (int i=1; i<=n; i++) {        // 사용한 공간 초기화
-        li[i].clear();
-        visited[i]=0; }
-         
         for(int i=1;i<=n;i++){
-            cin>>p;
-            li[i].push_back(p);
+            li[i].clear();
+            visited.clear();
         }
+        int num;
         for(int i=1;i<=n;i++){
-            if(visited[i]==0){
+            cin>>num;
+            li[i].push_back(num);
+        }
+        
+        for(int i=1;i<=n;i++){
+            if(!visited[i]){
                 dfs(i);
             }
         }
-        
-        
-        for(int i=1;i<=n;i++){
-            if(visited[i]==1){
-                ret++;
-            }
-        }
-     cout<<ret<<"\n";   
+        cout<<ret<<"\n";
     }
-    
+    return 0;
 }
