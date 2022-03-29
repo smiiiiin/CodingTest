@@ -30,3 +30,41 @@ int main(void){
         return 0;
 }
  
+ 
+ 
+// 백준 2331 내정리 위 코드랑 거의비슷
+#include<iostream>
+#include<vector>
+#include <cmath>
+using namespace std;
+#define MAX 3000001
+int n,p,ret{0};
+int visited[MAX]; //자기 노드번호= 인덱스에 횟수 넣으면 된다.  
+
+void dfs(int node){
+    visited[node]++;
+    int sum{0};
+    while(node){
+        sum+= pow((node%10),p);
+        node/=10;
+    }
+    if(visited[sum]<3){
+    dfs(sum);}
+}
+
+int main(){
+    cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
+    
+       
+        cin>>n>>p;
+        dfs(n);
+        for(int i=0;i<=MAX;i++) //n까지가 아니라 MAX까지여야 한다. 
+        {
+            if(visited[i]==1){
+                ret++;
+            }
+        }
+        cout<<ret<<"\n";
+    
+    
+}
