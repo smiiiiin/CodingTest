@@ -1,0 +1,78 @@
+//얘도 같은거 같은데 왜 틀렸습니다야 컴파일러에서는 잘 나오는데 하..
+//백준 7576 토마토 -아파트단지와 굉장히 유사한 문제 
+#include <iostream>
+#include <queue>
+#include <cstring>
+#include <stdio.h> // use printf, scanf
+#define MAX 1001
+using namespace std;
+int m,n;
+int ret{0}; 
+int map[MAX][MAX];
+int visited[MAX][MAX];
+
+int dy[4]={-1,1,0,0}; int dx[4]={ 0,0,-1,1}; 
+queue<pair<int, int>> q;
+//0이 -1로 둘러싸인 경우, -1출력 
+void bfs(){
+
+  while(!q.empty()){
+      int y= q.front().first; int x= q.front().second;
+      q.pop();
+      
+      for(int d=0;d<4;d++){
+          int ny= y+dy[d]; int nx=x+dx[d];
+          if (ny<0||nx<0||ny>=n||nx>=m) continue;
+          if(map[ny][nx]==0){
+              q.push(make_pair(ny, nx));
+              visited[ny][nx]=visited[y][x]+1;//변한 일수로 상태 표시  
+              map[ny][nx]=1;
+      } } } } 
+      
+      
+
+int main()
+{
+       cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
+       memset(visited,0,sizeof(visited));
+       cin>>m>>n;
+       
+       for(int y=0;y<n;y++){
+           for(int x=0;x<m;x++){
+             scanf("%d", &map[y][x]);
+              if(map[y][x]==1 ){//1이 만들어갈 친구들 가자. 
+                  q.push(make_pair(y,x));
+              }
+           }
+       }
+       bfs();
+       
+     for(int y=0;y<n;y++){
+           for(int x=0;x<m;x++){
+               
+               if(map[y][x]==0) {
+                 ret=-1; return 0;}
+                 
+               if(ret<visited[y][x]){
+               ret=visited[y][x];}
+           }}
+           /*
+           cout<<"map: "<<"\n";
+    for(int y=0;y<n;y++){
+           for(int x=0;x<m;x++){
+               cout<<map[y][x]<<"  ";
+               
+           }cout<<"\n";} 
+           
+           cout<<"visited: "<<"\n";
+    for(int y=0;y<n;y++){
+           for(int x=0;x<m;x++){
+               cout<<visited[y][x]<<"  ";
+               
+           }
+         cout<<"\n";
+    } 
+       */          
+              
+    printf("%d\n", ret);return 0;
+}   
