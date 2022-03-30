@@ -30,7 +30,7 @@ int main(){
     cin>>n;
         
     for (int i=1; i<=n; i++) {        // 사용한 공간 초기화
-        li[i].clear();
+        li[i].clear(); 
          }
         //visited[i]=false; //이렇게 하는게 맞다. 
          //       }
