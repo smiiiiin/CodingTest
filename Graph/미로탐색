@@ -46,7 +46,7 @@ int main()
        bfs();
        
        for(int y=1;y<=n;y++){
-           for(int x=1;x<=m;x++){
+           for(int x=1;x<=m;x++){ 
             if(ret<visited[y][x]){
                 ret= visited[y][x];
             }
