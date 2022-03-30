@@ -1,4 +1,7 @@
 //백준 2178 미로탐색 
+//입력에 공백이 없으면,
+//제발 scanf("%1d",&map[y][x]) cin쓰고 싶으면 string으로 하고 -'0'하기 
+#include <cstdio>
 #include <iostream>
 #include <queue>
 #include <cstring>
@@ -17,7 +20,7 @@ void bfs(){
   visited[1][1]=1;
   while(!q.empty()){
       int y= q.front().first; int x= q.front().second;
-      if(y==n && x==m) break;
+     // if(y==n && x==m) break;
       q.pop();
       
       for(int d=0;d<4;d++){
@@ -33,33 +36,34 @@ void bfs(){
 
 int main()
 {
-       cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
+       //cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
        memset(visited,0,sizeof(visited));
        memset(map,0,sizeof(map));
-       scanf("%d %d",&n,&m);
+        
+       cin>>n>>m;
        
        for(int y=1;y<=n;y++){
            for(int x=1;x<=m;x++){
-             scanf("%d", &map[y][x]);
+             scanf("%1d", &map[y][x]);
            }
        }
        bfs();
        
        for(int y=1;y<=n;y++){
-           for(int x=1;x<=m;x++){ 
+           for(int x=1;x<=m;x++){
             if(ret<visited[y][x]){
                 ret= visited[y][x];
             }
            }
        }
-       
+       /*
        for(int y=1;y<=n;y++){
            for(int x=1;x<=m;x++){
             cout<<visited[y][x]<<" ";
            }
            cout<<"\n";
-       }
+       }*/
             
-    printf("%d\n", ret);
+    printf("%d\n", visited[n][m]);
     return 0;
-}   
+}
