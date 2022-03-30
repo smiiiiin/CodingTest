@@ -1,6 +1,6 @@
 //백준 2178 미로탐색 
-//입력에 공백이 없으면,
-//제발 scanf("%1d",&map[y][x]) cin쓰고 싶으면 string으로 하고 -'0'하기 
+//<너무중요!!!> 입력에 공백이 없으면,
+//제발 scanf("%1d",&map[y][x]) or cin쓰고 싶으면 string으로 하고 -'0'하기 
 #include <cstdio>
 #include <iostream>
 #include <queue>
