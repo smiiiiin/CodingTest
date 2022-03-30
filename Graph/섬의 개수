@@ -1,0 +1,57 @@
+//백준 4963 섬의 개수 
+//내가 외워서...작성
+
+#include <iostream>
+#include <queue>
+#include <utility>
+
+using namespace std;
+int w,h;
+int sum{0};
+int map[50][50];
+int visited[50][50];
+int dy[8]={-1,-1,0,1,1,1,0,-1}; int dx[8]={0,1,1,1,0,-1,-1,-1}; 
+void bfs(int y,int x,int s){
+  queue<pair<int, int>> q; 
+  q.push({y,x});
+  visited[y][x]=1;
+  while(!q.empty()){
+      int cy= q.front().first; int cx= q.front().second;
+      q.pop();
+      for(int d=0;d<8;d++){
+          int ny= cy+dy[d]; int nx=cx+dx[d];
+          if(ny>h|| ny<0||nx>w|| nx<0) continue;
+          if(map[ny][nx]==1&& visited[ny][nx]==0){
+              q.push({ny,nx});
+              visited[ny][nx]==1;
+      }
+      }
+      
+      
+  }
+    
+}
+
+int main()
+{
+   while(1){
+       cin>>w>>h;
+       for(int y=0;y<h;y++){
+           for(int x=0;x<w;x++){
+               cin>>map[y][x];
+           }
+       }
+       
+       for(int y=0;y<h;y++){
+           for(int x=0;x<w;x++){
+              if(map[y][x]==1&&visited[y][x]==0){
+                  bfs(y,x,sum++);
+              }}}
+       
+       if(w==0&&h==0) break;
+       
+   }
+   
+   cout<<sum<<"\n";
+    return 0;
+}
