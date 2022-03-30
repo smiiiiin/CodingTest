@@ -1,166 +1,3 @@
-//https://guiyum.tistory.com/38
-//얘도 같은거 같은데 왜 틀렸습니다야 컴파일러에서는 잘 나오는데 하..
-//백준 7576 토마토 -아파트단지와 굉장히 유사한 문제 
-#include <iostream>
-#include <queue>
-#include <cstring>
-#include <stdio.h> // use printf, scanf
-#define MAX 1001
-using namespace std;
-int m,n;
-int ret{0}; 
-int map[MAX][MAX];
-int visited[MAX][MAX];
-
-int dy[4]={-1,1,0,0}; int dx[4]={ 0,0,-1,1}; 
-queue<pair<int, int>> q;
-//0이 -1로 둘러싸인 경우, -1출력 
-void bfs(){
-
-  while(!q.empty()){
-      int y= q.front().first; int x= q.front().second;
-      q.pop();
-      
-      for(int d=0;d<4;d++){
-          int ny= y+dy[d]; int nx=x+dx[d];
-          if (ny<0||nx<0||ny>=n||nx>=m) continue;
-          if(map[ny][nx]==0){
-              q.push(make_pair(ny, nx));
-              visited[ny][nx]=visited[y][x]+1;//변한 일수로 상태 표시  
-              map[ny][nx]=1;
-      } } } } 
-      
-      
-
-int main()
-{
-       cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
-       memset(visited,0,sizeof(visited));
-       cin>>m>>n;
-       
-       for(int y=0;y<n;y++){
-           for(int x=0;x<m;x++){
-             scanf("%d", &map[y][x]);
-              if(map[y][x]==1 ){//1이 만들어갈 친구들 가자. 
-                  q.push(make_pair(y,x));
-              }
-           }
-       }
-       bfs();
-       
-     for(int y=0;y<n;y++){
-           for(int x=0;x<m;x++){
-               
-               if(map[y][x]==0) {
-                 ret=-1; return 0;}
-                 
-               if(ret<visited[y][x]){
-               ret=visited[y][x];}
-           }}
-           /*
-           cout<<"map: "<<"\n";
-    for(int y=0;y<n;y++){
-           for(int x=0;x<m;x++){
-               cout<<map[y][x]<<"  ";
-               
-           }cout<<"\n";} 
-           
-           cout<<"visited: "<<"\n";
-    for(int y=0;y<n;y++){
-           for(int x=0;x<m;x++){
-               cout<<visited[y][x]<<"  ";
-               
-           }
-         cout<<"\n";
-    } 
-       */          
-              
-    printf("%d\n", ret);return 0;
-}   
-
-
-
-
-
-
-//얼추 되가는 듯. 
-
-//백준 7576 토마토 
-//입력에 공백이 없으면,
-//제발 scanf("%1d",&map[y][x]) cin쓰고 싶으면 string으로 하고 -'0'하기 
-#include <iostream>
-#include <queue>
-#include <utility>
-#include <cstring>//memset 
-#define MAX 1001
-using namespace std;
-int m,n;
-int map[MAX][MAX];
-int visited[MAX][MAX];
-int ret{0};
-int dy[4]={-1,1,0,0}; int dx[4]={ 0,0,-1,1}; 
-queue<pair<int, int>> q;
-//0이 -1로 둘러싸인 경우, -1출력 
-void bfs(){
-     
-  while(!q.empty()){
-      int y= q.front().first; int x= q.front().second;
-      q.pop();
-      
-      for(int d=0;d<4;d++){
-          int ny= y+dy[d]; int nx=x+dx[d];
-          if (ny<1||nx<1||ny>n||nx>m) continue;
-          if(map[ny][nx]==0&&visited[ny][nx]==0){//안익었으면 익히기  
-              q.push({ny,nx});
-              map[ny][nx]==1;
-              visited[ny][nx]=visited[y][x]+1;//변한 일수로 상태 표시  
-             ret= visited[ny][nx];
-      } } } } 
-      
-      
-
-int main()
-{
-       cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
-       memset(visited,0,sizeof(visited));
-       memset(map,-2,sizeof(map)); //-1없 0안익 1 익음 
-       //map은 cin으로 넣을건데 굳이 초기화? 
-        
-       cin>>m>>n;
-       
-       for(int y=1;y<=n;y++){
-           for(int x=1;x<=m;x++){
-             cin>>map[y][x];
-             if(map[y][x]==1){
-                 q.push({y,x});
-                 visited[y][x]=1; //모든 판에 대해 1이면 위치 큐에 다 넣음. 
-             }
-           }
-       }
-       bfs();
-      /*
-        for(int y=1;y<=n;y++){
-           for(int x=1;x<=m;x++){
-                cout<<map[y][x]<<" ";}
-                cout<<"\n";}
-       */         
-        
-         for (int y = 1; y <= n; y++) {
-        for (int x = 1; x <= m; x++) {
-            // 익지않은 토마토(0)가 존재할 경우
-            if (map[y][x] == 0) { 
-                cout<<-1<<"\n";
-                break;
-            }
-            // 토마토는 다 익었는데, 얼마만에 익었는지?
-            else cout<<ret-1<<"\n";
-        }
-    }    
-    
-    return 0;
-}   
-
-
 //백준 7576 토마토
 //입력에 공백이 없으면,
 //제발 scanf("%1d",&map[y][x]) cin쓰고 싶으면 string으로 하고 -'0'하기
@@ -173,7 +10,7 @@ using namespace std;
 int m,n;
 int map[MAX][MAX];
 int visited[MAX][MAX];
-int ret{-2};
+int ret{-2}; // 애초에 0이 없는 경우 다음친구 소개할일이 없어서 ret을 이렇게 초기화했다. 
 int dy[4]={-1,1,0,0}; int dx[4]={ 0,0,-1,1};
 queue<pair<int, int>> q;
 //0이 -1로 둘러싸인 경우, -1출력
@@ -223,7 +60,7 @@ int main()
             }
         }
     }
-    if(ret==-2) ret+=3 ; //저장될 때부터 모든 토마토가 익어있는 상태(0이 없다) 이면 0 출력.
+    if(ret==-2) ret+=3 ; //저장될 때부터 모든 토마토가 익어있는 상태(0이 없다) 이면 0 출력. 그러러면 3을 더해야 -1해서 0이 나온다. 
     cout<<ret-1<<"\n";
     
     return 0;
