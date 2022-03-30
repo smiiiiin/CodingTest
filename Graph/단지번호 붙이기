@@ -1,60 +1,54 @@
-// 2667 단지번호 붙이기 BFS X LIST
+// 2667 단지번호 붙이기 BFS 
+//!!@@입력에 공백이 없으면,
+//제발 scanf("%1d",&map[y][x]) cin쓰고 싶으면 string으로 하고 -'0'하기
+#include <iostream>
 #include <queue>
 #include <algorithm>
-#include <cstdio>
+#include <stdio.h> //scanf();
+#include <utility>//pair<int,int>
+#include <cstring>//memset
+#define MAX 26
 using namespace std;
+int n;
+int map[MAX][MAX];
+int visited[MAX][MAX];
+int num[MAX];
+int dy[4]={-1,1,0,0};
+int dx[4]={0,0,-1,1};
+queue<pair<int, int>> q;
 
-int n; //지도의 크기 nxn
-int graph[30][30]; //지도
-int d[25][25]; //방문했는지 체크
-int dx[]={0,1,0,-1};
-int dy[]={1,0,-1,0};
-int sum[25*25]; //각 단지의 집의 개수를 넣을 배열
-
-
-void bfs(int x,int y,int cnt){
-  queue<pair<int,int>> q;
-  q.push(make_pair(x,y));
-  d[x][y]=cnt;
+void bfs(int y, int x, int r){
+    q.push({y,x});
+    visited[y][x]=1;
   while(!q.empty()){
-    x=q.front().first; y=q.front().second;
-    q.pop();
-    for(int i=0;i<4;i++){
-      int nx=x+dx[i]; int ny=y+dy[i];
-      if(0<=nx&&nx<n && 0<=ny&&ny<n)
-        if(graph[nx][ny]==1&&d[nx][ny]==0){
-          q.push(make_pair(nx,ny));
-          d[nx][ny]=cnt;
-        }
-    }
-  }
-}
+      int cy= q.front().first; int cx= q.front().second;
+      q.pop();
+      
+      for(int d=0;d<4;d++){
+          int ny= cy+dy[d]; int nx=cx+dx[d];
+          if (ny<1||nx<1||ny>n||nx>n) continue;
+          if(map[ny][nx]==1 && visited[ny][nx]==0){
+              q.push({ny,nx});
+              visited[ny][nx]=r;
+          } } } }
 
-int main()
-{
-  scanf("%d",&n); //지도크기 입력
-  for(int i=0;i<n;i++){ //지도 입력 구간
-    for(int j=0;j<n;j++){
-      scanf("%1d",&graph[i][j]);
-    }
-  }
-  int cnt=0;
-  for(int i=0;i<n;i++){
-    for(int j=0;j<n;j++){
-      if(graph[i][j]==1&&d[i][j]==0){ //집이있고, 방문한적이 없으면..
-        bfs(i,j,++cnt);
-      }
-    }
-  }
-  printf("%d\n",cnt);
-
-  for(int i=0;i<n;i++){
-    for(int j=0;j<n;j++){
-      sum[d[i][j]]++;
-    }
-  }
-  sort(sum+1,sum+cnt+1); 
-  for(int k=1;k<=cnt;k++){
-    printf("%d\n",sum[k]);
-  }
+int main(){
+    //cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
+    memset(visited,0,sizeof(visited)); memset(map,0,sizeof(map));
+    memset(num,0,sizeof(num)); int ret=0; cin>>n;
+    for(int y=1;y<=n;y++){
+        for(int x=1;x<=n;x++){
+            scanf("%1d",&map[y][x]);}}
+    for(int y=1;y<=n;y++){
+        for(int x=1;x<=n;x++){
+            if(map[y][x]==1&&visited[y][x]==0){
+                    bfs(y,x,++ret);}}}
+    printf("%d\n",ret);
+    for(int y=1;y<=n;y++){
+        for(int x=1;x<=n;x++){
+                num[visited[y][x]]++;}} //0번 자리는 빼기
+    sort(num+1,num+ret+1);
+    for(int i=1;i<=ret;i++){ printf("%d\n",num[i]); }
+    return 0;
 }
+   
