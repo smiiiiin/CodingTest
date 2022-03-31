@@ -1,90 +1,23 @@
 // 2667 단지번호 붙이기 BFS 
 //!!@@입력에 공백이 없으면,
 //제발 scanf("%1d",&map[y][x]) cin쓰고 싶으면 string으로 하고 -'0'하기
-#include <iostream>
+//int num[MAX]하면 틀린다. 범위를 좀 신경써라. 
+
 #include <queue>
 #include <algorithm>
-#include <stdio.h> //scanf();
-#include <utility>//pair<int,int>
-#include <cstring>//memset
+#include <cstdio>
 #define MAX 26
 using namespace std;
 int n;
 int map[MAX][MAX];
 int visited[MAX][MAX];
-int num[MAX];
+int num[MAX*MAX]; //여기!
 int dy[4]={-1,1,0,0};
 int dx[4]={0,0,-1,1};
 queue<pair<int, int>> q;
 
 void bfs(int y, int x, int r){
     q.push({y,x});
-    visited[y][x]=1;
-  while(!q.empty()){
-      int cy= q.front().first; int cx= q.front().second;
-      q.pop();
-      
-      for(int d=0;d<4;d++){
-          int ny= cy+dy[d]; int nx=cx+dx[d];
-          if (ny<1||nx<1||ny>n||nx>n) continue;
-          if(map[ny][nx]==1 && visited[ny][nx]==0){
-              q.push({ny,nx});
-              visited[ny][nx]=r;
-          } } } }
-
-int main(){
-    //cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
-    memset(visited,0,sizeof(visited)); memset(map,0,sizeof(map));
-    memset(num,0,sizeof(num)); int ret=0; cin>>n;
-    for(int y=1;y<=n;y++){
-        for(int x=1;x<=n;x++){
-            scanf("%1d",&map[y][x]);}}
-    for(int y=1;y<=n;y++){
-        for(int x=1;x<=n;x++){
-            if(map[y][x]==1&&visited[y][x]==0){
-                    bfs(y,x,++ret);}}}
-    printf("%d\n",ret);
-    for(int y=1;y<=n;y++){
-        for(int x=1;x<=n;x++){
-                num[visited[y][x]]++;}} //0번 자리는 빼기
-    sort(num+1,num+ret+1);
-    for(int i=1;i<=ret;i++){ printf("%d\n",num[i]); }
-    return 0;
-}
-   
-   
-   
-   //이게 제일 최근 이거 뭐지? 
-   //아래 테스트케이스 이용할 것. 
-4 4
-0101
-1010
-0101
-1010
-   ////백준 2667 단지번호 붙이기
-//입력에 공백이 없으면,
-//제발 scanf("%1d",&map[y][x]) cin쓰고 싶으면 string으로 하고 -'0'하기
-#include <iostream>
-#include <queue>
-#include <algorithm>
-#include <stdio.h> //scanf();
-#include <utility>//pair<int,int>
-#include <cstring>//memset
-#define MAX 26
-using namespace std;
-int n;
-int map[MAX][MAX];
-int visited[MAX][MAX];
-int num[MAX];
-int dy[4]={-1,1,0,0};
-int dx[4]={0,0,-1,1};
-queue<pair<int, int>> q;
-
-void bfs(int y, int x, int r){
-    cout<<"bfs다:r은= "<<r<<"\n";
-    q.push({y,x});
-    cout<<y<<","<<x<<","<<r<<"\n";
-    
     visited[y][x]= r; 
   while(!q.empty()){
       int cy= q.front().first; int cx= q.front().second;
@@ -105,6 +38,7 @@ int main(){
     for(int y=1;y<=n;y++){
         for(int x=1;x<=n;x++){
             scanf("%1d",&map[y][x]);}}
+ 
     for(int y=1;y<=n;y++){
         for(int x=1;x<=n;x++){
             if(map[y][x]==1&&visited[y][x]==0){
@@ -112,11 +46,9 @@ int main(){
     printf("%d\n",ret);
     for(int y=1;y<=n;y++){
         for(int x=1;x<=n;x++){
-            cout<<visited[y][x]<<" ";
-            num[visited[y][x]]++;}cout<<"\n";} //0번 자리는 빼기
+            num[visited[y][x]]++;}} //0번 자리는 빼기
     sort(num+1,num+ret+1);
     for(int i=1;i<=ret;i++){ printf("%d\n",num[i]); }
     return 0;
 }
    
-
