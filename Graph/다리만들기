@@ -1,6 +1,15 @@
 //백준 2146 다리만들기
 //https://www.acmicpc.net/submit/2146/41266419 참고하기 
+/*
+5
+1 1 0 0 1
+1 0 0 0 1
+1 0 0 0 0
+0 0 0 0 0
+0 1 1 0 0
+*/
 
+////백준 2146 다리만들기 
 #include<iostream>
 #include<algorithm> // min()
 #include<queue>
@@ -39,7 +48,7 @@ int distance(int num){//num = 섬이름
     for(int y=0;y<n;y++){
         for(int x=0;x<n;x++){
             if(visited[y][x]==num){
-                map[y][x]= 200;//다르게 표현 
+                map[y][x]= -2;//다르게 표현 
                 dq.push({y,x}); //섬번호 끼리 같은 얘들을 넣는다. 
             }
         }
@@ -53,12 +62,13 @@ int distance(int num){//num = 섬이름
                 int nx = x + dx[d]; int ny = y + dy[d];
  
                 if (nx <0||ny <0 || nx >=n || ny>=n) continue;
-                //육지인데 그 섬이 아니면 그대로 0송출 
+                
+                //다른섬이면 거리 송출  
                 if (visited[nx][ny] != 0 && visited[nx][ny] != num) return res;
                 
                 //바다인데 들른 적 없으면 
-                else if (visited[nx][ny] == 0 && map[nx][ny] == false){
-                        map[nx][ny] = true; //들르고 
+                else if (visited[nx][ny] == 0 && map[nx][ny]!=-4){
+                        map[nx][ny] = -4; //들르고 
                         dq.push(make_pair(nx, ny));} //길 만들기 
                 }
             res++;//길의 길이를 더한다. 
@@ -90,7 +100,7 @@ int main(){
         cout<<"\n";
     }
     
-    for(int i=1;i<ret;i++){
+    for(int i=1;i<=ret;i++){
         ans= min(ans,distance(i)); //ans= 짱큰수, distance(i)=res; 
         memset(map,false,sizeof(map));
     }
