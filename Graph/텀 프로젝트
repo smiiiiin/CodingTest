@@ -43,3 +43,51 @@ int main(){
     }
     return 0;
 }
+
+
+////백준 9466 텀 프로젝트 
+#include<vector>
+#include <utility>
+#include <iostream>
+#include <cstring> //memset 
+#define MAX 100001
+using namespace std;
+int n;
+vector<pair<int,int>> v[MAX];
+bool visited[MAX];
+
+
+void dfs(int node){
+    
+    visited[node]= 1; 
+    
+        if(!visited[v[node].second])
+        dfs(v[node].second);
+    
+    
+}
+
+int main(){
+    int t;
+    cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
+    cin>>t;
+    while(t--){
+     memset(visited,0,sizeof(visited));
+    int ret=0; 
+    cin>>n;
+    int a;
+    for(int i=1;i<=n;i++) {cin>>a;
+    v[i].push_back({i,a});
+    }
+    
+    for(int i=1;i<=n;i++){
+        if(!visited[v[i].first]){
+            dfs(v[i].first);
+        }
+    }
+    printf("%d\n",ret);
+    }
+    return 0;
+}
+   
+
