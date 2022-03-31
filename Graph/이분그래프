@@ -5,7 +5,7 @@
 #include<string.h>
 //list X BFS
 using namespace std;
-int t,n,m,a,b;
+int t,n,m,a,b; 
 vector<int> li[20010];
 int color[20010]; //-1노방문, 0 흰, 1 검 
 
