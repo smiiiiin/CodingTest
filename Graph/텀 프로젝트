@@ -1,93 +1,58 @@
-//내가 쓴건데 틀린건데 이거 조금만 수정해서 사용하고 싶다. 
-
-// 9466 텀 프로젝트
-#include<iostream>
-using namespace std;
-#include<vector>
-int ret{0};
-bool visited[100001];
-vector<int> li[100001];
-
-void dfs(int node){
-    visited[node]=1;
-    for(auto i: li[node]){
-        if(!visited[i]){
-            dfs(i);
-        }
-    }
-}
-
-int main(){
-    cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
-    int t;
-    cin>>t;
-    while(t--){
-        int n;
-        cin>>n;
-        for(int i=1;i<=n;i++){
-            li[i].clear();
-            visited.clear();
-        }
-        int num;
-        for(int i=1;i<=n;i++){
-            cin>>num;
-            li[i].push_back(num); 
-        }
-        
-        for(int i=1;i<=n;i++){
-            if(!visited[i]){
-                dfs(i);
-            }
-        }
-        cout<<ret<<"\n";
-    }
-    return 0;
-}
-
-
-////백준 9466 텀 프로젝트 
-#include<vector>
-#include <utility>
+//백준 9466 텀프로젝트 
+//내가 dfs쓰는 거 포기하고 이걸로 하려고 하는데도 이해가 안간다. 
 #include <iostream>
-#include <cstring> //memset 
+#include <queue>
+#include <cstring>
 #define MAX 100001
 using namespace std;
-int n;
-vector<pair<int,int>> v[MAX];
+
+int t, n;
+int graph[MAX];
 bool visited[MAX];
+bool done[MAX];
+int cnt;
+void hasCycle( int node) {
 
+	visited[node] = true;
+	int next = graph[node];
 
-void dfs(int node){
-    
-    visited[node]= 1; 
-    
-        if(!visited[v[node].second])
-        dfs(v[node].second);
-    
-    
+	
+	if (!visited[next]) {
+		hasCycle( next);
+	}
+	else if (!done[next]) {//방문은 했지만 아직 사이클이 아니라면 next까지 포함해서 사이클 완성
+		//자기 자신을 포함한 팀의 멤버를 카운트
+		for (int i = next; i != node; i = graph[i]) {//여기가 포인트인데 모르겠다. 
+			cnt++;
+		}
+		cnt++;
+	}
+	done[node] = true;
 }
 
-int main(){
-    int t;
-    cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
-    cin>>t;
-    while(t--){
-     memset(visited,0,sizeof(visited));
-    int ret=0; 
-    cin>>n;
-    int a;
-    for(int i=1;i<=n;i++) {cin>>a;
-    v[i].push_back({i,a});
-    }
-    
-    for(int i=1;i<=n;i++){
-        if(!visited[v[i].first]){
-            dfs(v[i].first);
-        }
-    }
-    printf("%d\n",ret);
-    }
-    return 0;
-}
-   
 
+int main() {
+
+	ios::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	cin >> t;
+	while (t--) {
+		cin >> n;
+		for (int i = 1; i <= n; i++) {
+			cin >> graph[i];
+		}
+		for (int i = 1; i <= n; i++) {
+			if (!visited[i]) {
+				hasCycle(i);
+			}
+		}
+		cout << n-cnt << '\n';
+		cnt = 0;
+		memset(visited, false, sizeof(visited));
+		memset(done, false, sizeof(done));
+	}
+
+
+	return 0;
+}
