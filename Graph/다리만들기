@@ -1,5 +1,7 @@
 //백준 2146 다리만들기
 //https://www.acmicpc.net/submit/2146/41266419 참고하기 
+//백준 2146 다리만들기
+//https://www.acmicpc.net/submit/2146/41266419 참고하기 
 /*
 5
 1 1 0 0 1
@@ -43,20 +45,20 @@ void bfs(int y, int x,int r){
 }
 
 int distance(int num){//num = 섬이름 
-    int res=0;
+    
     queue<pair<int,int>> dq;
     for(int y=0;y<n;y++){
         for(int x=0;x<n;x++){
             if(visited[y][x]==num){
-                map[y][x]= -2;//다르게 표현 
+                // 굳이 얘를 표시할 필요가 있나? map[y][x]= -2;
                 dq.push({y,x}); //섬번호 끼리 같은 얘들을 넣는다. 
             }
         }
     }
-    
+    int res=0;
     while (!dq.empty())
     {   int y = dq.front().first; int x = dq.front().second; dq.pop();
- 
+        
             for (int d = 0; d < 4; d++)
             {
                 int nx = x + dx[d]; int ny = y + dy[d];
@@ -64,14 +66,14 @@ int distance(int num){//num = 섬이름
                 if (nx <0||ny <0 || nx >=n || ny>=n) continue;
                 
                 //다른섬이면 거리 송출  
-                if (visited[nx][ny] != 0 && visited[nx][ny] != num) return res;
+                if (visited[ny][nx] != 0 && visited[ny][nx] != num) return res;
                 
                 //바다인데 들른 적 없으면 
-                else if (visited[nx][ny] == 0 && map[nx][ny]!=-4){
-                        map[nx][ny] = -4; //들르고 
-                        dq.push(make_pair(nx, ny));} //길 만들기 
+                else if (visited[ny][nx] == 0 && map[ny][nx]!=-4){ //바다를 들르면 -4 
+                        map[ny][nx] = -4; //들르고 
+                        dq.push(make_pair(ny, nx));} //길 만들기 
                 }
-            res++;//길의 길이를 더한다. 
+           res++;//길의 길이를 더한다.  
     }
     return res;     
 }
