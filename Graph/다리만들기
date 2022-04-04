@@ -171,45 +171,65 @@ bool visit[101][101];
 int dy[4]={-1,1,0,0}; int dx[4]={0,0,-1,1};
 int n,ret{0};
 
-void dfs(int y, int x, int r){
+void dfs(int y, int x, int r){//CONNECTED에 덩어리번호 붙이기 
     visited[y][x]=r;
     
     for(int d=0;d<4;d++){
         int ny= y+dy[d]; int nx= x+dx[d];
-        if(ny>=n||ny<0||nx>=n||nx<0)continue;
+        if(ny>=n||ny<0||nx>=n||nx<0) continue;
         if(map[ny][nx]==1&&visited[ny][nx]==0){
             dfs(ny,nx,r);
         }
     }
 }
 
-queue<pair<int,int>> q;
-int ma{987654321};
-int distance{0};
 
-int bfs(int y,int x, int r){
-    visit[y][x]= 1;
-    q.push({y,x});
+int ma{987654321};
+
+struct INFO{
+    int y,x,num;
+};
+queue <INFO> q;
+
+int bfs(int num){
+    int distance{0};
+    
+    for(int y=0;y<n;y++){ 
+        for(int x=0;x<n;x++){
+            if(visited[y][x]==num){
+                INFO info;
+                info.y=y; info.x=x; info.num=num;
+                q.push(info);
+                visit[y][x]=1;}
+                
+            }
+        }
+    
     while(!q.empty()){
-        int cy= q.front().first; int cx= q.front().second;
-        // cout<<cy<<cx<<"(cy,cx) ";
+        int cy= q.front().y; int cx= q.front().x;
+        cout<<cy<<cx<<"(cy,cx) "<<"\n";
         q.pop();
         for(int d=0;d<4;d++){
             int ny= cy+dy[d]; int nx= cx+dx[d];
             if(ny>=n||ny<0||nx>=n||nx<0)continue;
-            if(!map[ny][nx] &&!visit[ny][nx]){//바다인데 방문x
+            
+            //방문x && 바다
+            if(!visit[ny][nx] &&map[ny][nx]==0){
                 visit[ny][nx]=1;
-                q.push({ny,nx});
+                INFO in; in.y=ny; in.x=nx; in.num=0;
+                q.push(in);
                 
             }
-            if(!visit[ny][nx] && visited[ny][nx]!=r){//섬인데 다른섬 
+            
+            //방문x && 다른 && 섬
+            if(!visit[ny][nx] && visited[ny][nx]!=num&& map[ny][nx]==1){ 
                 return distance;
             }
         }
         distance++;
-          
+         
     }
-    distance=min(ma,distance);
+    
     return distance;
 }
 
@@ -232,19 +252,8 @@ int main()
                 dfs(y,x,++ret);
             }
     }}
-     for(int y=0;y<n;y++){ 
-        for(int x=0;x<n;x++){
-            for(int i=1;i<=ret;i++){//덩어리번호마다 
-                if(visited[y][x]==i &&!visit[y][x]){
-                    bfs(y,x,i);
-            
-        }}}}
     
-    
-    
-    
-    
-    cout<<"\n"<<"visited[y][x]"<<"\n";
+     cout<<"\n"<<"visited[y][x]"<<"\n";
     for(int y=0;y<n;y++){
         for(int x=0;x<n;x++){
             cout<<visited[y][x]<<" ";
@@ -252,8 +261,15 @@ int main()
             cout<<"\n";
             }
             
+    for(int i=1;i<=ret;i++){
+        int ans= min(ans,bfs(i));
+        memset(visit,0,sizeof(visit));
+    }        
+    
+    cout<<ans<<"\n";
+    
+         
     return 0;
 }
    
     
-
