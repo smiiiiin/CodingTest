@@ -107,3 +107,107 @@ int main(){
     cout<<ans<<"\n";
     
 }
+
+
+//내거
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <utility>
+#include <algorithm>// min()
+#include <cstring> // memset
+using namespace std;
+
+vector <int> v[101];
+int map[101][101];
+int visited[101][101];
+bool visit[101][101];
+int dy[4]={-1,1,0,0}; int dx[4]={0,0,-1,1};
+int n,ret{0};
+
+void dfs(int y, int x, int r){
+    visited[y][x]=r;
+    
+    for(int d=0;d<4;d++){
+        int ny= y+dy[d]; int nx= x+dx[d];
+        if(ny>=n||ny<0||nx>=n||nx<0)continue;
+        if(map[ny][nx]==1&&visited[ny][nx]==0){
+            dfs(ny,nx,r);
+        }
+    }
+}
+
+queue<pair<int,int>> q;
+int ma{987654321};
+int distance{0};
+
+int bfs(int y,int x, int r){
+    visit[y][x]= 1;
+    q.push({y,x});
+    while(!q.empty()){
+        int cy= q.front().first; int cx= q.front().second;
+        // cout<<cy<<cx<<"(cy,cx) ";
+        q.pop();
+        for(int d=0;d<4;d++){
+            int ny= cy+dy[d]; int nx= cx+dx[d];
+            if(ny>=n||ny<0||nx>=n||nx<0)continue;
+            if(!map[ny][nx] &&!visit[ny][nx]){//바다인데 방문x
+                visit[ny][nx]=1;
+                q.push({ny,nx});
+                
+            }
+            if(!visit[ny][nx] && visited[ny][nx]!=r){//섬인데 다른섬 
+                return distance;
+            }
+        }
+        distance++;
+          
+    }
+    distance=min(ma,distance);
+    return distance;
+}
+
+int main()
+{
+    cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
+    cin>>n;
+    memset(visited,0, sizeof(visited));
+    for(int y=0;y<n;y++){
+        for(int x=0;x<n;x++){
+            cin>>map[y][x]; // !!!넣자마자 바로 bfs()하면 상하좌우를 돌릴 수가 없다. 
+            
+    }}
+    
+    for(int y=0;y<n;y++){ //CONNECTED에 번호 붙이기 
+    
+        for(int x=0;x<n;x++){
+            
+            if(visited[y][x]==0&&map[y][x]==1){
+                dfs(y,x,++ret);
+            }
+    }}
+     for(int y=0;y<n;y++){ 
+        for(int x=0;x<n;x++){
+            for(int i=1;i<=ret;i++){//덩어리번호마다 
+                if(visited[y][x]==i &&!visit[y][x]){
+                    bfs(y,x,i);
+            
+        }}}}
+    
+    
+    
+    
+    
+    cout<<"\n"<<"visited[y][x]"<<"\n";
+    for(int y=0;y<n;y++){
+        for(int x=0;x<n;x++){
+            cout<<visited[y][x]<<" ";
+            }
+            cout<<"\n";
+            }
+            
+    return 0;
+}
+   
+    
+
