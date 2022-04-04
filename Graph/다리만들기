@@ -183,9 +183,6 @@ void dfs(int y, int x, int r){//CONNECTED에 덩어리번호 붙이기
     }
 }
 
-
-int ma{987654321};
-
 struct INFO{
     int y,x,num;
 };
@@ -206,6 +203,11 @@ int bfs(int num){
         }
     
     while(!q.empty()){
+        int s=q.size(); //와 이게 진짜 중요한거였다. 이거 이해하는데 5일 걸렸네...
+        //들어온 단계별로 level1인 친구들, level2인 친구들 깊이의 경계를 나눠준다. 
+        for(int i=0;i<s;i++){
+            
+        
         int cy= q.front().y; int cx= q.front().x;
         cout<<cy<<cx<<"(cy,cx) "<<"\n";
         q.pop();
@@ -226,7 +228,8 @@ int bfs(int num){
                 return distance;
             }
         }
-        distance++;
+        }
+        distance++; //친구소개의 깊이마다 거리를 +1;
          
     }
     
@@ -260,10 +263,11 @@ int main()
             }
             cout<<"\n";
             }
-            
+      
+    int ans{986754321};      
     for(int i=1;i<=ret;i++){
-        int ans= min(ans,bfs(i));
-        memset(visit,0,sizeof(visit));
+        ans= min(ans,bfs(i));
+       // memset(visit,0,sizeof(visit));
     }        
     
     cout<<ans<<"\n";
@@ -271,5 +275,3 @@ int main()
          
     return 0;
 }
-   
-    
