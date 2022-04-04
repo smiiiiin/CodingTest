@@ -11,103 +11,149 @@
 
 ////백준 2146 다리만들기 
 #include<iostream>
-#include<algorithm> // min()
+#include<cstring> //memset()
+#include<vector>
 #include<queue>
-#include<utility>
-#include<cstring>
-
+#include<algorithm>//min()
+ 
+#define endl "\n"
+#define MAX 100
 using namespace std;
-queue<pair<int,int>> q;
-int map[101][101];
-int visited[101][101];
-int dy[4]={-1,1,0,0}; int dx[4]={0,0,-1,1};
-int ret{0};
-int ans{987654321};
-int n;
-
-void bfs(int y, int x,int r){
-    q.push({y,x});
-    visited[y][x]=r;
-    while(!q.empty()){
-        int cy= q.front().first; int cx=q.front().second;
-        q.pop();
-        for(int d=0;d<4;d++){
-            int ny=cy+dy[d]; int nx= cx+dx[d];
-            if(ny>=n||nx>=n||nx<0||ny<0)continue;
-            if(map[ny][nx]==1&&visited[ny][nx]==0){
-                q.push({ny,nx});
-                visited[ny][nx]=r;
+ 
+int N, Answer;
+int MAP[MAX][MAX];
+bool Visit[MAX][MAX];
+ 
+int dy[] = { -1, 1, 0, 0 };
+int dx[] = { 0, 0, -1, 1 };
+ 
+vector<pair<int, int>> V;
+ 
+void Make_LandLabel(int y, int x, int L)
+{
+    queue<pair<int, int>> Q;
+    Q.push(make_pair(y, x));
+    Visit[y][x] = true;
+    MAP[y][x] = L;
+ 
+    while (Q.empty() == 0)
+    {
+        int y = Q.front().first;
+        int x = Q.front().second;
+        Q.pop();
+ 
+        for (int i = 0; i < 4; i++)
+        {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+ 
+            if (nx >= 0 && ny >= 0 && nx < N && ny < N)
+            {
+                if (Visit[ny][nx] == false && MAP[ny][nx] == -1)
+                {
+                    Visit[ny][nx] = true;
+                    MAP[ny][nx] = L;
+                    Q.push(make_pair(ny, nx));
+                }
             }
         }
     }
 }
-
-int distance(int num){//num = 섬이름 
-    
-    queue<pair<int,int>> dq;
-    for(int y=0;y<n;y++){
-        for(int x=0;x<n;x++){
-            if(visited[y][x]==num){
-                // 굳이 얘를 표시할 필요가 있나? map[y][x]= -2;
-                dq.push({y,x}); //섬번호 끼리 같은 얘들을 넣는다. 
+ 
+int BFS(int Num)
+{
+    int Result = 0;
+    queue<pair<int, int>> Q;
+    for (int y = 0; y < N; y++)
+    {
+        for (int x = 0; x < N; x++)
+        {
+            if (MAP[y][x] == Num)
+            {
+                Visit[y][x] = true;
+                Q.push(make_pair(y, x));
             }
         }
     }
-    int res=0;
-    while (!dq.empty())
-    {   int y = dq.front().first; int x = dq.front().second; dq.pop();
-        
+ 
+    while (Q.empty() == 0)
+    {
+        int S = Q.size();
+        for (int i = 0; i < S; i++)
+        {
+            int y = Q.front().first;
+            int x = Q.front().second;
+            Q.pop();
+ 
             for (int d = 0; d < 4; d++)
             {
-                int nx = x + dx[d]; int ny = y + dy[d];
+                int nx = x + dx[d];
+                int ny = y + dy[d];
  
-                if (nx <0||ny <0 || nx >=n || ny>=n) continue;
-                
-                //다른섬이면 거리 송출  
-                if (visited[ny][nx] != 0 && visited[ny][nx] != num) return res;
-                
-                //바다인데 들른 적 없으면 
-                else if (visited[ny][nx] == 0 && map[ny][nx]!=-4){ //바다를 들르면 -4 
-                        map[ny][nx] = -4; //들르고 
-                        dq.push(make_pair(ny, nx));} //길 만들기 
+                if (nx >= 0 && ny >= 0 && nx < N && ny < N)
+                {
+                    if (MAP[ny][nx] != 0 && MAP[ny][nx] != Num) return Result;
+                    else if (MAP[ny][nx] == 0 && Visit[ny][nx] == false)
+                    {
+                        Visit[ny][nx] = true;
+                        Q.push(make_pair(ny, nx));
+                    }
                 }
-           res++;//길의 길이를 더한다.  
+            }
+        }
+        Result++;
     }
-    return res;     
+    return Result;
 }
-
-int main(){
-    cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
-    memset(visited,0,sizeof(visited)); memset(map,0,sizeof(map));
-    cin>>n;
-    for(int y=0;y<n;y++){
-        for(int x=0;x<n;x++){
-            cin>>map[y][x];
+ 
+void Solution()
+{
+    int Land_Label = 1;
+    for (int i = 0; i < V.size(); i++)
+    {
+        int y = V[i].first;
+        int x = V[i].second;
+ 
+        if (Visit[y][x] == false)
+        {
+            Make_LandLabel(y, x, Land_Label);
+            Land_Label++;
         }
     }
-    for(int y=0;y<n;y++){
-        for(int x=0;x<n;x++){
-            if(map[y][x]==1&&visited[y][x]==0){
-                bfs(y,x,++ret);
+ 
+    for (int i = 1; i < Land_Label; i++)
+    {
+        Answer = min(Answer, BFS(i));
+        memset(Visit, false, sizeof(Visit));
+    }
+    cout << Answer << endl;
+}
+ 
+int main(void)
+{
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+ 
+    Answer = 987654321;
+    cin >> N;
+    for (int y = 0; y < N; y++)
+    {
+        for (int x = 0; x < N; x++)
+        {
+            cin >> MAP[y][x];
+            if (MAP[y][x] == 1)
+            {
+                MAP[y][x] = -1;
+                V.push_back(make_pair(y, x));
             }
         }
     }
-    cout<<"visited: "<<"\n";
-    for(int y=0;y<n;y++){
-        for(int x=0;x<n;x++){
-            cout<<visited[y][x];
-        }
-        cout<<"\n";
-    }
     
-    for(int i=1;i<=ret;i++){
-        ans= min(ans,distance(i)); //ans= 짱큰수, distance(i)=res; 
-        memset(map,false,sizeof(map));
-    }
-    cout<<ans<<"\n";
-    
+    Solution();
+ 
+    return 0;
 }
-
 
 //내거
 #include <iostream>
