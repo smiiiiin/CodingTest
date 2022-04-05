@@ -1,5 +1,5 @@
 //백준 2004 
-//int 2^32-1, long long 2^64-1 
+//int 2^32-1, long long 2^64-1  
 
 #include <iostream>
 
