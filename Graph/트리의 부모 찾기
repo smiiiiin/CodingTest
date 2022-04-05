@@ -1,5 +1,7 @@
 //백준 11725 
-//<<endl; 절대금지
+// !!!   <<endl; 절대금지 시간초과나기 딱좋아~~
+//ans와 visited를 한방에 해결한다. visited를 한방에 해결할 수 있으면 하자!
+
 #include <iostream>
 #include <vector>
 using namespace std;
