@@ -44,7 +44,7 @@ int main() {
 		}
 		for (int i = 1; i <= n; i++) {
 			if (!visited[i]) {
-				hasCycle(i);
+				hasCycle(i); 
 			}
 		}
 		cout << n-cnt << '\n';
