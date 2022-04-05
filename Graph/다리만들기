@@ -98,7 +98,7 @@ int BFS(int Num)
                         Visit[ny][nx] = true;
                         Q.push(make_pair(ny, nx));
                     }
-                }
+                } 
             }
         }
         Result++;
