@@ -27,7 +27,7 @@ bool Visit[MAX][MAX];
 int dy[] = { -1, 1, 0, 0 };
 int dx[] = { 0, 0, -1, 1 };
  
-vector<pair<int, int>> V;
+vector<pair<int, int>> V; 
  
 void Make_LandLabel(int y, int x, int L)
 {
