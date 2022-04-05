@@ -7,7 +7,7 @@
 using namespace std;
 
 int t, n;
-int graph[MAX];
+int graph[MAX]; 
 bool visited[MAX];
 bool done[MAX];
 int cnt;
