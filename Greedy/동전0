@@ -1,0 +1,36 @@
+//백준 11047 동전 
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+int res[11];
+vector<int> v;
+vector<int>::iterator iter;
+
+
+bool les(int f,int s){
+    return f>s  ;
+}
+
+int main(){
+    int n,k;
+    cin >> n>>k;
+    int a;
+    for(int i=0;i<n;i++){
+        cin>>a;
+        v.push_back(a);
+    }
+    
+    sort(v.begin(),v.end(),les );
+    
+    while(k>0){
+        iter= v.begin();
+        k-=v[iter];
+        res[]
+    }
+    
+    
+    return 0;
+    
+    
+}
