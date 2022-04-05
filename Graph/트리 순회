@@ -51,5 +51,5 @@ int main() {
     in('A');
     cout << "\n";
     post('A');
-    cout << "\n";
+    cout << "\n"; 
 }
