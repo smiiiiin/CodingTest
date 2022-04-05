@@ -56,3 +56,63 @@ int main() {
 
 	return 0;
 }
+
+
+
+//queue
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int n, t;
+bool vis[100003];
+int student[100003];
+int startNumber[100003];
+int countNumber[100003];
+
+int main(){
+    cout.sync_with_stdio(0);
+    cin.tie(0);
+
+    cin >> t;
+    while(t--){
+        cin >> n;
+        int ans = n;
+        fill(startNumber, startNumber + n + 1, -1);
+        fill(countNumber, countNumber + n + 1, 0);
+        fill(vis, vis + n + 1, false);
+        for(int i = 1; i <= n; i++) {
+            cin >> student[i];
+        }
+        for(int i = 1; i <= n; i++) {
+            if(vis[i])continue;
+            queue<int> Q;
+            Q.push(i);
+            startNumber[i] = i;
+            vis[i] = true;
+            countNumber[i] = 1;
+            while(!Q.empty()) {
+                int cur = Q.front(); Q.pop();
+                vis[cur] = true;
+                int nextStudent = student[cur];
+                if(startNumber[nextStudent] == startNumber[cur]) {
+                    if(nextStudent == cur) {
+                        ans -= 1;
+                    } else {
+                        ans = ans - (countNumber[cur] - countNumber[nextStudent] + 1);
+                    }
+                    break;
+                }
+                if(vis[nextStudent]) continue;
+                startNumber[nextStudent] = startNumber[cur];
+                countNumber[nextStudent] = countNumber[cur] + 1;
+                Q.push(nextStudent);
+            }
+        }
+        cout << ans << '\n';
+    }
+
+
+    return 0;
+}
+
