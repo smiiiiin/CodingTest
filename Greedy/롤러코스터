@@ -1,0 +1,12 @@
+//백준 2873 롤러코스터
+#include <iostream>
+#include <vector>
+#include <cstdio>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+    
+    return 0;
+}
