@@ -1,74 +1,4 @@
-#include <iostream>
-#include <vector>
-#include <cstdio>
-#define MAX 1001
-#include <algorithm>
-int map[MAX][MAX];
-bool visited[MAX][MAX];
-int dy[4]={-1,1,0,0};
-int dx[4]={0,0,-1,1};
-using namespace std;
-
-int main() {
-    int a,b;
-    cin>>a>>b;
-    for(int y=0;y<b;y++){
-        for(int x=0;x<a;x++){
-            cin>>map[y][x];
-        }
-    }
-    return 0;
-}
-//2 2
-/* 지렁이(싹쓸이)기법을 쓸 공간이 안된다.
- 1 0 더 큰거 선택
- 0 1
- //!!행이나 열 중 하나라도 홀수가 있으면 싹쓸이 해야한다.
- 방향 설정만 잘하면 된다.
- !! 근데 행도 열도 짝수면 하나만 포기해야한다 근데 개수를 적게 포기하는게
- 핵심이 아닌게 걔가 1억짜리행복이면 걔만 먹어도 max다.
- -> 생각 변함. 해보니까 최소값 하나 빼고 싹쓸이 가능하다. 방향설정에만 신경쓰면 됨.
- 경우의 수 4가지로
-    행   열
- 1) 짝   홀
- 2) 홀   짝
- 3) 짝   짝 !하나는 포기
- 4) 홀   홀
- 
- 
- 1 0 0
- 0 1 1 밑으로 위아래로 가는지렁이 b가 2일때(a>=3)
- a(x,열)가 홀수면 아래부터 가서 싹쓸이 지렁이,
- 
- a(x,열)가 짝수면
- 1 2 3 4
- 4 3 2 1 양대각선 끝 수 4 중 하나를 포기
- 
- b(행,y)이 홀수면 (>1) 열에 관계없이, 오른쪽부터 가는 싹슬이 지렁이
- 1 2
- 1 2
- 1 2
- 
- 행이 짝수면(>0) 열에 관계없이,
- 1 억 3 억
- 억 4 억 3   !!!!!2) 밑에 경우 반박 원하면 하나 포기하고 억7개 먹는 경로 찾아내라.
- 0 3 2 억   증명1) 여러개 포기하고 억7개 먹을 수 있음? 이게 최선인데 이 경우에 하나만 포기하지x
- 억 5 억 5  1개만 포기 가능 U자 그리고 2모양으로 하면 1개(억) 만 포기 가능: 의미없어짐.
- //근데 개수를 적게 포기하는게 의미가 없다. 걔가 최고치일 수도있으니
- 1 2 3 4 5 6
- 3 4 5 6 7 8
- 1 2 3 4 5 6
- 3 4 5 6 7 8
- 1 2 3 4 5 6
- 3 4 5 6 7 8
- 1 2 3 4 5 6
- 3 4 5 6 7 8
- 1 2 3 4 5 6
- 3 4 5 6 7 8
- */
- 
- //답+ 정리
- /* https://suhwanc.tistory.com/23 */
+/* https://suhwanc.tistory.com/23 */
 //백준 2873 rollercoaster
 #include <iostream>
 #include <string>
@@ -77,13 +7,13 @@ int main() {
 #define INF 0x3f3f3f3f //infinite로 두는이유: memset편하고 overflow2배해도 안발생
 using namespace std;
 
-int x, y; //(행,렬)이 맞는데 좌표로하면 개념을 다르게 잡긴함 내가 y,x로 항상 했으니까.
+int y, x; //좌표 개념으로 입력 내가 y,x순으로 항상 했으니까
 int arr[1001][1001];
 string ans;
 
 int min_val = INF;
-int min_i;
-int min_j;
+int min_y;
+int min_x;
 
 string Rep(char c, int n) {
     string ret = "";
@@ -92,54 +22,60 @@ string Rep(char c, int n) {
 }
 
 void Solve(void) {
-    if (x % 2) { //case2: 행이 홀수면
-        for (int i = 0; i < x; i++) {
-            if (i % 2 == 0) ans += Rep('R', y - 1); //행이 홀수 일때, 열 개수만큼 R
-            else ans += Rep('L', y - 1);            //행이 짝수 일때, 열 개수만큼 L
+    if (y % 2) { //case2: 행이 홀수면, 오르은쪽 아래 외에에엔쪽 아래 지렁이
+        for (int i = 0; i < y; i++) {
+            if (i % 2 == 0) ans += Rep('R', x - 1); //행이 홀수 일때, 열 개수만큼 R
+            else ans += Rep('L', x - 1);            //행이 짝수 일때, 열 개수만큼 L
             
-            if (i != x - 1) ans += 'D'; //맨 마지막에만 안내려오고 앞에 if-else문 하고 필수로 똑
+            if (i != y - 1) ans += 'D'; //Rep함수로 x-1만큼 반복 후, 맨밑만 아니면 down
         }
     }
-    else if (y % 2) { //case1: 열이 홀수면
-        for (int j = 0; j < y; j++) {
-            if (j % 2 == 0) ans += Rep('D', x - 1); //열이 홀수 일때, 여행 개수만큼 D
-            else ans += Rep('U', x - 1); //열이 짝수 일때, 여행 개수만큼 U
+    else if (x % 2) { //case1: 열이 홀수면, 아래애애애에 오른쪽 위에에에에 오른쪽 지렁이
+        for (int j = 0; j < x; j++) {
+            if (j % 2 == 0) ans += Rep('D', y - 1); //열이 홀수 일때, 여행 개수만큼 D
+            else ans += Rep('U', y - 1); //열이 짝수 일때, 여행 개수만큼 U
             
-            if (j != y - 1) ans += 'R'; //맨 마지막에만 안내려오고 앞에 if-else문 하고 필수로 똑
+            if (j != x - 1) ans += 'R'; //Rep함수로 y-1만큼 반복 후, 맨밑만 아니면 down
             
         }
     }
-    else {// <집중> 짝x짝 case3: 최소값에서 흰색 하나만 빼는 경우
+    else {// ! case3: 최소값에서 흰색 하나만 빼는 경우 (거의 40분 끄적임으로 알아낸 사실)
         bool vacancy = false;
-        for (int i = 0; i < x; i += 2) { //검은판 단위
+        for (int i = 0; i < y; i += 2) { // 열 단위를 2개씩 0,2,4 ... 를 기준으로
             
-            if (min_i == i || min_i == i + 1) { //min_i=i면 안되는 거 아님? 진작 피했어야지
-                bool up = false; //일단 아래로 내리고 시작해
-                vacancy = true; //공백을 주위로
-                for (int j = 0; j < y; j++) {
-                    if (min_j != j) { //빈칸과 행은 같은데 열이 다를땐 위아래로 피하기
+            if (min_y == i || min_y == i + 1) { // 0,2,4 마다 왔는데 vacancy가 같은y에
+                //있거나 아래의 y에 있는 경우, 아래로 내리고 vancancy에 true버튼을 변경한다.
+                //vacancy는 한번 키면 껐다 켰다 안한다.
+                vacancy = true;
+                bool up = false; //일단 아래로 내리고 시작해 vacancy가 , 여기서 내린다는 의미는 아님.
+                //for문 안에서 내릴 수 있도록 지정해주는 것임.
+                for (int j = 0; j < x; j++) {
+                    if (min_x != j) { //y좌표는 같은데 x좌표가 다를땐, 내리거나 올린다.
                         if (up) ans += 'U';
                         else ans += 'D';
-                        up = !up; //up&down 스위치
+                        up = !up; //up&down 스위치 꼬불꼬불해야하니까.
                     }
-                    if (j != y - 1) ans += 'R'; //열이 끝이 아니라면 계속 오른쪽
+                    if (j != x - 1) ans += 'R'; //한번하고 필수로 R, 오른쪽이 끝날때까지
                 }//(여기까지 위아래로 꾸불지렁이) 다 했는데
-                if (i != x - 2) ans += 'D'; //행이 y좌표가 하나위라면 (밑에 칸있다면) 아래로
+                
+                if (i != y - 2) ans += 'D'; //행이 y좌표가 하나위라면 (밑에 칸있다면) 아래로
             }
             
             
-            else { //??공백이 아니면 min_i와 관계없으면 ? 바로 vancancy면??
-                if (vacancy) {//공백을 주위로
-                    ans += Rep('L', y - 1);//열이 같으면 왼오로 피하고
+            else { //vacancy영역이 지금 아닌데
+                if (vacancy) {//vacancy영역을 지난 후라면 1이라고 체크된 후라면 왼쪽부터 크게
+                    //구불구불
+                    
+                    ans += Rep('L', x - 1);//열이 같으면 왼오로 피하고
                     ans += 'D';
-                    ans += Rep('R', y - 1);
+                    ans += Rep('R', x - 1);
                 }
-                else {
-                    ans += Rep('R', y - 1);
+                else { //아직 vacancy영역을 만나기 전이라면 무조건 오른쪽부터 시작해서 크게 구불구불
+                    ans += Rep('R', x - 1);
                     ans += 'D';
-                    ans += Rep('L', y - 1);
+                    ans += Rep('L', x - 1);
                 }
-                if (i != x - 2) ans += 'D'; //Rep로 다 했는데도 아래 칸 있으면 밑으로 
+                if (i != y - 2) ans += 'D'; //Rep로 다 했는데도 아래 칸 있으면 밑으로
             }
         }
     }
@@ -147,24 +83,22 @@ void Solve(void) {
     cout << ans;
 }
 
-void Init(void) {
-    cin >> x >> y;
-    for (int i = 0; i < x; i++) {
-        for (int j = 0; j < y; j++) {
+int main() {
+    cin.tie(0);cout.tie(0);ios_base::sync_with_stdio(false);
+    cin >> y >> x;
+    for (int i = 0; i < y; i++) { //x랑y는 1부터 시작하는 사용자중심숫자로 입력됐는데
+        //우리는 0부터 넣었기 때문에 Solve()함수에서 -1하는 것도 그렇고 밑에 93번 줄에서 %2==1로 하는것도 그럼.
+        for (int j = 0; j < x; j++) {
             cin >> arr[i][j];
             if ((i+j)%2 && min_val > arr[i][j]) {
-                //0부터 시작이고 흰색에서 삭제해야하니까, 짝-홀인 경우
+                //0부터 시작이고 흰색에서 삭제해야하니까, 짝-짝인 경우
+                //if(2%2) if(0) false인 경우.
                 min_val = arr[i][j];
-                min_i = i;
-                min_j = j;
+                min_y = i;
+                min_x = j;
             }
         }
     }
-}
-
-int main() {
-    cin.tie(0);cout.tie(0);ios_base::sync_with_stdio(false);
-    Init();
     Solve();
     cout<<"\n";
     return 0;
