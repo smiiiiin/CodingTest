@@ -77,7 +77,7 @@ int main() {
 #define INF 0x3f3f3f3f //infinite로 두는이유: memset편하고 overflow2배해도 안발생
 using namespace std;
 
-int x, y; //(행,렬)이 맞는데 좌표로하면 개념을 다르게 잡긴함 내가 y,x로 항상 했으니까. 
+int x, y; //(행,렬)이 맞는데 좌표로하면 개념을 다르게 잡긴함 내가 y,x로 항상 했으니까.
 int arr[1001][1001];
 string ans;
 
@@ -109,23 +109,26 @@ void Solve(void) {
             
         }
     }
-    else {// 짝x짝 case3: 최소값에서 흰색 하나만 빼는 경우
+    else {// <집중> 짝x짝 case3: 최소값에서 흰색 하나만 빼는 경우
         bool vacancy = false;
         for (int i = 0; i < x; i += 2) { //검은판 단위
-            if (min_i == i || min_i == i + 1) {
+            
+            if (min_i == i || min_i == i + 1) { //min_i=i면 안되는 거 아님? 진작 피했어야지
                 bool up = false; //일단 아래로 내리고 시작해
                 vacancy = true; //공백을 주위로
-                for (int j = 0; j < y; j++) { //행이 같으면 위아래로 피하고
-                    if (min_j != j) {
+                for (int j = 0; j < y; j++) {
+                    if (min_j != j) { //빈칸과 행은 같은데 열이 다를땐 위아래로 피하기
                         if (up) ans += 'U';
                         else ans += 'D';
-                        up = !up;
+                        up = !up; //up&down 스위치
                     }
-                    if (j != y - 1) ans += 'R';
-                }
-                if (i != x - 2) ans += 'D';
+                    if (j != y - 1) ans += 'R'; //열이 끝이 아니라면 계속 오른쪽
+                }//(여기까지 위아래로 꾸불지렁이) 다 했는데
+                if (i != x - 2) ans += 'D'; //행이 y좌표가 하나위라면 (밑에 칸있다면) 아래로
             }
-            else {
+            
+            
+            else { //??공백이 아니면 min_i와 관계없으면 ? 바로 vancancy면??
                 if (vacancy) {//공백을 주위로
                     ans += Rep('L', y - 1);//열이 같으면 왼오로 피하고
                     ans += 'D';
@@ -136,7 +139,7 @@ void Solve(void) {
                     ans += 'D';
                     ans += Rep('L', y - 1);
                 }
-                if (i != x - 2) ans += 'D';
+                if (i != x - 2) ans += 'D'; //Rep로 다 했는데도 아래 칸 있으면 밑으로 
             }
         }
     }
@@ -166,4 +169,3 @@ int main() {
     cout<<"\n";
     return 0;
 }
-
