@@ -65,13 +65,105 @@ int main() {
  3 4 5 6 7 8
  1 2 3 4 5 6
  3 4 5 6 7 8
- 
- 
- 
- 
- 
- 
- 
- 
- 
  */
+ 
+ //답+ 정리
+ /* https://suhwanc.tistory.com/23 */
+//백준 2873 rollercoaster
+#include <iostream>
+#include <string>
+#include <vector>
+
+#define INF 0x3f3f3f3f //infinite로 두는이유: memset편하고 overflow2배해도 안발생
+using namespace std;
+
+int x, y; //(행,렬)이 맞는데 좌표로하면 개념을 다르게 잡긴함 내가 y,x로 항상 했으니까. 
+int arr[1001][1001];
+string ans;
+
+int min_val = INF;
+int min_i;
+int min_j;
+
+string Rep(char c, int n) {
+    string ret = "";
+    while (n--) ret += c; //뒤에다가 그냥 스트링 붙이는 거다. L뒤에 D뒤에 U...
+    return ret;
+}
+
+void Solve(void) {
+    if (x % 2) { //case2: 행이 홀수면
+        for (int i = 0; i < x; i++) {
+            if (i % 2 == 0) ans += Rep('R', y - 1); //행이 홀수 일때, 열 개수만큼 R
+            else ans += Rep('L', y - 1);            //행이 짝수 일때, 열 개수만큼 L
+            
+            if (i != x - 1) ans += 'D'; //맨 마지막에만 안내려오고 앞에 if-else문 하고 필수로 똑
+        }
+    }
+    else if (y % 2) { //case1: 열이 홀수면
+        for (int j = 0; j < y; j++) {
+            if (j % 2 == 0) ans += Rep('D', x - 1); //열이 홀수 일때, 여행 개수만큼 D
+            else ans += Rep('U', x - 1); //열이 짝수 일때, 여행 개수만큼 U
+            
+            if (j != y - 1) ans += 'R'; //맨 마지막에만 안내려오고 앞에 if-else문 하고 필수로 똑
+            
+        }
+    }
+    else {// 짝x짝 case3: 최소값에서 흰색 하나만 빼는 경우
+        bool vacancy = false;
+        for (int i = 0; i < x; i += 2) { //검은판 단위
+            if (min_i == i || min_i == i + 1) {
+                bool up = false; //일단 아래로 내리고 시작해
+                vacancy = true; //공백을 주위로
+                for (int j = 0; j < y; j++) { //행이 같으면 위아래로 피하고
+                    if (min_j != j) {
+                        if (up) ans += 'U';
+                        else ans += 'D';
+                        up = !up;
+                    }
+                    if (j != y - 1) ans += 'R';
+                }
+                if (i != x - 2) ans += 'D';
+            }
+            else {
+                if (vacancy) {//공백을 주위로
+                    ans += Rep('L', y - 1);//열이 같으면 왼오로 피하고
+                    ans += 'D';
+                    ans += Rep('R', y - 1);
+                }
+                else {
+                    ans += Rep('R', y - 1);
+                    ans += 'D';
+                    ans += Rep('L', y - 1);
+                }
+                if (i != x - 2) ans += 'D';
+            }
+        }
+    }
+
+    cout << ans;
+}
+
+void Init(void) {
+    cin >> x >> y;
+    for (int i = 0; i < x; i++) {
+        for (int j = 0; j < y; j++) {
+            cin >> arr[i][j];
+            if ((i+j)%2 && min_val > arr[i][j]) {
+                //0부터 시작이고 흰색에서 삭제해야하니까, 짝-홀인 경우
+                min_val = arr[i][j];
+                min_i = i;
+                min_j = j;
+            }
+        }
+    }
+}
+
+int main() {
+    cin.tie(0);cout.tie(0);ios_base::sync_with_stdio(false);
+    Init();
+    Solve();
+    cout<<"\n";
+    return 0;
+}
+
