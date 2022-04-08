@@ -1,89 +1,97 @@
 // 백준 1744 수묶기
 
-// 내가 손코딩 한것.
+// 내가 손코딩 한것도 나쁘지 않았지만
+// 0의 개수가 여러개일 수 있고, 1의 경우 곱하는것보다 더하는게 더 좋다는 사실을 다. 
 // ! 시험에서는 변수의 위치의 오류를 잡아주지 않는다.
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
+
 using namespace std;
-vector<int> v;
-int res{0};
-bool les(int a, int b){
-    return a>b;
-}
 
-int pack(int f, int s){
-    res+= f*s;
+// 양수 저장 벡터
+vector<int> positive;
+
+// 음수 저장 벡터
+vector<int> negative;
+
+// 0 의 개수
+int zero_count;
+
+// 수열 최댓값
+int res;
+
+// 수열 최댓값 출력 함수
+int greedy(){
+
+    // 양수 저장 벡터 내림차순 정렬
+    sort(positive.begin(), positive.end(), greater<>());
+    // 음수 저장 벡터 오름차순 정렬
+    sort(negative.begin(), negative.end(), less<>());
+
+    // 내림차순 정렬된 양수 저장 벡터의 요소들을 두 묶음씩 곱한 뒤, 결과값에 추가
+    for (int i=0; i<positive.size()-(positive.size()%2); i +=2){
+        // i 번째 요소와 i+1 번째 요소를 곱한 뒤, 결과값에 추가
+        res += positive[i] * positive[i+1];
+    }
+
+    // 양수 저장 벡터가 홀수일 경우, 마지막 요소가 묶음에서 제외되었기 떄문에, 마지막 요소를 결과값에 추가
+    if (positive.size() % 2 == 1){
+        res += positive.back();
+    }
+
+    // 오름차순 정렬된 음수 저장 벡터의 요소들을 두 묶음씩 곱한 뒤, 결과값에 추가
+    for (int i=0; i<negative.size()-(negative.size()%2); i +=2){
+        // i 번째 요소와 i+1 번째 요소를 곱한 뒤, 결과값에 추가
+        res += negative[i] * negative[i+1];
+    }
+
+    // 음수 저장 벡터가 홀수일 경우, 마지막 요소가 묶음에서 제외되었기 떄문에, 마지막 요소를 결과값에 추가
+    if (negative.size() % 2 == 1){
+
+        // 만약, 수열에 0 이 존재하지 않는다면, 음수 저장 벡터의 마지막 요소를, 그대로 결과값에 추가
+        if (zero_count == 0){
+            res += negative.back();
+        }
+        // 만약, 수열에 0 이 존재한다면, 음수 저장 벡터의 마지막 요소와 0 을 곱할 수 있으므로, 상쇄 가능
+    }
+
+    // 수열 최댓값 반환
     return res;
+
 }
 
-int main() {
-    //cin.tie(0);cout.tie(0);ios_base::sync_with_stdio(false);
-    bool zero{0};
+int main(){
+
+    // 수열의 개수
     int n;
-    int minus=0;
-    int plus=0;
-    scanf("%d", &n);
-    int num;
-    for(int i=0;i<n;i++){
-        scanf("%d", &num);
-        v.push_back(num);
+    cin >> n;
+
+    // 수열 요소 입력
+    for (int i=0; i<n; ++i){
+        int number;
+        cin >> number;
+
+        // 숫자가 1 보다 크다면, 양수 저장 벡터에 저장
+        if (number >1){
+            positive.push_back(number);
+        }
+        // 숫자가 1 이라면, 수열 최댓값에 추가
+        else if (number == 1){ //1은 곱하는 것보다 더하는게 이득이니까.
+            res += 1;
+        }
+        // 숫자가 0 이라면, 0 의 개수 추가
+        else if (number == 0){ //0의 개수가 여러개일 수 있다.
+            zero_count += 1;
+        }
+        // 숫자가 0 보다 작다면, 음수 저장 벡터에 저장
+        else{
+            negative.push_back(number);
+        }
     }
-    sort(v.begin(), v.end(), les);//내림차순 정렬
-    int sz= v.size();
-    
-    for(int i=0;i<sz;i++){
-        
-        if(v[i]==0){
-          zero=1;
-        }
-        while(v[i]>0){
-            plus++;
-        }
-        while(v[i]<0){
-            minus++;
-        }
-    }
-    
-    if(!zero&& plus>0){ //0이 없다면, 양수만 있다면
-        if(!sz%2){ //근데 그게 짝수개수면
-            for(int i=0;i<sz;i+=2){
-                pack(v[i],v[i+1]);
-            }
-        }
-        else { //홀수 개수면
-            for(int i=0;i<sz-1;i+=2){
-                pack(v[i],v[i+1]);
-            }
-            res+=v[sz-1]; //마지막 하나는 그냥 더한다.
-        }
-        
-    }
-    
-    if(minus>0 && !minus%2){//음수 개수가 짝수개면
-        for(int i=sz-minus ;i<sz;i+=2){
-            pack(v[i],v[i+1]);
-        }
-        
-    }
-    else if(minus>0 && minus%2){ //음수 개수가 홀수개면
-        if(zero){ //근데 0이 있으면 가장 왼쪽 음수랑 곱하고 그냥 순서대로 곱하면 됨.
-            for(int i=sz-minus ;i<sz;i+=2){
-                pack(v[i],v[i+1]);
-            }
-        }
-        else //0이 없으면
-        {
-            for(int i=sz-minus+1;i<sz-1;i+=2){
-                pack(v[i],v[i+1]);
-            }
-            res+=v[sz-minus]; //마지막 하나는 그냥 더한다.
-        }
-                 
-    }
-    
-    printf("%d \n",&res);
-    
-    
-    return 0;
+
+    // 수열 최댓값 출력
+    cout << greedy() << endl;
+
 }
