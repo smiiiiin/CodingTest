@@ -1,12 +1,29 @@
 //백준 1746 날짜 계산
 
+
+
+// 내 시간초과 답
 #include <iostream>
-#include <vector>
-#include <algorithm>
+int E,S,M;
+int year{0};
+int y{0};
+int m{0};
+int d{0};
 
 using namespace std;
 
 int main(){
+    scanf("%d %d %d",&E,&S,&M);
+    while(1){
+        y=(y+1)%15;
+        m=(m+1)%28;
+        d=(d+1)%19;
+        year++;
+        if(y==E && m==S && d==M) break;
+    }
+    printf("%d \n", year);
+    
     
     return 0;
 }
+
