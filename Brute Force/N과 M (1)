@@ -1,0 +1,35 @@
+//백준 15649 N과 M (1)
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <vector>
+using namespace std;
+
+int n,m;
+vector<int> v;
+int visited[9];
+
+void dfs(int node) { //브루트포스 
+    
+	if (v.size() == m) {
+		for(vector<int>::iterator iter=v.begin(); iter!=v.end();iter++){
+		    cout<<*iter<<" ";}cout<<"\n";
+		return;}
+		
+	for(int i=1;i<=n;i++){
+	if (!visited[i]) {
+		visited[i] = 1;
+		v.push_back(i);
+		dfs(i);
+		v.pop_back();
+		visited[i]=0;}
+	    
+	}
+}
+
+
+int main() {
+	cin >> n>>m;
+	memset(visited, 0, sizeof(visited));
+	dfs(1);
+}
