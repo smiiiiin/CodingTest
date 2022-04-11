@@ -30,7 +30,7 @@ void dfs(int node, int cnt) { //브루트포스
 	}
 	
 }
-
+ 
 
 int main() {
     cin>>n>>m;
