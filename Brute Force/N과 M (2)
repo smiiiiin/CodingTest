@@ -1,0 +1,26 @@
+//백준 15650 N과 M (2)
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <vector>
+using namespace std;
+
+int n,m;
+int arr[8];
+int visited[8];
+
+void dfs() { //브루트포스 
+    
+	if (v.size() == m) {
+		
+		return;}
+	
+	    
+	
+}
+
+
+int main() {
+
+	dfs();
+}
