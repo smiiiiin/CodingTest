@@ -3,6 +3,44 @@
 //이론적으로는 그래야지 조합이란거 알겠는데 도대체 어떤 코드에서 out3,out2를 하고 순서를 바꿔서 넣는거지?
 // 123-> 132 되는 과정을 이해 못하겠음..
 
+////백준 15649 N과 M (1)
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <vector>
+using namespace std;
+
+int n,m;
+int arr[9];
+int visited[9];
+
+void dfs(int sz) { //브루트포스 
+    
+	if (sz == m) {
+		for(int i=0;i<m;i++) cout<<arr[i]<<" ";
+		cout<<"\n";
+		return;}
+		
+	for(int i=1;i<=n;i++){
+    	if (!visited[i]) {
+    		visited[i] = 1;
+    		arr[sz]=i;
+    		dfs(sz+1);
+    		visited[i]=0;
+    	    //cout<<"out: "<<i<<" ";
+	}
+	    
+	}
+}
+
+
+int main() {
+	cin >> n>>m;
+	int sz{0};
+	dfs(0);
+}
+
+
 //백준 15649 N과 M (1)
 #include <iostream>
 #include <algorithm>
