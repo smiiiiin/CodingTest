@@ -1,0 +1,46 @@
+//백준 1697 숨바꼭질 
+#include<iostream>
+#include<queue>
+#include<vector>
+
+using namespace std;
+
+#define MAX 100001
+
+int n, k;
+bool visited[MAX];
+
+int bfs(int n, int k) {
+	queue<pair <int, int>> q;
+	q.push(make_pair(n, 0));
+	visited[n] = 1;
+
+	while (!q.empty()) {
+		int posi = q.front().first;
+		int time = q.front().second;
+		q.pop();
+
+		if (posi == k)	return time;
+
+		if (posi + 1 < MAX && !visited[posi + 1]) {
+			q.push(make_pair(posi + 1, time + 1));
+			visited[posi + 1] = true;
+		}
+		if (posi - 1 >= 0 && !visited[posi - 1]) {
+			q.push(make_pair(posi - 1, time + 1));
+			visited[posi - 1] = true;
+		}
+		if (posi * 2 < MAX && !visited[posi * 2]) {
+			q.push(make_pair(posi * 2, time + 1));
+			visited[posi * 2] = true;
+		}
+	}
+	return 0;
+}
+
+int main() {
+	cin >> n >> k;
+	
+	cout << bfs(n, k) << endl;
+	return 0;
+}
