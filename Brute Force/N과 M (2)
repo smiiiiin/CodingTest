@@ -1,9 +1,5 @@
 //백준 15650 N과 M (2)
-//백준 15650 N과 M (2)
 #include <iostream>
-#include <algorithm>
-#include <cstring>
-#include <vector>
 using namespace std;
 
 int n,m;
@@ -12,11 +8,10 @@ bool visited[8]={0,};
 
 void dfs(int node, int cnt) { //브루트포스 
     
-	if ( cnt == m) {
-		for(int i=0;i<m;i++){
-		    cout<<arr[i]<<" ";
-		}
-		cout << '\n';
+	if (cnt-1 == m) {
+		for(int i=1;i<=m;i++){
+		    cout<<arr[i]<<" ";}
+		    cout << '\n';
 		return; //그 전으로 돌아갓 (손으로 그린 그래프에서) 
 		}
 	
@@ -25,15 +20,11 @@ void dfs(int node, int cnt) { //브루트포스
 	        visited[i]=1;
 	        arr[cnt]=i;
 	        dfs(i+1,cnt+1);
-	        visited[i]=0; //이게 i라는 점에서 이해가 된다. 그 전에 것을 12-> 에서 1을 다시 비워서 13으로 만들기 (2는 들림)
-	    }
-	}
-	
+	        visited[i]=0; }}
 }
  
 
 int main() {
     cin>>n>>m;
-    
-    dfs(1,0);
+    dfs(1,1);
 }
