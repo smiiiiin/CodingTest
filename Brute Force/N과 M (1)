@@ -1,9 +1,9 @@
-//백준 15649 N과 M (1)
-//테케 3 3 넣었을때 왜 123하고 3out하는 거까진 ok 근데 왜 out2만 하는거임? out1,2하면 무한반복인것도 문제.. 
-//이론적으로는 그래야지 조합이란거 알겠는데 도대체 어떤 코드에서 out3,out2를 하고 순서를 바꿔서 넣는거지?
-// 123-> 132 되는 과정을 이해 못하겠음..
+// 백준 15649 N과 M (1)
 
-////백준 15649 N과 M (1)
+/* 번호 찍어내는건 cnt에서 하는거라 cnt를 깊이로 생각하면 됨, visited는 딱히 관계가 없다. 그냥 !visited이면 들어가서 해주는 거임
+   dfs(1)에서 i=2,3,4인 경우를 못함, dfs(2)에서는 i=3,4인경우를 못하고 dfs(3)에서는 i=4인 경우를 못해서 return 후 이것들을 해준다.
+   visited[i]=0;에서 i는 arr[cnt]=i에서 i이므로 현재 dfs()안에 들어간 숫자의 -1이라고 보면 된다. */
+
 #include <iostream>
 #include <algorithm>
 #include <cstring>
@@ -27,7 +27,7 @@ void dfs(int sz) { //브루트포스
     		arr[sz]=i;
     		dfs(sz+1);
     		visited[i]=0;
-    	    //cout<<"out: "<<i<<" ";
+    	    cout<<"out: "<<i<<" ";
 	}
 	    
 	}
@@ -38,43 +38,4 @@ int main() {
 	cin >> n>>m;
 	int sz{0};
 	dfs(0);
-}
-
-
-//백준 15649 N과 M (1)
-#include <iostream>
-#include <algorithm>
-#include <cstring>
-#include <vector>
-using namespace std;
-
-int n,m;
-vector<int> v;
-int visited[9];
-
-void dfs() { //브루트포스 
-    
-	if (v.size() == m) {
-		for(vector<int>::iterator iter=v.begin(); iter!=v.end();iter++){
-		    cout<<*iter<<" ";}cout<<"\n";
-		return;}
-		
-	for(int i=1;i<=n;i++){
-	if (!visited[i]) {
-		visited[i] = 1;
-		v.push_back(i);
-		dfs();
-		v.pop_back();
-		visited[i]=0;
-	   cout<<"out: "<<i<<" ";
-	}
-	    
-	}
-}
-
-
-int main() {
-	cin >> n>>m;
-	memset(visited, 0, sizeof(visited));
-	dfs();
 }
