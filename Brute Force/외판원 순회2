@@ -13,7 +13,7 @@ int result{0x3f3f3f};
 void solve() { //브루트포스 
 	if (v.size() == n) {  
 		int tmp{0}; 
-		for (int i = 0; i <= n; i++) {
+		for (int i = 0; i < n-1; i++) {
 			tmp += map[v[i]][v[i+1]];
 		}
 		int last= v[n-1]; int first= v[0];
