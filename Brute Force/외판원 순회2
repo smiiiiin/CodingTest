@@ -1,5 +1,69 @@
 //백준 10971 외판원 순회2 
+//정답
+//백준 10971 외판원순회 2 
+#include <iostream>
+#include <climits>
+#include <algorithm>
 
+using namespace std;
+
+int arr[11] = { 0 };
+bool visited[11] = { 0 };
+int map[11][11] = { {0} };
+
+int n;
+int res = INT_MAX;
+
+void dfs(int depth, int sumCost) {
+
+	if (sumCost > res) { // 시간 줄여줌
+		return;
+	}
+
+	int cost;
+
+	if (depth > n) {
+		cost = map[arr[n]][arr[1]];
+		if (cost == 0) return;
+
+		res = min(sumCost + cost, res);
+		return;
+	}
+
+	for (int i = 1; i <= n; i++) {
+		if (visited[i]) continue;
+
+		arr[depth] = i;
+		cost = map[arr[depth - 1]][arr[depth]]; //depth는 2부터 시작
+		if (cost == 0) {
+			continue; // return으로 쓰면 안됨.
+		}
+
+		visited[i] = true;
+		dfs(depth + 1, sumCost + cost); // sum값 누적
+		visited[i] = false;
+	}
+
+}
+
+int main() {
+	cin.tie(NULL); cout.tie(NULL); ios::sync_with_stdio(false); cin >> n;
+
+	for (int y = 1; y <= n; y++) {
+		for (int x = 1; x <= n; x++) {
+			cin >> map[y][x];
+		}
+	}
+
+	for (int i = 1; i <= n; i++) { // depth 1 처리
+		arr[1] = i;
+		visited[i] = true;
+		dfs(2, 0);
+		visited[i] = false;
+	}
+	cout << res;
+	return 0;
+}
 
 //내오답
 #include <iostream>
