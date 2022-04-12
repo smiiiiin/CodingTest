@@ -16,7 +16,7 @@ void solve() { //브루트포스
 		for (int i = 1; i <= n; i++) {
 			tmp += map[i][i+1];
 		}
-		int last= v[n]; int first= v[0];
+		int last= v[n-1]; int first= v[0];
 	    tmp+= map[last][first];
 		result = min(result, tmp);
 		return;
