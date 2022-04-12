@@ -8,14 +8,14 @@ using namespace std;
 
 int N;
 int n[9];
-int result;
 vector<int> v;
 int visit[9];
 int cnt = 0;
+int result{0};
 
 void solve() { //브루트포스 
 	if (v.size() == N) {
-		int tmp = 0;
+		int tmp{0}; //초기화 안하면 틀리네...왜지? result만 0으로 초기화하면 되는거 아닌가? 
 		for (int i = 0; i < N-1; i++) {
 			tmp += abs(v[i + 1] - v[i]);
 		}
@@ -42,62 +42,3 @@ int main() {
 	solve();
 	cout << result << endl;
 }
-
-//나
-//백준 10819 차이를 최대로 
-// n<8이여서 다해보기 brute force, backtracking이용하기
-
-#include <iostream>
-#include <vector>
-#include <cstdio>
-#include <cstring>
-#include <algorithm>
-using namespace std;
-int arr[9];
-vector<int> v;
-bool checked[9];
-int n;
-int ma{0};
-void dfs(int node){
-    
-    if(v.size()==n){
-        int sum{0}; int ma{0};
-        for(int i=0; i<n; i++){
-            sum+=abs(arr[i+1]-arr[i]);
-        }
-        ma= max(ma, sum);
-        return;
-    }
-    
-    
-    checked[node]=1;
-    v.push_back(arr[node]);
-    
-    if(!checked[node+1]){
-        dfs(node+1);
-        checked[node+1]=0;
-        v.pop_back();
-        
-    }
-}
-
-int main()
-{
-    memset(checked,0,sizeof(checked)); 
-   
-    scanf("%d",&n);
-    checked[n]=100; //배열의 끝 표시 
-    int num;
-    for(int i=0;i<n;i++){
-        scanf("%d",&num);
-        arr[i]=num;
-    }
-    
-    for(int i=0;i<n;i++){
-        if(!checked[i]) dfs(i);
-    }
-
-    return 0;
-}
-
-
