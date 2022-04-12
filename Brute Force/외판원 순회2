@@ -1,0 +1,44 @@
+//백준 10971 외판원 순회2 
+#include <iostream>
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+int n;
+int map[11][11];
+vector<int> v;
+int visit[11]; //마지막에 처음방문한 곳 무조건 가줘야함. 
+int result{0x3f3f3f};
+
+void solve() { //브루트포스 
+	if (v.size() == n) {  
+		int tmp{0}; 
+		for (int i = 0; i < N-1; i++) {
+			tmp += map[i][i+1]
+		}
+		result = min(result, tmp);
+		return;
+	}
+	
+	for (int i = 1; i <= N; i++) { //백트래킹
+		if (!visit[i]) {
+			visit[i] = 1;
+			v.push_back(i);
+			solve();
+			v.pop_back();
+			visit[i] = 0;
+		}
+	}
+}
+
+int main() {
+	cin >> n;
+	for(int y=1;y<=n;y++){
+	    for(int x=1;x<=n;x++){
+	        cin>>map[y][x];
+	    }
+	}
+
+	solve();
+	cout << result << endl;
+}
