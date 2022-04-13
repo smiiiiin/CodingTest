@@ -1,5 +1,5 @@
-//백준 10971 외판원 순회2 
-//정답
+// 백준 10971 외판원순회 2 
+// answer
 #include <iostream>
 #include <algorithm>
 using namespace std;
@@ -13,12 +13,8 @@ int res = 987654321;
 
 void dfs(int depth, int sumCost) {
 
-	if (sumCost > res) { // 시간 줄여줌
-		return;
-	}
-
-	int cost;
-
+	if (sumCost > res) return; // saving time
+int cost;
 	if (depth > n) {
 		cost = map[arr[n]][arr[1]];
 		if (cost == 0) return;
