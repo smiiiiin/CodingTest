@@ -10,7 +10,7 @@ using namespace std;
 int n, k;
 bool visited[MAX];
 
-int bfs(int n, int k) {
+int bfs(int n) {
 	queue<pair <int, int>> q;
 	q.push(make_pair(n, 0));
 	visited[n] = 1;
@@ -23,7 +23,8 @@ int bfs(int n, int k) {
 		if (posi == k)	return time;
 
 		if (posi + 1 < MAX && !visited[posi + 1]) {
-			q.push(make_pair(posi + 1, time + 1));
+			q.push(make_pair(posi + 1, time + 1)); //이렇게 초대될때 매개변수를 찍어놓으면 몇번째로 소개된 애인지
+			//표시가 가능하다. 
 			visited[posi + 1] = true;
 		}
 		if (posi - 1 >= 0 && !visited[posi - 1]) {
@@ -41,11 +42,12 @@ int bfs(int n, int k) {
 int main() {
 	cin >> n >> k;
 	
-	cout << bfs(n, k) << endl;
+	cout << bfs(n) << endl;
 	return 0;
 }
 
-//내가
+// 내가 쓴건데 대체 뭐가 달라?
+
 // 백준 1697 숨바꼭질
 #include <iostream>
 #include <algorithm> //min
@@ -56,24 +58,25 @@ using namespace std;
 int s,f;
 bool visited[MAX]  = { 0 };
 vector<int> v;
-int sec{0};
+int t{0};
+int sec{987654321};
 
 void bfs(int node) {
-    queue<int> q;
-    q.push(node);
+    queue<pair<int,int>> q;
+    q.push({node,0});
     visited[node]=1;
         
     while(!q.empty()){
-        int cx= q.front(); q.pop();
+        int cx= q.front().first; t= q.front().second; q.pop(); 
         if(cx==f) return;
         
         int dx[3]= {-1,1,cx};
         for(int d=0;d<3;d++){
             int nx= cx+dx[d]; 
-            if(nx > MAX || nx<0) continue;
-            if(!visited[nx]) {q.push(nx); visited[nx]=1;}
+            if(nx >= MAX || nx<0) continue;
+            if(!visited[nx]) {q.push({nx,t++}); visited[nx]=1;}
         }
-        sec++;
+        
     }
 }
 
@@ -82,6 +85,6 @@ int main() {
     
     cin>>s>>f;
 	bfs(s);
-	cout << sec <<"\n";
+	cout << t <<"\n";
 	return 0;
 }
