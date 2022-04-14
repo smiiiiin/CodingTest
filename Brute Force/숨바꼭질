@@ -46,8 +46,6 @@ int main() {
 	return 0;
 }
 
-// 내가 쓴건데 대체 뭐가 달라?
-
 // 백준 1697 숨바꼭질
 #include <iostream>
 #include <algorithm> //min
@@ -70,7 +68,7 @@ void bfs(int node) {
         int cx= q.front().first; t= q.front().second; q.pop(); 
         if(cx==f) return;
         
-        int dx[3]= {-1,1,cx};
+        int dx[3]= {cx,1,-1}; //여기서 2배, +1, -1순서로 봤는데 이거 순서만 바꿔도 틀린다. 
         for(int d=0;d<3;d++){
             int nx= cx+dx[d]; 
             if(nx >= MAX || nx<0) continue;
