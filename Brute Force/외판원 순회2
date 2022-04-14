@@ -107,3 +107,21 @@ int main() {
 	solve();
 	cout << result << endl;
 }
+
+
+// 이 질문에 대한 답은 내가 조만간 하자. 
+for (int i = 1; i <= n; i++) { 
+		arr[1] = i;
+		visited[i] = true;
+		
+		for (int i = 2; i <= n; i++) { 
+		    if (visited[i]) continue;
+    		arr[2] = i;
+    		cost= map[arr[2]][arr[1]];
+    		
+    		visited[i] = true;
+    		dfs(3, cost);
+    		visited[i] = false;}
+    		
+	    visited[i] = false;
+	} //이것도 depth 1,2를 초기화하는 방법일까? 
