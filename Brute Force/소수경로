@@ -13,15 +13,17 @@ int Start, End;
  
 void Initialize()
 {
-    memset(arr, true, sizeof(arr));
+    memset(arr, 1, sizeof(arr));
     for (int i = 2; i < MAX; i++)
     {
         for (int j = 2; i*j < MAX; j++)
         {
-            arr[i*j] = false;
+            arr[i*j] = 0;
         }
     }
-    memset(Visit, false, sizeof(Visit));
+    //여기까지 소수가 아닌 것들은 0으로 한다. 
+    
+    memset(Visit, 0, sizeof(Visit)); //방문은 안한상태로 모두 초기화 
 }
  
 void Solution()
@@ -37,20 +39,20 @@ void Solution()
             cout << Cnt << "\n";
             return;}
  
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)  //숫자4자리이므로 한숫자씩 바꿔본다. 
         {
             int Next_Num;
             for (int j = 0; j < 10; j++)
             {
-                string s = to_string(Cur_Num);
-                s[i] = j + '0';
-                Next_Num = stoi(s);
+                string s = to_string(Cur_Num); //숫자를 string화  
+                s[i] = j + '0'; //num-> char 
+                Next_Num = stoi(s); //string을 int로 
  
-                if (arr[Next_Num] == false) continue;
-                if (Visit[Next_Num] == true) continue;
-                if (Next_Num >= 10000 || Next_Num < 1000) continue;
+                if (!arr[Next_Num] ) continue; //소수 아니면 다음 
+                if (Visit[Next_Num]) continue; //방문 했으면 다음 
+                if (Next_Num >= 10000 || Next_Num < 1000) continue; //4자리수 아니면 다음 
  
-                Visit[Next_Num] = true;
+                Visit[Next_Num] = 1;
                 Q.push({Next_Num, Cnt + 1});                
             }
         }
@@ -64,7 +66,7 @@ int main(void)
     ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
     int t; cin >> t;
     for (int T = 1; T <= t; T++){
-        Initialize();
+        Initialize(); //test여러번 하기 위한 초기화 
         cin >> Start >> End;
         Solution();}
     return 0;
