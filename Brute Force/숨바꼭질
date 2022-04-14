@@ -74,7 +74,7 @@ void bfs(int node) {
         for(int d=0;d<3;d++){
             int nx= cx+dx[d]; 
             if(nx >= MAX || nx<0) continue;
-            if(!visited[nx]) {q.push({nx,t++}); visited[nx]=1;}
+            if(!visited[nx]) {q.push({nx,t+1}); visited[nx]=1;}
         }
         
     }
