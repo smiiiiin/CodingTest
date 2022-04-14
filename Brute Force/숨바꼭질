@@ -51,35 +51,37 @@ int main() {
 #include <algorithm> //min
 #include <queue>
 #include <vector>
-#define MAX 1000001
+#define MAX 100001
 using namespace std;
-
+int s,f;
 bool visited[MAX]  = { 0 };
 vector<int> v;
-int res{0x3f3f3f};
+int sec{0};
 
-void bfs(int node, int sec) {
+void bfs(int node) {
     queue<int> q;
     q.push(node);
     visited[node]=1;
         
     while(!q.empty()){
         int cx= q.front(); q.pop();
+        if(cx==f) return;
         
-        int nx[3]= {-1,1,node};
+        int dx[3]= {-1,1,cx};
         for(int d=0;d<3;d++){
-            if(nx> MAX || nx<0) continue;
             int nx= cx+dx[d]; 
-            if(!visited[nx]) {q.push(nx); sec++; visited[nx]=1;}}
-        res= min(res,sec);
+            if(nx > MAX || nx<0) continue;
+            if(!visited[nx]) {q.push(nx); visited[nx]=1;}
+        }
+        sec++;
     }
 }
 
 int main() {
-	cin.tie(NULL); cout.tie(NULL); ios::sync_with_stdio(false); cin >> n;
-    int s,f;
+	cin.tie(NULL); cout.tie(NULL); ios::sync_with_stdio(false); 
+    
     cin>>s>>f;
-	bfs(s,0);
-	cout << res<<"\n";
+	bfs(s);
+	cout << sec <<"\n";
 	return 0;
 }
