@@ -58,7 +58,8 @@ int main() {
 	return 0;
 }
 
-//내오답
+//내오답: depth마다 끊어줘야 조건을 넣을 수 있는데 나는 조합별로 다 넣어보고 나중에 계산 이래서 안된다.
+//위에 정답은 한섬에서 다른섬으로 이동할때마다(depth를 더할 때마다) 0인지 아닌지 확인하고 0이면 continue를 통해 가는 것을 막아준다. 
 #include <iostream>
 #include <algorithm>
 #include <vector>
