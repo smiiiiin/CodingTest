@@ -1,10 +1,8 @@
-//9019 DSLR
+// 9019 DSLR
 // next: 1525, 2251
 #include<iostream>
 #include <list>
-#include<cstring>
 #include<queue>
-#include<string>
 #define MAX 10000
 using namespace std;
 //방문해준 횟수는 있어야하고 내가 소개받을때 주인의 숫자와 연산을 기억한다.
@@ -14,33 +12,30 @@ pair<int, char> cal[10000]; //나를 소개해 준 친구와 그때 눌렀던 �
 int a, b;
 
 void bfs(){
-        queue<int> q;
-        q.push(a);
-        cal[a] = {-1, ' '};
+    queue<int> q;
+    q.push(a);
+    cal[a]={-1,' '};
+    while(!q.empty()){
+        int cur= q.front(); q.pop();
+        int next;
+        if(cur==b) break;
+        for(int op=0;op<4;op++){
+            //D
+            if(op==0) next= (cur*2)%10000;
+            //s
+            else if(op==1) next= (cur==0) ? 9999:cur-1 ;
+            //l
+            else if(op==2) next= (cur%1000)*10+ (cur/1000);
+            //r
+            else next= (cur/10)+ (cur%10)*1000;
         
-        while(!q.empty() ){
-            int cur = q.front(); q.pop();
-            if(cur == b) break;
-            for(int op = 0; op < 4; op++){
-                int nx;
-                if(op == 0){    // D 연산
-                    nx = (2 * cur) % 10000;
-                }else if(op == 1){  // S 연산
-                    nx = (cur == 0) ? 9999 : cur - 1;
-                }else if(op == 2){  // L 연산
-                    nx = (cur % 1000) * 10 + (cur / 1000);
-                }else{// R 연산
-                    nx = (cur / 10) + (cur % 10) * 1000;
-                }
-//주인이 있다는 것 자체가 방문했다는 거다.
-                if(cal[nx].first >= -1) continue; // 이미 방문한 경우, 방문하지 않음
-                q.push(nx);
-                cal[nx].first = cur; //자기 초대해 준 숫자를 저장한다.
-                cal[nx].second= c[op];//나를 불러온 연산을 저장한다.
-            }}}
+        if(cal[next].first >= -1) continue;
+        q.push(next);
+        cal[next].first= cur;//날 소개해준 친구
+        cal[next].second= c[op]; //날 불러준 op
+        }}}
 
 int main(){
-    //ios::sync_with_stdio(0);cin.tie(0);
     int t; scanf("%d",&t);
     while(t--){
         scanf("%d %d",&a,&b);
@@ -52,7 +47,8 @@ int main(){
         list<char> ops;
         while(cur!=a){
             ops.push_front(cal[cur].second);
-            cur = cal[cur].first;
+            cur= cal[cur].first; //날 불러준친구로 cur교체 하면서 앞으로 앞으로
+            
         }
 
         for(auto c : ops) printf("%c",c);
