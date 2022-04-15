@@ -1,8 +1,8 @@
 // 1525 퍼즐
 // next: 2251
 #include <iostream>
-#include <string>
-#include <algorithm>
+#include <string> //.find함수 string에서 char의 인덱스 위치 return
+#include <algorithm> //swap함수
 #include <queue>
 #include <map>
 using namespace std;
@@ -12,30 +12,29 @@ int dx[4]= {0,0,-1,1};
 int main(void){
     ios_base::sync_with_stdio(0);cin.tie(0);
     int start = 0; //시작할 때 순열
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 3; i++){//입력형식에 맞춰줘야한다.
         for (int j = 0; j < 3; j++){
             int num; cin >> num;
-            if (num == 0)
-                num = 9;
-                start = start * 10 + num;}
+            if (num == 0) num = 9;
+            start = start * 10 + num;}}
         queue<int> q; map<int, int> visited;
         q.push(start); visited[start] = 0;
+    
         while (!q.empty()){
-                 int cur = q.front();
-                 string s = to_string(cur);
-                 q.pop();
-                 if (cur == TARGET) break;
-                 int zero = s.find('9'); //9의 위치가 비어있는 칸
-                 //9의 좌표 저장
-                 int cy = zero / 3; int cx = zero % 3;
-                for (int i = 0; i < 4; i++){
-                         int ny = cy + dy[i]; int nx = cx + dx[i];
-                    if (0 > ny || ny >= 3 || 0 > nx || nx >= 3) continue;
-                    string temp = s;
-                    swap(temp[cy * 3 + cx], temp[ny * 3 + nx]);
-                    int next = stoi(temp);
-                     if (visited.count(next)) continue;
-                    visited[next] = visited[cur] + 1; q.push(next);}}
+            int cur = q.front(); string s = to_string(cur); q.pop();
+            if (cur == TARGET) break;
+            int zero = s.find('9'); //9의 위치가 비어있는 칸
+            int cy = zero / 3; int cx = zero % 3;
+            for (int i = 0; i < 4; i++){
+                int ny = cy + dy[i]; int nx = cx + dx[i];
+                if (0 > ny || ny >= 3 || 0 > nx || nx >= 3) continue;
+                string temp = s;
+                swap(temp[cy * 3 + cx], temp[ny * 3 + nx]);
+                int next = stoi(temp);
+                if (visited.count(next)) continue; //next라는 키의 값의 개수가 여러개면
+                visited[next] = visited[cur] + 1; q.push(next);}}
+            
+            //TARGET이라는 키의 값의 개수가 없으면
             if (!visited.count(TARGET)) cout << -1 << "\n";
             else cout << visited[TARGET] << "\n";
             return 0;
