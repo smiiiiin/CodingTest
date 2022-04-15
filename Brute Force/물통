@@ -1,0 +1,72 @@
+// 2251 물통
+#include<iostream>
+#include<queue>
+#include<vector>
+#include<algorithm>
+using namespace std;
+#define MAX 202
+int A, B, C; vector <int> water; bool check[MAX][MAX];
+
+void BFS() {
+    queue <pair<pair<int, int>, int>> q;
+    q.push(make_pair(make_pair(0, 0), C));
+
+    while (!q.empty()) {
+        int check_A = q.front().first.first;
+        int check_B = q.front().first.second;
+        int check_C = q.front().second;
+        q.pop();
+
+        if (check[check_A][check_B]) continue;
+        check[check_A][check_B] = true;
+
+        if (check_A == 0) water.push_back(check_C);
+
+        // a -> b
+        if (check_A + check_B > B)
+            q.push(make_pair(make_pair((check_A + check_B) - B, B), check_C));
+        else
+            q.push(make_pair(make_pair(0, check_A + check_B), check_C));
+        
+        // a -> c
+        if (check_A + check_C > C)
+            q.push(make_pair(make_pair((check_A + check_C) - C, check_B), C));
+        else
+            q.push(make_pair(make_pair(0, check_B), check_A + check_C));
+
+        // b -> a
+        if (check_A + check_B > A)
+            q.push(make_pair(make_pair(A, (check_A + check_B) - A), check_C));
+        else
+            q.push(make_pair(make_pair(check_A + check_B, 0), check_C));
+
+        // b -> c
+        if (check_B + check_C > C)
+            q.push(make_pair(make_pair(check_A, (check_B + check_C) - C), C));
+        else
+            q.push(make_pair(make_pair(check_A, 0), check_B + check_C));
+
+        // c -> a
+        if (check_A + check_C > A)
+            q.push(make_pair(make_pair(A, check_B), (check_A + check_C) - A));
+        else
+            q.push(make_pair(make_pair(check_A + check_C, check_B), 0));
+
+        // c -> b
+        if (check_B + check_C > B)
+            q.push(make_pair(make_pair(check_A, B), (check_B + check_C) - B));
+        else
+            q.push(make_pair(make_pair(check_A, check_B + check_C), 0));
+    }
+}
+int main() {
+    ios::sync_with_stdio(false);cin.tie(0); cout.tie(0);
+    cin >> A >> B >> C;
+    BFS();
+    sort(water.begin(), water.end());
+    
+    for (int i = 0; i < water.size(); i++)
+        cout << water[i] << " ";
+    
+    return 0;
+}
