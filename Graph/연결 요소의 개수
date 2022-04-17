@@ -3,6 +3,8 @@
 using namespace std;
 // 4가지 방법이 있다. Matrix, List 2가지 버전과 X DFS, BFS 2가지 버전의 조합. 
 // 1. Matrix X DFS 
+// !!!DFS의 경우, 깊이이기 때문에 새롭게 들어가는 dfs할때마다 조건에 해당되는게 여러개면 못하고 들어가는 경우가 있는데 이건 return후에 
+//    거슬러올라오면서 그 시점에서 하게된다. 
 bool map[1001][1001];
 bool visited[1001];
 int n,m,a,b,ret{0};
