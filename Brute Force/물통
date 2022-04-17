@@ -1,4 +1,6 @@
-// 2251 물통
+// 2251 물통 ; 널 꽉 채우거나(ㄱ) 날 다 비우거나(ㄴ)
+// ㄱ: 비우는 물통과 채우는 물통의 합이 채우는 물통의 한계보다 클 경우, 비우는 물통은 완전히 비지 않습니다.
+// ㄴ: 비우는 물통과 채우는 물통의 합이 채우는 물통의 한계보다 같거나 작을 경우 비우는 물통은 완전히 빕니다.
 #include<iostream>
 #include<queue>
 #include<vector>
@@ -12,51 +14,51 @@ void BFS() {
     q.push(make_pair(make_pair(0, 0), C));
 
     while (!q.empty()) {
-        int check_A = q.front().first.first;
-        int check_B = q.front().first.second;
-        int check_C = q.front().second;
+        int ca = q.front().first.first;
+        int cb = q.front().first.second;
+        int cc = q.front().second;
         q.pop();
 
-        if (check[check_A][check_B]) continue;
-        check[check_A][check_B] = true;
+        if (check[ca][cb]) continue;
+        check[ca][cb] = true;
 
-        if (check_A == 0) water.push_back(check_C);
+        if (ca == 0) water.push_back(cc);
 
         // a -> b
-        if (check_A + check_B > B)
-            q.push(make_pair(make_pair((check_A + check_B) - B, B), check_C));
+        if (ca + cb > B)
+            q.push(make_pair(make_pair((ca + cb) - B, B), cc));
         else
-            q.push(make_pair(make_pair(0, check_A + check_B), check_C));
+            q.push(make_pair(make_pair(0, ca + cb), cc));
         
         // a -> c
-        if (check_A + check_C > C)
-            q.push(make_pair(make_pair((check_A + check_C) - C, check_B), C));
+        if (ca + cc > C)
+            q.push(make_pair(make_pair((ca + cc) - C, cb), C));
         else
-            q.push(make_pair(make_pair(0, check_B), check_A + check_C));
+            q.push(make_pair(make_pair(0, cb), ca + cc));
 
         // b -> a
-        if (check_A + check_B > A)
-            q.push(make_pair(make_pair(A, (check_A + check_B) - A), check_C));
+        if (ca + cb > A)
+            q.push(make_pair(make_pair(A, (ca + cb) - A), cc));
         else
-            q.push(make_pair(make_pair(check_A + check_B, 0), check_C));
+            q.push(make_pair(make_pair(ca + cb, 0), cc));
 
         // b -> c
-        if (check_B + check_C > C)
-            q.push(make_pair(make_pair(check_A, (check_B + check_C) - C), C));
+        if (cb + cc > C)
+            q.push(make_pair(make_pair(ca, (cb + cc) - C), C));
         else
-            q.push(make_pair(make_pair(check_A, 0), check_B + check_C));
+            q.push(make_pair(make_pair(ca, 0), cb + cc));
 
         // c -> a
-        if (check_A + check_C > A)
-            q.push(make_pair(make_pair(A, check_B), (check_A + check_C) - A));
+        if (ca + cc > A)
+            q.push(make_pair(make_pair(A, cb), (ca + cc) - A));
         else
-            q.push(make_pair(make_pair(check_A + check_C, check_B), 0));
+            q.push(make_pair(make_pair(ca + cc, cb), 0));
 
         // c -> b
-        if (check_B + check_C > B)
-            q.push(make_pair(make_pair(check_A, B), (check_B + check_C) - B));
+        if (cb + cc > B)
+            q.push(make_pair(make_pair(ca, B), (cb + cc) - B));
         else
-            q.push(make_pair(make_pair(check_A, check_B + check_C), 0));
+            q.push(make_pair(make_pair(ca, cb + cc), 0));
     }
 }
 int main() {
@@ -70,3 +72,20 @@ int main() {
     
     return 0;
 }
+
+
+/*
+ 8짜리랑 2짜리
+ 
+ 8짜리-> 2짜리로 붓는 경우
+ a. 8의 ca가 B보다 많은 경우
+ 2짜리를 가득 채우는 수밖에 없음
+
+ b. 8의 ca가 B보다 적은 경우
+ 8짜리인 나를 다 비우는 수밖에 없음
+ 
+ 2짜리-> 8짜리로 붓는 경우
+ ca< B-cb
+ - 그냥 나를 다 비우는 수 밖에 없음.
+ 
+ */
