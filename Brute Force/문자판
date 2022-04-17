@@ -1,93 +1,55 @@
-//백준 2186 문자판 
+//백준 2186 문자판
 #include<iostream>
 #include<cstring>
 #include<string>
- 
-#define endl "\n"
 #define MAX 100
 using namespace std;
  
 int N, M, K, Answer;
 char MAP[MAX][MAX];
-int DP[MAX][MAX][80];
+int dp[MAX][MAX][80];
  
-string Dest;
-int Dest_Len;
+string Dest; int Dest_Len;
+int dy[] = { 0, 0, 1, -1 }; int dx[] = { 1, -1, 0, 0 };
  
-int dx[] = { 0, 0, 1, -1 };
-int dy[] = { 1, -1, 0, 0 };
+int dfs(int y, int x, int idx){
+    if (dp[y][x][idx] != -1) return dp[y][x][idx];
+    if (idx >= Dest_Len) return 1;
  
+    dp[y][x][idx] = 0;
+    for (int i = 0; i < 4; i++){
+        for (int k = 1; k <= K; k++){
+            int ny = y + dy[i] * k;
+            int nx = x + dx[i] * k;
  
-void Input()
-{
-    cin >> N >> M >> K;
-    for (int i = 0; i < N; i++)
-    {
-        for (int j = 0; j < M; j++)
-        {
-            cin >> MAP[i][j];
+            if (ny < 0 || nx < 0 || ny >= N || nx >= M) continue;
+            if (MAP[ny][nx] != Dest[idx]) continue;
+ 
+            dp[y][x][idx] += dfs(ny, nx, idx + 1);
         }
     }
+    return dp[y][x][idx];
+}
+
+ 
+int main(void){
+    ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+    
+    cin >> N >> M >> K;
+    for (int y = 0; y < N; y++){
+        for (int x = 0; x < M; x++){
+            cin >> MAP[y][x];}}
+    
     cin >> Dest;
     Dest_Len = Dest.length();
-    memset(DP, -1, sizeof(DP));
-}
- 
-int DFS(int x, int y, int Idx)
-{
-    if (DP[x][y][Idx] != -1) return DP[x][y][Idx];
-    if (Idx >= Dest_Len) return 1;
- 
-    DP[x][y][Idx] = 0;
-    for (int i = 0; i < 4; i++)
-    {
-        for (int k = 1; k <= K; k++)
-        {
-            int nx = x + dx[i] * k;
-            int ny = y + dy[i] * k;
- 
-            if (nx < 0 || ny < 0 || nx >= N || ny >= M) continue;
-            if (MAP[nx][ny] != Dest[Idx]) continue;
- 
-            DP[x][y][Idx] = DP[x][y][Idx] + DFS(nx, ny, Idx + 1);
-        }
-    }
-    return DP[x][y][Idx];
-}
- 
-void Solution()
-{
+    memset(dp, -1, sizeof(dp));
+    
     char Temp = Dest[0];
-    for (int i = 0; i < N; i++)
-    {
-        for (int j = 0; j < M; j++)
-        {
-            if (MAP[i][j] == Temp)
-            {
-                Answer = Answer + DFS(i, j, 1);
-            }
-        }
-    }
-    cout << Answer << endl;
-}
- 
-void Solve()
-{
-    Input();
-    Solution();
-}
- 
-int main(void)
-{
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
- 
-    //freopen("Input.txt", "r", stdin);
-    Solve();
- 
-    return 0;
-}
+    for (int y = 0; y < N; y++){
+        for (int x = 0; x < M; x++){
+            if (MAP[y][x] == Temp){
+                Answer = Answer + dfs(y, x, 1);}}}
+    
+    cout << Answer << "\n";
+    return 0;}
 
-
-출처: https://yabmoons.tistory.com/194 [얍문's Coding World..]
