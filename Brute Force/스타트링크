@@ -6,23 +6,23 @@
 using namespace std;
  
 int F, S, G, U, D; int path[MAX]; bool visited[MAX];
-vector<int> vec; queue<int> q;
+vector<int> v; queue<int> q;
  
-void bfs(int v) {
-    visited[v] = true; q.push(v);
+void bfs(int node) {
+    visited[node] = true; q.push(node);
     while (!q.empty()) {
-        v = q.front(); q.pop();
+        node = q.front(); q.pop();
         for (int i = 0; i < 2; i++) {
-            int nv = v + vec[i];
+            int nv = node + v[i];
             if(0>=nv|| nv>F) continue;
             if(visited[nv]) continue;
             visited[nv] = true;
             q.push(nv);
-            path[nv] = path[v] + 1;}}}
+            path[nv] = path[node] + 1;}}}
 
 int main() {
     cin >> F >> S >> G >> U >> D;
-    vec.push_back(U); vec.push_back(D * -1);
+    v.push_back(U); v.push_back(D * -1);
     bfs(S);
     if (visited[G]) cout << path[G];
     else cout << "use the stairs";}
