@@ -30,7 +30,7 @@ int main(void){
         x1 = (x1 + 500) * 2; y1 = (y1 + 500) * 2;
         x2 = (x2 + 500) * 2; y2 = (y2 + 500) * 2;
  
-        for (int i = x1; i <= x2; i++){
+        for (int i = x1; i <= x2; i++){ //테두리1 표시
             MAP[y1][i] = 1;
             MAP[y2][i] = 1;}
         for (int i = y1; i <= y2; i++){
@@ -38,15 +38,15 @@ int main(void){
             MAP[i][x2] = 1;}}
     
     
-    int Pu_Cnt; Pu_Cnt = 0;
+    int res{0};
  
-    for (int i = 0; i < MAX; i++) {
-        for (int j = 0; j < MAX; j++) {
-            if (MAP[i][j] == 1) {
-                DFS(i, j);
-                Pu_Cnt++;}}}
+    for (int y = 0; y < MAX; y++) {
+        for (int x = 0; x < MAX; x++) {
+            if (MAP[y][x] == 1) {
+                DFS(y, x);
+                res++;}}}
  
     if (MAP[1000][1000] == 2) Pu_Cnt--;
-    cout << Pu_Cnt <<"\n";
+    cout << res <<"\n";
     return 0;
 }
