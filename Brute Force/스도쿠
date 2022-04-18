@@ -1,0 +1,45 @@
+//백준2580 스도쿠
+// https://luv-n-interest.tistory.com/945 상세설명 Link
+#include<iostream>
+#define MAX 9
+using namespace std;
+int map[MAX][MAX]; bool Row[MAX][MAX]; bool Col[MAX][MAX]; bool Square[MAX][MAX];
+
+void dfs(int Cnt){
+    int y = Cnt / MAX; int x = Cnt % MAX;
+    if (Cnt == 81){
+        for (int y = 0; y < MAX; y++){
+            for (int x = 0; x < MAX; x++) cout << map[y][x] << " ";
+            cout << "\n";}
+        
+        exit(0);}
+ 
+    if (map[y][x] == 0){
+        for (int i = 1; i <= 9; i++){
+            if (Row[y][i] == false && Col[x][i] ==
+                false && Square[(y / 3) *3 + (x / 3)][i] == false){
+                Row[y][i] = true;
+                Col[x][i] = true;
+                Square[(y / 3) * 3 + (x / 3)][i] = true;
+                map[y][x] = i;
+                dfs(Cnt + 1);
+                map[y][x] = 0;
+                Row[y][i] = false;
+                Col[x][i] = false;
+                Square[(y / 3) * 3 + (x / 3)][i] = false;}}}
+    
+    else dfs(Cnt + 1);
+}
+ 
+int main(void){
+    ios::sync_with_stdio(false);cin.tie(NULL); cout.tie(NULL);
+    for (int y = 0; y < MAX; y++){
+        for (int x = 0; x < MAX; x++){
+            cin >> map[y][x];
+            if (map[y][x] != 0){
+                Row[y][map[y][x]] = true;
+                Col[x][map[y][x]] = true;
+                Square[(y / 3) * 3 + (x / 3)][map[y][x]] = true;}}}
+    dfs(0);
+    return 0;}
+
