@@ -37,3 +37,43 @@ int main(void){
     
     sort(v.begin(), v.end()); //정렬하고 dfs(0)시작.
     dfs(0);}
+    
+    
+// 왜 이건 아무것도 안나오지?     
+// 백준 1759 암호만들기 
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cstring>
+using namespace std;
+
+int l,c; vector<char> v; vector <char> res;
+bool visited[27];
+
+void dfs(int node){
+    visited[node]=1;
+    v.push_back(node);
+    
+    if(node==c-1) {
+        if(!visited[node]) return;
+        for(int i=0;i<c;i++) cout<<res[v[i]]<<" ";
+    }
+    
+    for(int i=node+1;i<l;i++){
+        if(visited[i]) continue;
+        visited[i]=1;
+        v.push_back(i);
+        dfs(i);
+        visited[i]=0;
+        v.pop_back();
+        }   
+}
+
+int main(){
+    memset(visited,0,sizeof(visited));
+    cin>>l>>c;
+    char ch;
+    for(int i=0;i<c;i++) {cin>>ch; res.push_back(ch);}
+    sort(res.begin(), res.end());
+    for(int i=0;i<l;i++) dfs(i);
+}
