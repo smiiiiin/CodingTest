@@ -39,42 +39,42 @@ int main(void){
     dfs(0);}
     
     
-// 6자리 수 왜나오고 계속 같은것만 나와?     
+// 왜 안나와?
 // 백준 1759 암호만들기 
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <cstring>
 using namespace std;
+vector<char> v; vector<char> res; int l,c;
 
-int l,c; vector<char> v; vector <char> res;
-bool visited[27];
+bool pass(){
+    int mo{0};
+    for(int i=0;i<l;i++){
+        if(res[i]=='a'||res[i]=='e'||res[i]=='i'||res[i]=='o'|| res[i]=='u')  {mo++;}}
+    if(mo>0 && l-mo >1) return 1;
+    return 0;}
 
 void dfs(int node){
-    visited[node]=1;
-    v.push_back(node);
+    res.push_back(v[node]);
+    if((int)res.size()==l){
+        if(!pass) return;
+        for(int i=0;i<l;i++) {cout<<res[i];}
+        cout<<"\n";}
     
-    if(node==l-1) {
-        if(!visited[node]) return;
-        for(int i=0;i<l;i++) cout<<res[v[i]]<<" ";
-        cout<<"\n";
-    }
-    
-    for(int i=node+1;i<c;i++){
-        if(visited[i]) continue;
-        visited[i]=1;
-        v.push_back(i);
-        dfs(i);
-        visited[i]=0;
-        v.pop_back();
-        }   
+    for(int i=node;i<c;i++){
+        res.push_back(v[i]);
+        dfs(i+1);
+        res.pop_back(); }
+    return;
 }
 
 int main(){
-    memset(visited,0,sizeof(visited));
+    ios::sync_with_stdio(false); cin.tie(NULL);
     cin>>l>>c;
     char ch;
-    for(int i=0;i<c;i++) {cin>>ch; res.push_back(ch);}
-    sort(res.begin(), res.end());
-    for(int i=0;i<c;i++) dfs(i);
+    for(int i=0;i<c;i++) {cin>>ch; v.push_back(ch);}
+    sort(v.begin(), v.end());
+    dfs(0);
+    
+    return 0;
 }
