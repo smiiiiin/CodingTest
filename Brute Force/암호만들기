@@ -6,73 +6,33 @@ using namespace std;
 
 int L,C; vector<char> v; vector<char> res;
 
-bool check(){
-    int moum = 0;
-    for(int i = 0 ; i< L ; i++){
-        if(res[i] == 'a' || res[i] == 'e' || res[i] == 'i' || res[i] == 'o' || res[i] == 'u') moum++;}
-    
-    // 모음의 수 1개 이상, 자음의수 = 전체수 -모음의 수 . 2개이상.
-    if(moum >=1 && L-moum >=2) return true;
-    return false;}
+bool pass(){
+    int mo{0};
+    for(int i=0;i<L;i++){
+        if(res[i]=='a'||res[i]=='e'||res[i]=='i'||res[i]=='o'|| res[i]=='u')  {mo++;}}
+    if(mo>0 && L-mo >1) return 1;
+    return 0;}
+
 
 void dfs(int node){
     if((int)res.size()==L){
-        if(!check()) return;
-        for(int k = 0 ; k< L ; k++) cout << res[k];
-        cout << '\n';}
-    
-    for(int i = node ; i< C; i++){
-        res.push_back(v[i]); //들어갈때 하나씩 추가해주고
+        if(!pass()) return;
+        for(int i=0;i<L;i++) cout<<res[i];
+        cout<<"\n";
+        return;
+    }
+    for(int i=node;i<C;i++){
+        res.push_back(v[i]);
         dfs(i+1);
-        res.pop_back(); //나오면 하나 빼주고.
+        res.pop_back();
     }
     return;}
 
-int main(void){
-    ios::sync_with_stdio(false); cin.tie(NULL);
-    cin >> L  >> C;
-    for(int i = 0 ; i< C ; i++){
-        char temp; cin >> temp;
-        v.push_back(temp);}
-    
-    sort(v.begin(), v.end()); //정렬하고 dfs(0)시작.
-    dfs(0);}
-    
-    
-// 왜 안나와?
-// 백준 1759 암호만들기 
-#include <iostream>
-#include <vector>
-#include <algorithm>
-using namespace std;
-vector<char> v; vector<char> res; int l,c;
-
-bool pass(){
-    int mo{0};
-    for(int i=0;i<l;i++){
-        if(res[i]=='a'||res[i]=='e'||res[i]=='i'||res[i]=='o'|| res[i]=='u')  {mo++;}}
-    if(mo>0 && l-mo >1) return 1;
-    return 0;}
-
-void dfs(int node){
-    res.push_back(v[node]);
-    if((int)res.size()==l){
-        if(!pass) return;
-        for(int i=0;i<l;i++) {cout<<res[i];}
-        cout<<"\n";}
-    
-    for(int i=node;i<c;i++){
-        res.push_back(v[i]);
-        dfs(i+1);
-        res.pop_back(); }
-    return;
-}
-
 int main(){
     ios::sync_with_stdio(false); cin.tie(NULL);
-    cin>>l>>c;
+    cin>>L>>C;
     char ch;
-    for(int i=0;i<c;i++) {cin>>ch; v.push_back(ch);}
+    for(int i=0;i<C;i++) {cin>>ch; v.push_back(ch);}
     sort(v.begin(), v.end());
     dfs(0);
     
