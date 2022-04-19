@@ -1,28 +1,36 @@
-//백준5014 스타트링크
+//백준 5014 스타트링크
 #include <iostream>
 #include <queue>
-#include <vector>
+#include <cstring>
 #define MAX 1000001
 using namespace std;
- 
-int F, S, G, U, D; int path[MAX]; bool visited[MAX];
-vector<int> v; queue<int> q;
- 
-void bfs(int node) {
-    visited[node] = true; q.push(node);
-    while (!q.empty()) {
-        node = q.front(); q.pop();
-        for (int i = 0; i < 2; i++) {
-            int nv = node + v[i];
-            if(0>=nv|| nv>F) continue;
-            if(visited[nv]) continue;
-            visited[nv] = true;
-            q.push(nv);
-            path[nv] = path[node] + 1;}}}
+int f,s,g,u,d,res{0};
+int fl[MAX];
+int dy[2];
 
-int main() {
-    cin >> F >> S >> G >> U >> D;
-    v.push_back(U); v.push_back(D * -1);
-    bfs(S);
-    if (visited[G]) cout << path[G];
-    else cout << "use the stairs";}
+void bfs(int node){
+    dy[0]=u; dy[1]= -1* d; 
+    queue<int> q;
+    fl[node]=0; q.push(node);
+    while(!q.empty()){
+        int cur= q.front(); q.pop();
+   
+        if(cur==g) {cout<<fl[cur]; break;}
+   
+        for(int d=0;d<2;d++){
+            int next= cur+dy[d];
+            if(next>f|| next<=0) continue;
+            if(fl[next]!=-1) continue;
+            q.push(next);
+            fl[next]=fl[cur]+1;
+        }}
+}
+
+int main(){
+    memset(fl,-1,sizeof(fl));
+    
+    cin>>f>>s>>g>>u>>d;
+    bfs(s);
+    if (fl[g]==-1) cout<<"use the stairs";
+    return 0;
+}
