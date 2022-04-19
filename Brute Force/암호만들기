@@ -39,7 +39,7 @@ int main(void){
     dfs(0);}
     
     
-// 왜 이건 아무것도 안나오지?     
+// 6자리 수 왜나오고 계속 같은것만 나와?     
 // 백준 1759 암호만들기 
 #include <iostream>
 #include <vector>
@@ -54,12 +54,13 @@ void dfs(int node){
     visited[node]=1;
     v.push_back(node);
     
-    if(node==c-1) {
+    if(node==l-1) {
         if(!visited[node]) return;
-        for(int i=0;i<c;i++) cout<<res[v[i]]<<" ";
+        for(int i=0;i<l;i++) cout<<res[v[i]]<<" ";
+        cout<<"\n";
     }
     
-    for(int i=node+1;i<l;i++){
+    for(int i=node+1;i<c;i++){
         if(visited[i]) continue;
         visited[i]=1;
         v.push_back(i);
@@ -75,5 +76,5 @@ int main(){
     char ch;
     for(int i=0;i<c;i++) {cin>>ch; res.push_back(ch);}
     sort(res.begin(), res.end());
-    for(int i=0;i<l;i++) dfs(i);
+    for(int i=0;i<c;i++) dfs(i);
 }
