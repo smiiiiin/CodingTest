@@ -15,3 +15,39 @@ int main() {
         else if(result>m) { result -=a[start++];
             if(start>end) { end = start; result = a[start]; } } }
     cout << count; }
+
+
+// 틀린 내방식 : 왜 안나올까? COUNT가 왜 안나올까?
+// 백준 2003 수들의 합2
+// next: 2143 1517 2261 그리고 부분수열의 합1
+#include <iostream>
+#include <cstring>
+using namespace std;
+int n,m;
+int sum{0}; 
+int p[2];
+int arr[100001];
+int count;
+void dfs(int depth){
+    count = 0;
+    if(depth==2) {
+        cout<<p[0]<<" "<<p[1]<<"\n";
+        for(int j=p[0];j<=p[1];j++) {sum+=arr[j];} 
+        if(sum==m) count++;
+        return;
+    }
+    
+    for(int i=depth;i<n;i++){
+        if(i<p[depth-1]) continue;
+        p[depth]=i;
+        dfs(depth+1);
+    }
+    
+}
+
+int main() {
+    cin >> n >> m; int arr[n+1];
+    for(int i=0;i<n;i++) cin >> arr[i];
+    dfs(0);
+    
+    cout << count; }
