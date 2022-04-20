@@ -1,3 +1,70 @@
+//백준 1182 부분수열의 합
+//답 
+#include <iostream>
+using namespace std;
+
+int n, answer, cnt, sum;
+int arr[21];
+
+void dfs(int node){
+    if(node==n) return; //범위 초과
+    if(sum+arr[node]==answer) cnt++; //조건 성립
+    
+    sum+=arr[node];
+    dfs(node+1); //현재 idx의 숫자를 더하는 경우
+    sum-=arr[node];
+    dfs(node+1); //현재 idx의 숫자를 안 더하는 경우
+}
+
+int main(){
+    ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+    cin>> n >> answer;
+    for(int i=0; i<n; i++) cin>>arr[i];
+
+    dfs(0);
+    cout<<cnt;
+    return 0;
+}
+
+
+//고쳐쓰고 싶은 내오답
+#include <iostream>
+#include <cstring>
+using namespace std;
+int n,s,cnt;
+int arr[21];
+
+void dfs(int node){
+    
+    int sum{0};
+    if(node==n) return;
+    if(sum+arr[node]==s) cnt++; return;
+    
+    for(int i=0;i<n;i++){
+        sum+=arr[i];
+        dfs(i+1);
+        sum-=arr[i];
+        dfs(i+1); //?
+    }
+    
+}
+
+int main(){
+    cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
+    memset(arr,-1,sizeof(arr));
+    cin>>n>>s;
+    for(int i=0;i<n;i++) cin>>arr[i];
+    dfs(0);
+    cout<<cnt<<"\n";
+    return 0;
+}
+
+
+
+
+
+
 //백준1182 부분수열의 합
 #include <iostream>
 #include <vector>
