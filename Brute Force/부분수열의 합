@@ -22,3 +22,4 @@ int main(void) {
     dfs(0,0);
     if(answer==0) cnt--;
     cout<<cnt;}
+ 
