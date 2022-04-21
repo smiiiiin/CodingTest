@@ -27,7 +27,7 @@ int main(){
 		for(int j = 0;j<i;++j){
 			sumB.push_back(B[i] - B[j]);}}
 
-	sort(sumA.begin(),sumA.begin());
+	sort(sumA.begin(),sumA.end());
 	sort(sumB.begin(),sumB.end());
 
 	for(auto x : sumA){
