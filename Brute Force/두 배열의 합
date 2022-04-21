@@ -27,8 +27,8 @@ int main(){
 		for(int j = 0;j<i;++j){
 			sumB.push_back(B[i] - B[j]);}}
 
-	sort(sumA.begin(),sumA.end());
-	sort(sumB.begin(),sumB.end());
+	//sort(sumA.begin(),sumA.end());
+	sort(sumB.begin(),sumB.end()); //왜 sumb벡터는 오름차순이 되어야하는가? 굳이 필요없는거 같은데 왜 없으면 틀릴까? 
 
 	for(auto x : sumA){
 		int high = upper_bound(sumB.begin(),sumB.end(),T-x) - sumB.begin();
