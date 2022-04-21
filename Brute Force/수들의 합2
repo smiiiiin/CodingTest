@@ -20,64 +20,27 @@ int main(){
 	cout<<cnt;}
     
 // 시작,끝 포인터들 위치의 조합 출력 dfs
+// 이렇게 하면 시간초과 뜬다. 근데 결과가 맞게 나오긴 나온다:) 나름 뿌듯 ...
 //백준2003 수들의 합2
 #include <stdio.h>
-#include <vector>
 #include <iostream>
 using namespace std;
-bool visited[100001];
-//vector<int> v;
-int v[10]; int n;int cnt;
-
+int v[3]; int n,ans,cnt;  int arr[10001];
 
 void dfs(int node, int depth){
-    if(depth==3) {cout<<v[1]<<" "<<v[2]<<"\n"; return;}
+    if(depth==3) { 
+    int sum=0;
+    for(int i=v[1];i<=v[2];i++){
+        sum+=arr[i];}
+        if(sum==ans) cnt++;
+        return;}
     
     for(int i=node;i<=n;i++){
         v[depth]=i;
-        dfs(i,depth+1);}
-    
-}
+        dfs(i,depth+1);}}
 
 int main(){
-    //for(int i=1;i<=5;i++) arr[i]=i;
-    cin>>n;
+    scanf("%d %d",&n,&ans);
+    for(int i=1;i<=n;i++) scanf("%d",&arr[i]);
 	dfs(1,1);
-	//cout<<cnt;
-    
-}
-
-// 틀린 내방식 : 왜 안나올까? COUNT가 왜 안나올까?
-// 백준 2003 수들의 합2
-// next: 2143 1517 2261 그리고 부분수열의 합1
-#include <iostream>
-#include <cstring>
-using namespace std;
-int n,m;
-int sum{0}; 
-int p[2];
-int arr[100001];
-int count;
-void dfs(int depth){
-    count = 0;
-    if(depth==2) {
-        cout<<p[0]<<" "<<p[1]<<"\n";
-        for(int j=p[0];j<=p[1];j++) {sum+=arr[j];} 
-        if(sum==m) count++;
-        return;
-    }
-    
-    for(int i=depth;i<n;i++){
-        if(i<p[depth-1]) continue;
-        p[depth]=i;
-        dfs(depth+1);
-    }
-    
-}
-
-int main() {
-    cin >> n >> m; int arr[n+1];
-    for(int i=0;i<n;i++) cin >> arr[i];
-    dfs(0);
-    
-    cout << count; } 
+	printf("%d\n",cnt);}
