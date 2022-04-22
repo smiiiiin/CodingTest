@@ -1,29 +1,26 @@
 //백준 1208 부분수열의 합2
+//백준 1208 부분수열의 합2 //그냥 다 해보는건데 dfs에서 두부분으로 나눴을 뿐이다.
 #include <iostream>
 #include <map>
 using namespace std;
- 
 int n, ans; int arr[41]; map<int, int> subsum; long long cnt;
  
-void rightDfs(int mid, int sum){
-    if(mid == n){
-        subsum[sum]++;
-        return;}
-    rightDfs(mid+1, sum+arr[mid]);
-    rightDfs(mid+1, sum);}
- 
-void leftDfs(int st, int sum){
-    if(st == n/2){
-        cnt += subsum[ans-sum];
-        return;}
-    leftDfs(st+1, sum+arr[st]);
-    leftDfs(st+1, sum);}
- 
+void frontDfs(int idx, int sum){ //앞부분
+    if(idx == n/2){
+        subsum[sum]++; return;}
+    frontDfs(idx+1, sum+arr[idx]); //넣어보고 - 빼보는 경우를 못하고 dfs들어가서 return할때 빼보게된다.
+    frontDfs(idx+1, sum);} //빼보고
+
+void backDfs(int idx, int sum){ //뒷부분
+    if(idx == n){
+        cnt += subsum[ans-sum]; return;}
+    backDfs(idx+1, sum+arr[idx]); //넣어보고 - 빼보는 경우를 못하고 dfs들어가서 return할때 빼보게된다.
+    backDfs(idx+1, sum);} //빼보고
+
 int main(){
     cin >> n >> ans;
     for(int i = 0; i < n; i++) cin >> arr[i];
-    rightDfs(n/2, 0);
-    leftDfs(0, 0);
-    if(!ans) cout << cnt-1;
+    frontDfs(0, 0); backDfs(n/2, 0);
+    if(!ans) cout << cnt-1; //ans가 안된다면, 이런 뜻인가?
     else cout << cnt;
     return 0;}
