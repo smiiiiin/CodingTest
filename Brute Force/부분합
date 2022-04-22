@@ -1,0 +1,23 @@
+//백준1806 부분합
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+    int n, ans; cin >> n >> ans; vector<int> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+    
+    int start = 0, end = 0, sum = 0, minLen = 987654321;
+    while (start <= end && end<=n) {
+        if (sum >= ans) {
+            minLen = min(minLen,end - start);
+            sum -= arr[start++]; //앞을 줄임
+        }
+        else sum += arr[end++];} //뒤를 연장
+
+    if (minLen == 987654321) cout << 0 << endl;    // 불가능 하면 0 출력
+    else cout << minLen << endl;
+    return 0;
+}
