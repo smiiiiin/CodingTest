@@ -1,0 +1,29 @@
+//백준 1208 부분수열의 합2
+#include <iostream>
+#include <map>
+using namespace std;
+ 
+int n, ans; int arr[41]; map<int, int> subsum; long long cnt;
+ 
+void rightDfs(int mid, int sum){
+    if(mid == n){
+        subsum[sum]++;
+        return;}
+    rightDfs(mid+1, sum+arr[mid]);
+    rightDfs(mid+1, sum);}
+ 
+void leftDfs(int st, int sum){
+    if(st == n/2){
+        cnt += subsum[ans-sum];
+        return;}
+    leftDfs(st+1, sum+arr[st]);
+    leftDfs(st+1, sum);}
+ 
+int main(){
+    cin >> n >> ans;
+    for(int i = 0; i < n; i++) cin >> arr[i];
+    rightDfs(n/2, 0);
+    leftDfs(0, 0);
+    if(!ans) cout << cnt-1;
+    else cout << cnt;
+    return 0;}
