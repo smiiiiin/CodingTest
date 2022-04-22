@@ -1,4 +1,4 @@
-//백준1806 부분합
+//백준1806 부분합 
 #include <iostream>
 #include <vector>
 #include <algorithm>
