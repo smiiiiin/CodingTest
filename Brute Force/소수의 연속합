@@ -1,0 +1,40 @@
+//백준1644 소수의 연속합 //이거 큐로도 가능할듯, 한번 해보자:)
+#include <cstdio>
+#include <vector>
+#include <algorithm>
+#include <cstring>
+using namespace std;
+
+int main(void) {
+    int n; vector<bool> check; vector<int> prime;
+    scanf("%d", &n);
+    check.resize(n + 1, true);
+
+    //소수판별 :이게 더 빠른이유 손코딩 후 학습하기
+    /*
+    for (int i = 2; i * i <= n; i++) {
+            if (check[i] == true) {
+                    for(int j = i + i; j <= n; j += i)
+                            check[j] = false;}}
+    */
+    //내가 했던 소수판별
+    
+    for(int i=2;i*i<=n;i++){ //i는 루트 n까지만 보면 된다.
+        for(int j=i; j*i <=n;j++){ //j<=n/i 까지 i*j=j*i두번 계산할 필요x
+            check[i*j]=0;
+        }
+    }
+
+    for (int i = 2; i < n + 1; i++) {
+            if (check[i] == true)
+                    prime.push_back(i);}
+
+    int cnt = 0, high = 0, low = 0, sum = 0;
+    while (1) {
+            if (sum >= n) sum -= prime[low++];
+            else if (high == prime.size()) break;
+            else sum += prime[high++];
+            if (sum == n) cnt++;}
+    
+    printf("%d", cnt);
+    return 0;}
