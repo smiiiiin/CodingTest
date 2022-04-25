@@ -19,6 +19,10 @@ int main() {
             for(auto i =0; i<n;i++) {
                 if (v[i]>mid) 
                 total += v[i] - mid; }
-                if(total<m) { end = mid -1; } 
+                // 조건이 충족이 안되면 높이는 낮아지면서 환경보호를 덜 한다.
+                // 앞부분 탐색 
+                if(total<m) { end = mid -1; }
+                // 조건이 충족되면 높이는 높아지면서 환경보홀 더 할 수 있다.
+                // 뒷부분 탐색 
                 else { result = mid; start = mid +1; } } 
     cout << result; }
