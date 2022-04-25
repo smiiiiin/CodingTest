@@ -1,0 +1,26 @@
+//백준 10816 숫자 카드 2
+#include<iostream>
+#include<algorithm>
+#include<vector>
+using namespace std;
+int n, m, num, q;
+
+int main(){
+	ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+	cin >> n;
+	vector<int>vec(n);
+	for (int i = 0; i < n; i++){
+		cin >> vec[i];}
+	sort(vec.begin(), vec.end());
+	cin >> m;
+	for (int i = 0; i < m; i++){
+		cin >> num;
+		auto a = lower_bound(vec.begin(), vec.end(), num);
+		auto b = upper_bound(vec.begin(), vec.end(), num);
+		cout << b - a << " ";}
+	return 0;}
+
+	
+	/*
+	좌표압축 문제랑 다른 이유. 3번째 매개변수인 num이 이 친구는 int형이고 좌표압축은 vector클래스이기 때문에 vector에서는 -vec.begin()을 써줘야한다.
+	*/
