@@ -13,7 +13,7 @@ void dfs(int N, int x, int y) {
 		space[y + 2][x - 1] = '*';
 		space[y + 2][x] = '*';
 		space[y + 2][x + 1] = '*';
-		space[y + 2][x + 2] = '*';
+		space[y + 2][x + 2] = '*'; 
 		return;
 	}		// 별 한세트
 	
