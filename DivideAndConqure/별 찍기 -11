@@ -4,7 +4,7 @@
 #include <memory.h> //memset 
 char space[3072][6144];		//  k값이 최대 10까지인 것을 고려
 
-void dfs(int N, int x, int y) {
+void dfs(int N, int y, int x) {
 	if (N == 3) {
 		space[y][x] = '*';
 		space[y + 1][x - 1] = '*';
@@ -13,20 +13,20 @@ void dfs(int N, int x, int y) {
 		space[y + 2][x - 1] = '*';
 		space[y + 2][x] = '*';
 		space[y + 2][x + 1] = '*';
-		space[y + 2][x + 2] = '*'; 
+		space[y + 2][x + 2] = '*';
 		return;
 	}		// 별 한세트
 	
-	dfs(N / 2, x, y);		// 벌의 윗부분을 
-	dfs(N / 2,x - (N / 2), y + (N / 2));	// 별의 좌하단 삼각형
-	dfs(N / 2, x + (N / 2), y + (N / 2));	// 별의 우하단 삼각형
+	dfs(N / 2, y, x);		// 벌의 윗부분을 
+	dfs(N / 2,y + (N / 2),x - (N / 2));	// 별의 좌하단 삼각형
+	dfs(N / 2, y + (N / 2), x + (N / 2));	// 별의 우하단 삼각형
 }
 
 int main() {
 	int N; int i, j; scanf("%d", &N);
 	memset(space, ' ', sizeof(space));		
 
-	dfs(N, N - 1, 0);		
+	dfs(N, 0, N-1);		
 
 	for (i = 0; i < N; i++) {
 		for (j = 0; j < N * 2; j++) printf("%c", space[i][j]);
