@@ -3,47 +3,6 @@
 using namespace std;
 int map[2200][2200]; int output[3];  // -1 0 1
  
-void paper(int y, int x, int N){
-    int first = map[y][x];
-    bool flag = true;
-    
-    for(int i = y; i < y + N; i++){
-        for(int j = x; j < x + N; j++){
-            if(map[i][j] != first){
-                cout<<i<<j<<"\n";
-                flag = false; break;}}}
-                // break안하면 출력초과: 왜? 경계만 false flag박으면 되서 
-    
-    if(flag) output[first + 1]++; 
-    //n,n까지 오기까지 false아무일 없었다면 이판은 +1 
-    
-    else { //그렇지 않으면 다시 분할 
-        for(int a = y; a < y + N; a += N/3 ){ 
-        //이렇게 하면 9로 나눴을때 첫 위치마다
-        //방문이 가능하다. 
-            for(int b = x; b < x + N; b += N/3){
-                paper(a, b, N/3);}}}}
- 
-int main(){
-    int n; cin >> n;
-    
-    for(int y = 0; y < n; y++){
-        for(int x = 0; x < n; x++) cin >> map[y][x];}
-    
-    paper(0, 0, n);
-    
-    for(int i = 0; i < 3; i++) {cout << output[i] << endl;}
-    return 0;}
-
-
-
-
-//
-// 백준 1780 종이의 개수 //왜 bfs로도 할 수 있을 것 같지 ? 
-#include <iostream>
-using namespace std;
-int map[2200][2200]; int output[3];  // -1 0 1
- 
 void dfs(int y, int x, int N){
     int first = map[y][x];
     bool flag = true;
@@ -51,20 +10,20 @@ void dfs(int y, int x, int N){
     for(int i = y; i < y + N; i++){
         for(int j = x; j < x + N; j++){
             if(map[i][j] != first){
-                cout<<i<<j<<"\n";
+                //cout<<i<<j<<"\n";
                 flag = false; break;}}}
-                // break안하면 출력초과: 왜? 경계만 false flag박으면 되서 
+                //break안하면 출력초과: 왜? 경계만 false flag박으면 되서
     
-    if(flag) output[first+1]++; 
+    if(flag) output[first]++; 
     //n,n까지 오기까지 false아무일 없었다면 이판은 +1 
-    
+
     else { //그렇지 않으면 다시 분할 
         for(int a = y; a < y + N; a += N/3 ){ 
         //이렇게 하면 9로 나눴을때 첫 위치마다
         //방문이 가능하다. 
             for(int b = x; b < x + N; b += N/3){
                 dfs(a, b, N/3);}}}}
-                /* 처음에 (0,0,3)을 하면 못하는 친구들 8개가 생긴다
+                 /* 처음에 (0,0,3)을 하면 못하는 친구들 8개가 생긴다
                   -   (0,3) (0,6) 
                 (3,0) (3,3) (3,6)
                 (6,0) (6,3) (6,6) 다음과 같다. 
@@ -79,10 +38,7 @@ int main(){
     
     dfs(0, 0, n);
     
-    for(int i = 0; i < 3; i++) {cout << output[i] << endl;}
+    for(int i = -1; i < 2; i++) {cout << output[i] << endl;}
     return 0;}
-
-
-
 
 
