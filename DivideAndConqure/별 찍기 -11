@@ -31,7 +31,7 @@ int main() {
     int num; int i, j; scanf("%d", &num);
     memset(space, ' ', sizeof(space));
 
-    dfs(num, 0, num-1);
+    dfs(num, 0, num-1); //대략 첫점의 x축은 그림의 중심이 됨으로 num-1로 잡는다. 
 
     for (i = 0; i < num; i++) {
         for (j = 0; j < num * 2; j++) printf("%c", space[i][j]);
