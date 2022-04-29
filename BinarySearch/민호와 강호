@@ -1,6 +1,6 @@
 // https://m.blog.naver.com/PostView.nhn?blogId=kks227&logNo=221432986308&proxyReferer=https:%2F%2Fwww.google.com%2F
 //백준 11662 민호와 강호: 삼분탐색
-
+//백준 11662 민호와 강호: 삼분탐색
 #include <iostream>
 #include <cmath>
 #define INF 0x3f3f3f
@@ -9,20 +9,20 @@ int ms[2], me[2], ks[2], ke[2];
 
 // minho_start to minho_end
 pair<double, double> minho(double p){
-    return {ms[0] + (me[0] - ms[0])*(p/100),
-    ms[1] + (me[1] - ms[1])*(p/100)};}
+    return {ms[1] + (me[1] - ms[1])*(p/100),
+    ms[0] + (me[0] - ms[0])*(p/100)};}
 
 // kangho_satrt to kangho_end
 pair<double, double> kangho(double p){
-    return {ks[0] + (ke[0] - ks[0])*(p/100),
-    ks[1] + (ke[1] - ks[1])*(p/100)};}
+    return {ks[1] + (ke[1] - ks[1])*(p/100),
+    ks[0] + (ke[0] - ks[0])*(p/100)};}
 
 int main(){
-    cin >> ms[0] >> ms[1] >> me[0] >> me[1]
-    >> ks[0] >> ks[1] >> ke[0] >> ke[1];
+    cin >> ms[1] >> ms[0] >> me[1] >> me[0]
+    >> ks[1] >> ks[0] >> ke[1] >> ke[0];
     double start=0, en=100, p, q, ans=INF;
 
-    while(en-start >= 1e-6){ //절대,상대오차는 10의 -6승까지 허용
+    while(start+ (1e-6) <= en){ //절대,상대오차는 10의 -6승까지 허용
         p = (2*start+en)/3;
         q = (start+2*en)/3;
         
