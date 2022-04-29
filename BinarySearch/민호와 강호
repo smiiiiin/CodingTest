@@ -1,6 +1,5 @@
 // https://m.blog.naver.com/PostView.nhn?blogId=kks227&logNo=221432986308&proxyReferer=https:%2F%2Fwww.google.com%2F
 //백준 11662 민호와 강호: 삼분탐색
-//백준 11662 민호와 강호: 삼분탐색
 #include <iostream>
 #include <cmath>
 #define INF 0x3f3f3f
@@ -37,11 +36,11 @@ int main(){
         double q_len = pow(m_q.first-k_q.first, 2)
         + pow(m_q.second-k_q.second, 2);
         
-        p_len = sqrt(p_len);
-        q_len = sqrt(q_len);
+        p_len = sqrt(p_len); // p에서 민호와 강호 사이 거리
+        q_len = sqrt(q_len); // q에서 -
         
-        ans = min(ans,min(p_len, q_len));
-        
+        ans = min(p_len, q_len);
+        //3차 그래프 그려보면 최소값이 어딨는지 알 수있다.
         if(p_len >= q_len) start = p;
         else en = q;}
     
