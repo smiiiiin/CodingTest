@@ -1,6 +1,7 @@
 // 백준 1992 쿼드트리
 // third
 // 실험 1
+// 실험 2
 
 #include <iostream>
 #include <cstdio>
