@@ -1,5 +1,5 @@
 // 백준 1992 쿼드트리
-// second
+// third
 
 #include <iostream>
 #include <cstdio>
