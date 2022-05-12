@@ -1,6 +1,7 @@
 // 백준 1992 쿼드트리
 // third
 // main 1변경
+// main 2변경
 #include <iostream>
 #include <cstdio>
 using namespace std;
