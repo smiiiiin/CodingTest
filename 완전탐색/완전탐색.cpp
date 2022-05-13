@@ -1,6 +1,6 @@
 // 백준 1992 쿼드트리
 // master 추가
-// 2번째 나아감
+// 2번째 나아감~
 
 #include <iostream>
 #include <cstdio>
