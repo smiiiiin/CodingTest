@@ -1,64 +1,19 @@
-//백준 11053
-//이것도 돼고 
-#include <iostream>
-#include <vector>
-#include <bits/stdc++.h>
-
+//백준 11053 가장 긴 증가하는 부분수열
+#include<iostream>
+#include<algorithm> //max, fill
+#define MAX 1001
 using namespace std;
-int main()
-{
-    int n;
-    int a[1001];
-    int dp[1001];
 
-    cin >> n;
-    fill(dp, dp+ n, 1);
-    for (int i = 0; i < n; i++)
-        cin >> a[i];
+int main(){
+    int n; cin>>n; int arr[MAX]; int dp[MAX];
+    fill(dp+1, dp+n+1, 1);
+    for(int i=1;i<=n;i++) cin>> arr[i];
     
-    
-    for (int i = 1; i < n; i++)
-    {
-        for (int j = 0; j<i; j++)
-        {
-            if (a[j] < a[i])
-            {dp[i]=max(dp[i],dp[j]+1);}
-            
-            //위에 if문 아래 주석단 걸로 대체해도 된다 : 다음문제 11055풀려고 
-            /*
-            if(dp[i]<dp[j]+1){
-                    dp[i]=dp[j]+1;
-                }
-                */
-        }
+    for(int cock=2;cock<=n;cock++){
+        for(int j=1;j<cock;j++){
+            if(arr[j]<arr[cock]) dp[cock]= max(dp[j]+1, dp[cock]);
+            }
     }
-    
-    cout << *max_element(dp,dp+n);
-}
-
-
-//백준 11053 왜 마지막에 +1을 해야할까?  *max_element는 마지막 것을 추가 안한대
-#include <iostream>
-#include <algorithm>
-#include <vector>
-
-using namespace std;
-int n;
-int a[1001];
-int dp[1001]={1, };
-
-int main(void)
-{
-    cin>>n;
-    for(int i=1;i<=n;i++){
-        cin>>a[i];
-    }
-    for(int y=1;y<=n;y++){
-        for(int x=1;x<y;x++){
-            if(a[y]>a[x]){
-            dp[y]=max(dp[y], dp[x]+1);
-        }
-        }}
-    cout<<*max_element(dp+1, dp+n+1)+1; //왜 여기서 +1을 해야할까? *max_element는 마지막 것을 추가 안한대
-    return 0;
-}
+    int res= *max_element(dp+1, dp+n+1); //제발:) 1부터 시작했으면
+    cout<<res<<"\n";
+    return 0;}
