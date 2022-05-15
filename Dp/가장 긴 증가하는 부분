@@ -17,3 +17,10 @@ int main(){
     int res= *max_element(dp+1, dp+n+1); //제발:) 1부터 시작했으면
     cout<<res<<"\n";
     return 0;}
+
+/*
+    예제) 10 20 10 30 20 50
+         -  -     -     -     >> 길이:4
+         1  2  1  3
+ 
+ */
