@@ -1,22 +1,43 @@
-//백준 2579
-//dp 에서 MAX구하면 틀리는 이유는? 왜 N으로 해야하지? 같은거 아닌가? 머지막계단을 꼭 밟아야하기 때문에 1 1 100 1 의 경우에서 오류가 난다. 
+//백준 2579 계단오르기
 #include<iostream>
-#include<algorithm>
+#include<algorithm> //max, fill
+#define MAX 301
 using namespace std;
 
-int a[301];
-int dp[301];
-int n;
-
-int main()
-{
-    cin>>n;
-    for(int i=1;i<=n;i++) {cin>>a[i]; }
-    dp[1]=a[1];
-    dp[2]= a[1]+a[2];
-    dp[3]= max(a[1],a[2])+a[3];
-    for(int y=4;y<=n;y++){
-        dp[y]= max(dp[y-2]+a[y], dp[y-3]+a[y-1]+a[y]);
-    }
-    cout<<dp[n];
-}
+int main(){
+    int n; cin>>n; int arr[MAX]; int dp[MAX];
+    for(int i=1;i<=n;i++) cin>>arr[i];
+    dp[1]= arr[1];
+    dp[2]= arr[1]+arr[2];
+    dp[3]= max(arr[1]+arr[3] , arr[2]+arr[3]);
+    for(int i=4;i<=n;i++) dp[i]=
+        max(dp[i-3]+arr[i-1]+arr[i],dp[i-2]+arr[i]);
+    cout<<dp[n]<<"\n";
+    return 0;}
+/*
+ 6  dp[1]= 6
+ 10 dp[2]= 6+10
+ 20 dp[3]= 10+20
+ 15 dp[4]= {1+3 or 1+2}    + arr[4]
+ 25 dp[5]= 1+2+4+5
+ 10
+ 20
+ << 75
+ 
+ 0x0
+ x00
+ 
+ 0x00
+ 00x0
+ 
+ 00x00
+ 
+ 6개
+ 00xx00//이 경우는 포함되지 않는다.
+ 
+ 0x0x00
+ x00x00
+ 
+ 00x0x0
+ 0x00x0
+ */
