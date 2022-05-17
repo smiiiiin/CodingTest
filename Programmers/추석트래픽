@@ -40,7 +40,7 @@ int solution(vector<string> lines) {
                 count++;
         }
         
-        if(answer < count) //이건 안해도 되지 않나? 
+        if(answer < count) //필수
             answer = count;
     }
     return answer;
