@@ -1,28 +1,15 @@
-//백준 2193
-
+//백준 2193 이친수 
 #include<iostream>
 typedef long long ll;
 using namespace std;
 int n;
-ll dp[3][105];
+ll dp[2][105];
 
 int main(){
-    ll res{0};
-    cin>>n;
-    dp[0][0]=0; dp[1][0]=1;
-    
-    for(int x=1;x<n;x++){
-        
-            dp[1][x]=dp[0][x-1];
-            dp[0][x]=(dp[0][x-1]+dp[1][x-1]);
-        
-    }
-    
-    for(int y=0;y<2;y++){
-        res+= dp[y][n-1];
-        
-    }
-    
-    cout<<res<<"\n";
-    return 0;
-}
+    cin.tie(0);cout.tie(0);ios_base::sync_with_stdio(false);
+    cin>>n; dp[0][1]=0; dp[1][1]=1; 
+    for(int i=2;i<=n;i++) {dp[1][i]= dp[0][i-1];
+    dp[0][i]= dp[0][i-1]+dp[1][i-1];}
+    ll ret{0}; ret= dp[0][n]+dp[1][n];
+    cout<<ret<<"\n";
+    return 0;}
