@@ -5,37 +5,22 @@
    visited[i]=0;에서 i는 arr[cnt]=i에서 i이므로 현재 dfs()안에 들어간 숫자의 -1이라고 보면 된다. */
 
 #include <iostream>
-#include <algorithm>
-#include <cstring>
-#include <vector>
 using namespace std;
 
-int n,m;
-int arr[9];
-int visited[9];
+int n,m; int arr[9]; bool visited[9];
 
-void dfs(int sz) { //브루트포스 
+void dfs(int index) { 
     
-	if (sz == m) {
+	if (index == m) {
 		for(int i=0;i<m;i++) cout<<arr[i]<<" ";
-		cout<<"\n";
-		return;}
+		cout<<"\n"; return;}
 		
-	for(int i=1;i<=n;i++){
+	for(int i=1;i<=n;i++){ //node에 대해서 
     	if (!visited[i]) {
-    		visited[i] = 1;
-    		arr[sz]=i;
-    		dfs(sz+1);
+    		visited[i] = 1; arr[index]=i; 
+    		dfs(index+1); 
     		visited[i]=0;
-    	    cout<<"out: "<<i<<" ";
-	}
-	    
-	}
-}
+    	    //cout<<"out: "<<i<<" "; //test해볼 수 있는 코드 
+    	}}}
 
-
-int main() {
-	cin >> n>>m;
-	int sz{0};
-	dfs(0);
-}
+int main() {cin >> n>>m; dfs(0); }
