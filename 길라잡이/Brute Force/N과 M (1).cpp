@@ -15,7 +15,7 @@ void dfs(int index) {
 		for(int i=0;i<m;i++) cout<<arr[i]<<" ";
 		cout<<"\n"; return;}
 		
-	for(int i=1;i<=n;i++){ //node에 대해서 
+	for(int i=1;i<=n;i++){ //i는 node에 대해서 , dfs()와 dfs() 사이의 것들을 못함. i=1일때 i=2,3,4,5 
     	if (!visited[i]) {
     		visited[i] = 1; arr[index]=i; 
     		dfs(index+1); 
