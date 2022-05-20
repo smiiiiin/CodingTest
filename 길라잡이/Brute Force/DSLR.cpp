@@ -2,6 +2,7 @@
 #include<iostream>
 #include <list>
 #include<queue>
+#include<cstdio>
 #define MAX 10000
 using namespace std;
 
@@ -12,28 +13,20 @@ int a, b;
 void bfs(){
     queue<int> q;
     q.push(a);
-    cal[a]={-1,' '};
+    cal[a] = {-1,' '};
     while(!q.empty()){
         int cur= q.front(); q.pop();
-        int next;
+        int n_cur;
         if(cur==b) break;
-        for(int op=0;op<4;op++){
-            //D
-            if(op==0) next= (cur*2)%10000;
-            //s
-            else if(op==1) next= (cur==0) ? 9999:cur-1 ;
-            //l
-            else if(op==2) next= (cur%1000)*10+ (cur/1000);
-            //r
-            else next= (cur/10)+ (cur%10)*1000;
         
-        //방문했던 얘는 또 할 필요가 없음
-        if(cal[next].first > -2) continue; //-2로 초기화 되어있음
-            
-        q.push(next);
-        cal[next].first= cur;//날 소개해준 친구
-        cal[next].second= c[op]; //날 불러준 op
-        }}}
+        for(int d=0;d<4;d++){
+            if(d==0) n_cur= (cur*2) %10000;
+            if(d==1) n_cur= (cur==0) ? 9999: cur-1;
+            if(d==2) n_cur= (cur%1000)*10 + (cur/1000);
+            if(d==3) n_cur= (cur%10)*1000 + (cur/10);
+            if(cal[n_cur].first> -2) continue;
+            q.push(n_cur);
+            cal[n_cur].first= cur; cal[n_cur].second= c[d];}}}
 
 int main(){
     int t; scanf("%d",&t);
@@ -43,16 +36,11 @@ int main(){
         
         bfs();
         
-        int cur = b;
+        int me = b;
         list<char> ops; //연산 앞에서부터 출력하기 위해서
-        while(cur!=a){
-            ops.push_front(cal[cur].second);
-            cur= cal[cur].first; //날 불러준친구로 cur교체 하면서 앞으로 앞으로
-            
-        }
-
+        while(me!=a){
+            ops.push_front(cal[me].second);
+            me= cal[me].first;}
+        
         for(auto c : ops) printf("%c",c);
-        printf("\n");}
-}
-
-
+                printf("\n");}}
