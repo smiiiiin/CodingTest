@@ -1,5 +1,5 @@
 // 백준 15650 N과 M (2)
-// dfs(depth+1, node+1);  // dfs(depth+1, node+1);은 안된다 왜?왜?왜?????????
+// dfs(depth+1, node+1);  // dfs(depth+1, node+1);은 안된다 왜? 135 다음 145인데 143을 한다 
 
 #include <iostream>
 using namespace std;
