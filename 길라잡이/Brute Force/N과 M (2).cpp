@@ -1,4 +1,6 @@
-//백준 15650 N과 M (2)
+// 백준 15650 N과 M (2)
+// dfs(depth+1, node+1);  // dfs(depth+1, node+1);은 안된다 왜?왜?왜?????????
+
 #include <iostream>
 using namespace std;
 
@@ -19,7 +21,7 @@ void dfs(int depth, int node) { //브루트포스
         if(!visited[i]) {
             visited[i]=1;
             arr[depth]=i;
-            dfs(depth+1, node+1);  // dfs(depth+1, node+1);은 안된다
+            dfs(depth+1, node+1);  // dfs(depth+1, node+1);은 안된다 왜?왜?왜?????????
             visited[i]=0; }}
 }
  
