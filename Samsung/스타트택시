@@ -9,9 +9,9 @@ using namespace std;
 int n, m, oil,ty,tx,map[21][21], dist[403], passenger[21][21];
 bool visited[21][21];
 int dy[4] = {-1, 1, 0, 0}; int dx[4] = {0, 0, -1, 1};
-pair<int, int> start[403], end[403];
+pair<int, int> start[403], en[403];
 
-int bfs(int sy, int sx, int ey, int ex) {
+int bfs(int sy, int sx, int ey, int ex) { //손님의 시작에서 목적지까지 가는데 거리
     queue<pair<int, int>> q;
     memset(visited, 0, sizeof(visited));
     q.push({sy, sx});
@@ -33,7 +33,7 @@ int bfs(int sy, int sx, int ey, int ex) {
         ret++;}
     return -1;}
 
-bool get_customer() {
+bool with_passenger() {
     memset(visited, 0, sizeof(visited));
     queue<pair<int, int>> q;
     q.push({ty, tx});
@@ -43,55 +43,46 @@ bool get_customer() {
     while (!q.empty()) {
         int sz = q.size();
         while (sz--) {
-            int i = q.front().first;
-            int j = q.front().second;
+            int cur_y = q.front().first; int cur_x = q.front().second;
             q.pop();
-            if (passenger[i][j]) {
+            if (passenger[cur_y][cur_x]) {
                 if (customer) {
-                    if (start[customer] > start[passenger[i][j]])
-                        customer = passenger[i][j];
-                }
-                else
-                    customer = passenger[i][j];
-            }
+                    if (start[customer] > start[passenger[cur_y][cur_x]])
+                        customer = passenger[cur_y][cur_x];}
+                
+                else customer = passenger[cur_y][cur_x];}
 
             for (int k = 0; k < 4; k++) {
-                int ni = i + dy[k];
-                int nj = j + dx[k];
-                if (ni < 1 || nj < 1 || ni > n || nj > n) continue;
-                if (visited[ni][nj] || map[ni][nj]) continue;
-                visited[ni][nj] = true;
-                q.push({ni, nj});
-            }
+                int ny = cur_y + dy[k]; int nx = cur_x + dx[k];
+                if (ny < 1 || nx < 1 || ny > n || nx > n) continue;
+                if (visited[ny][nx] || map[ny][nx]) continue;
+                visited[ny][nx] = true;
+                q.push({ny, nx});}
         }
-        if (customer) break;
-        d++;
-    }
+        if (customer) break; d++;}
+    
     if (!customer || dist[customer] == -1) return false;
     oil -= d + dist[customer];
     if (oil < 0) return false;
-    ty = end[customer].first, tx = end[customer].second;
+    ty = en[customer].first; tx = en[customer].second;
     passenger[start[customer].first][start[customer].second] = 0;
     oil += (dist[customer] << 1);
-    return true;
-}
+    return true;}
 
 int main() {
     cin.tie(0);cout.tie(0); ios::sync_with_stdio(false);
     cin >> n >> m >> oil;
     for (int y = 1; y <= n; y++) for (int x = 1; x <= n; x++) cin >> map[y][x];
         
-    
     cin >> ty >> tx; int a, b, c, d;
-    
     for (int i = 1; i <= m; i++) {
         cin >> a >> b >> c >> d;
         passenger[a][b] = i;
         dist[i] = bfs(a, b, c, d);
         start[i] = {a, b};
-        end[i] = {c, d};}
+        en[i] = {c, d};}
 
     for (int i = 0; i < m; i++) {
-        if (!get_customer()) { cout << -1; return 0;}}
+        if (!with_passenger()) { cout << -1; return 0;}}
     
     cout << oil;}
