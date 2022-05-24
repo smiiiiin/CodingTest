@@ -47,7 +47,7 @@ void dfs(int start, int depth) {
         lotto[depth]=0;
     }
 }
-
+ 
 int main(void) {
     while (1) {
         cin >> k;
