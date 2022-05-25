@@ -5,7 +5,7 @@
 #include<queue>
 #include<vector>
 #include<algorithm>
-using namespace std;
+using namespace std; 
 #define MAX 202
 int A, B, C; vector <int> water; bool visited[MAX][MAX];
 
