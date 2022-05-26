@@ -25,8 +25,7 @@ int main(void) {
         dfs(0, 0);
         cout << endl;}}
 
-// 내가 작성해봄 
-// 백준6603 로또
+// 백준 6603 로또 이것도 정답임
 #include <iostream>
 #include <vector>
 #include <cstring>
@@ -56,3 +55,31 @@ int main(void) {
         memset(lotto,0,sizeof(lotto));
         dfs(0, 0);
         cout << endl;}}
+
+
+// 백준6603 로또: 오답인데 왜 안돼?
+#include <iostream>
+#include <vector>
+using namespace std;
+bool visited[13]; int arr[13]; int lotto[6]; int n;
+
+void dfs(int depth, int node) {
+    
+    if(depth-1==6) for(int i=1;i<=6;i++) cout<<lotto[i]<<" ";
+    cout<<"\n"; return ;
+    
+    //조합이니까 1 3 5 7 8 10 이거는 되는데 5 뽑으면 그보다 작은 수는 볼 필요도 없다
+    
+    for(int i=node;i<=n;i++){
+        if(!visited[i]) visited[i]=1; lotto[depth]=arr[i];
+        dfs(depth+1, i+1); visited[i]=0;}}
+
+int main(void) {
+    while (1) {
+        //초기화
+        fill(visited, visited+13, 0); fill(arr,arr+13,0); fill(lotto,lotto+6,0);
+        cin >> n; if (n == 0) break;
+        for (int i = 1; i <= n; i++) cin >> arr[i];
+        dfs(1, 1); cout << endl;}}
+
+
