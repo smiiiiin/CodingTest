@@ -19,10 +19,11 @@ void dfs(int depth, int node) { //브루트포스
     
     for(int i=node;i<=n;i++){
         if(!visited[i]) {
-            visited[i]=1;
+            //visited[i]=1; //넣어도 그만 안넣어도그만
             arr[depth]=i;
             dfs(depth+1, node+1);  // dfs(depth+1, node+1);은 안된다 왜?왜?왜?????????
-            visited[i]=0; }}
+            //visited[i]=0; 
+        }}
 }
  
 
