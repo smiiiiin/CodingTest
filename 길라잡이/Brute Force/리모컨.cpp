@@ -1,5 +1,4 @@
 //백준 1107 리모컨
-//백준 1107 리모컨
 #include <string> //to_string(n) n->string으로
 #include <vector>
 #include <algorithm>
@@ -23,10 +22,10 @@ int main(){
         broken[b] = true;}
     string st = to_string(destination);
     int minimum = abs(destination-100); //최대로 잡아놓되, +로 계속 가는 걸로 잡아놈.
-    for(int i = 0; i <= 1000000; i++){
+    for(int i = 0; i <= 899800; i++){ //1000000-100100= 899800
         if(click(i)){
             int tmp = abs(destination-i)+to_string(i).length(); //채널과의
-            //차이+ 버튼을 누른 수 (bool click()에서 하나라도 버튼이 고장난 수가 아니니깐) 
+            //차이+ 버튼을 누른 수 (bool click()에서 하나라도 버튼이 고장난 수가 아니니깐)
             minimum = min(minimum,tmp);        }    }
     
     printf("%d \n",minimum);
