@@ -1,4 +1,4 @@
-//백준6603 로또
+//백준6603 로또: n과m (2)와 거의 유사, 3,4도 유사 
 #include <iostream>
 #include <vector>
 using namespace std;
