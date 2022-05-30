@@ -1,0 +1,51 @@
+//프로그래머스 카카오 숫자 문자열과 영단어 
+#include <string>
+#include <vector>
+#include <map>
+using namespace std;
+ 
+map<string, string> Convert;
+ 
+void Make_Convert_Map()
+{
+    Convert["zero"] = "0";
+    Convert["one"] = "1";
+    Convert["two"] = "2";
+    Convert["three"] = "3";
+    Convert["four"] = "4";
+    Convert["five"] = "5";
+    Convert["six"] = "6";
+    Convert["seven"] = "7";
+    Convert["eight"] = "8";
+    Convert["nine"] = "9";
+}
+ 
+int Function(string Str)
+{
+    string Result = "";
+    string Cur = "";
+    for(int i = 0 ; i < Str.length(); i++)
+    {
+        if(isdigit(Str[i]) == 0)
+        {
+            Cur += Str[i];
+            if(Convert[Cur] != "") 
+            {
+                Result += Convert[Cur];
+                Cur = "";
+            }
+        }
+        else Result += Str[i];
+        
+    }
+    return stoi(Result);
+}
+ 
+int solution(string s) 
+{
+    int answer = 0;
+    Make_Convert_Map();
+    answer = Function(s);
+    return answer;
+}
+
