@@ -1,8 +1,8 @@
-//프로그래머스 카카오 신고결과 받기
+//프로그래머스 신고결과 받기
 #include <string>
 #include <vector>
-#include <unordered_map>
-#include <set>
+#include <unordered_map> //{키,값}
+#include <set> //순서, 중복 없는 집합
 #include <sstream>
 
 using namespace std;
@@ -10,32 +10,27 @@ using namespace std;
 vector<int> solution(vector<string> id_list, vector<string> report, int k) {
     vector<int> answer(id_list.size(), 0);
     
-    unordered_map<string, int> idx_map;
-    for(int i=0; i<id_list.size(); ++i) idx_map[id_list[i]] = i; // 멤버 index 저장
+    unordered_map<string, int> people_num; //죄수복 번호처럼 사람이름에 번호붙이기
+    for(int i=0; i<id_list.size(); ++i) people_num[id_list[i]] = i;
     
     unordered_map<string, set<string>> report_map;
-    stringstream ss;
+    stringstream ss; //문자열 슬라이싱을 위해서
     for(auto rep: report) {
-        ss.str(rep);
-        string first, second; ss >> first >> second; // 문자열 parsing
-        
-        /* 
-        	신고 정보 저장
-        	first가 second를 신고 -> second의 set에는 second를 신고한 사람들
-        */
-        report_map[second].insert(first);
-        
-        ss.clear();
-    }
+        ss.str(rep); //슬라이싱의 주문
+        string first, second; //저장할 공간 만들기
+        ss >> first >> second; // parsing된 문자열 ss를 first, second에 각각 넣는다
+        report_map[second].insert(first); //키는 신고당한자, 값은 신고를 한 사람들 set으로 한 이유: 한명이 여러번 신고해도 그건 1번 몇명이 날 신고했느냐만이 중요하다
+        ss.clear();}
     
-    for(auto it: report_map) { // it.second = set<string>
-        if(it.second.size() >= k) { // 어떤 멤버를 신고한 사람이 k명 이상이면
-            for(auto set_it: it.second) { // 신고한 사람들의
-                int idx = idx_map[set_it];                
-                answer[idx]++; // count 증가 (메일 전송)
-            }            
+    for(auto it: report_map) { // 당한자묶음으로 돌면서 -> it.second = set<string>
+        //report_map에는 당한자와 신고자 여려명이 있다.
+        if(it.second.size() >= k) { // 신고한 사람이 k명 이상이면
+            for(auto name: it.second) { // 신고한 사람들의 set에서 하나하나씩 꺼내서
+                int idx = people_num[name]; //걔네의 번호에
+                answer[idx]++; // count 증가(=메일 전송)
+            }
         }
-    }    
+    }
     
     return answer;
 }
