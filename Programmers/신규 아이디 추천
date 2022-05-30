@@ -14,7 +14,7 @@ string solution(string id) {
     for(int i = 0; i < id.length(); ) {
         if ((id[i] >= 'a' && id[i] <= 'z') || (id[i] >= '0' && id[i] <= '9')
               || id[i] == '-' || id[i] == '_' || id[i] == '.'){
-            i++; continue;}
+            i++; continue;} //continue를 함으로써 아래 코드를 실행하지 않는다 (조건합당 시, i++로 커서만 넘기고 지우진 않는다 )
         id.erase(id.begin() + i);}
     
     // 3) .이 2번 이상이면 지운다
