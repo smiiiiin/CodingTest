@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-using namespace std;
+using namespace std; 
 
 int main() {
     int n, ans; cin >> n >> ans; vector<int> arr(n);
