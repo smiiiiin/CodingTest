@@ -1,4 +1,5 @@
 //백준 7453 합이 0인 네 정수
+// lower_bound, upper_bound
 #include<iostream>
 #include<algorithm>
 #include<vector>
