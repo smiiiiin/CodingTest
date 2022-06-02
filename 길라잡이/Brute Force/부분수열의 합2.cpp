@@ -1,4 +1,5 @@
 //백준 1208 부분수열의 합2 //그냥 다 해보는건데 dfs에서 두부분으로 나눴을 뿐이다.
+// 시간제한 1초면 빡시게 분할(나눠서)로 풀어야한다 
 #include <iostream>
 #include <map>
 using namespace std;
