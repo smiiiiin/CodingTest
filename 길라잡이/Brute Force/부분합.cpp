@@ -15,3 +15,27 @@ int main() {
     if (minLen == 987654321) cout << 0 << endl;    // 불가능 하면 0 출력
     else cout << minLen << "\n";
     return 0;}
+
+//큐버전
+#include <iostream>
+#include <queue>
+#include <algorithm>
+using namespace std;
+int arr[100001];int n,s,cnt{0};
+
+void bfs(){
+    queue<int> q; int sum{0};
+    for(int i=0;i<n;i++){
+        q.push(arr[i]); sum+=arr[i]; 
+        while(sum>=s){
+            if(cnt==0) cnt= q.size();
+            int qs= q.size();
+            cnt= min(cnt, qs);
+            int cur=q.front();  sum-=cur; q.pop();}}}
+
+int main(){
+    cin>>n>>s;
+    for(int i=0;i<n;i++) cin>>arr[i];
+    bfs();
+    cout<<cnt<<"\n";
+    return 0;}
