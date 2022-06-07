@@ -25,3 +25,35 @@ vector<int> solution(int N, vector<int> stages) {
         answer.push_back(itr - rate.begin() + 1);
         *itr = -111;}
     return answer;}
+
+
+// 도전 후 실패
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <iostream>
+#include <map>
+
+using namespace std;
+
+
+vector<int> solution(int N, vector<int> stages) {
+    vector<int> answer;
+    vector<int> rate;
+    map<double, int> m;
+    double user = stages.size();
+    
+    for(int i = 1; i <= N; i++){
+        double count = 0;  
+        for(int j = 0; j < stages.size(); j++){
+            if(stages[j] == i)
+                count++;}
+        if(count == 0) rate.push_back(0);
+        else {rate.push_back(count / user);
+              m[(count/user)]= i;
+        user -= count;}
+   
+        sort(m.begin(), m.end());
+    for(int i = 0; i < N; i++){
+        answer.push_back(m.second);}
+    return answer;}
