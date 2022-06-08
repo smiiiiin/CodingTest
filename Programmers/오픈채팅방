@@ -1,4 +1,5 @@
-/* 프로그래머스 오픈채팅방 
+// 왜 안돼?
+/* kakao 오픈채팅방 
  굉장히 중요한 꿀팁방출 코테설계방식은 SQL 테이블 쪼개는 것과 비슷하다 
  ID가 주키고 ACTION과 NAME의 관계를 표현하고 싶으면 ACTION: ID 랑 ID:NAME 2개의 묶음 만든다 */
  
@@ -8,22 +9,30 @@
 #include <unordered_map>
 using namespace std;
 
-stringstream ss; string fir, sec, thr;
-vector<string> answer;
-unordered_map<string,string> final_name; // {uid: name} 
-vector<pair<string,string>> action;  // {action, uid}
-
 vector<string> solution(vector<string> record) {
     
-    for(auto& i: record) {
-        vector<string> splitvec;
+    stringstream ss; string fir, sec, thr;
+    vector<string> answer;
+    vector<pair<string,string>> action;  // {action, uid}
+    unordered_map<string,string> final_name; // {uid: name} 
+    
+    for(auto i: record) {
         ss.str(i); ss>>fir>>sec>>thr;
-        splitvec.push_back(fir); splitvec.push_back(sec); splitvec.push_back(thr);
         action.push_back({fir:sec});
        
         if(fir!="Leave"){ //왜 leave가 아니면 일까? 
              final_name[sec]=thr; // ID 가 키고 값은 최종 이름 
         }}
         
+        
+    for(auto i: record) {
+        string result = "";
+        result += final_name[action[i].second];
+        if (action[i].first == "Enter") { result +=  "님이 들어왔습니다."; }
+        else if (action[i].first == "Leave") { result += "님이 나갔습니다."; }
+        else if (action[i].first == "Change") { continue; }
+        answer.push_back(result);
+    }
+    
     return answer;
 }
