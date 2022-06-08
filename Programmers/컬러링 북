@@ -1,0 +1,47 @@
+// 프로그래머스 컬러링북 
+/* 그냥 백준에서 풀듯이 풀어봐
+   영역의 개수와 최대영역 넓이 bfs 로 푸는게 맞지
+   이거 백준 아파트단지와 동일문제 */
+   
+#include <vector>
+#include <iostream>
+#include <algorithm>
+#define MAX 10000001
+using namespace std;
+
+int map[MAX][MAX]; int visited[MAX][MAX];  int sy,sx; int answer{0};
+int dy[4]={-1,1,0,0}; int dx[4]={0,0,-1,1};
+vector<int> v; 
+void bfs(int y, int x){
+    queue<int> q;  visited[y][x]=1; q.push(map[y][x]);
+    while(!q.empty()){
+        int cur= q.front(); q.pop();
+        //int cy= y; int cx= x;
+        for(int d=0;d<4;d++){
+            int ny= y+dy[4]; int x= cx+dx[d];
+            if(ny>sy||nx>sx||ny<0||nx<0) continue;
+            if(visited[ny][nx]) continue;
+            if(map[ny][nx]==cur){
+                v[cur]++; visited[ny][nx]=1; }}}}
+
+
+int main(){
+    cin>>sx>>sy; for(int y=0;y<sy;y++) for(int x=0;x<sx;x++) cin>>map[y][x];
+    
+    bool exitdouble{0}; //이중루프 break 하는 법 
+    for(int y=0;y<sy;y++){
+        for(int x=0;x<sx;x++){
+            if(!map[y][x]) {bfs(y,x); exitdouble=1; break;}
+        }
+        if(exitdouble) break;
+    }
+    sort(v.begin(), v.end(), greater<>());
+    int cnt{0};
+    for(vector<int>::iterator iter=v.begin();iter!=v.end();iter++){
+        if(*iter!=0) cnt++;
+    }
+    cout<<cnt<<v[0];
+    
+    
+    return 0;
+}
