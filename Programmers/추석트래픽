@@ -32,6 +32,6 @@ int solution(vector<string> lines) {
         
         for(int j = i; j < lines.size(); j++){
             if(start_t[j] < end_time) count++;}
-        answer=max(answer,count);}
+        answer=max(answer,count);} // if(count>answer) answer=count;
         
     return answer;}
