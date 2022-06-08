@@ -1,47 +1,147 @@
 // 프로그래머스 컬러링북 
-/* 그냥 백준에서 풀듯이 풀어봐
-   영역의 개수와 최대영역 넓이 bfs 로 푸는게 맞지
-   이거 백준 아파트단지와 동일문제 */
-   
+// https://yabmoons.tistory.com/329
+
 #include <vector>
+#include <queue>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int max_size; int dy[4]={-1,1,0,0}; int dx[4]={0,0,-1,1}; bool visited[100][100];
+
+int bfs(int y,int x, int m, int n, vector<vector<int>> map){
+    int color= map[y][x]; int size=1; //!! 사이즈 1로들어올때마다 초기화 
+    queue<pair<int,int>> q;
+    q.push({y,x}); visited[y][x]=1;
+    while(!q.empty()){
+        int cy= q.front().first; int cx= q.front().second; q.pop();
+        for(int d=0;d<4;d++){
+            int ny= cy+dy[d]; int nx= cx+dx[d];
+            if(nx<0||ny<0||ny>=m||nx>=n) continue;
+            if(map[ny][nx]=0|| visited[ny][nx]!=0) continue;
+            if(map[ny][nx]=color) {
+                visited[ny][nx]=1; q.push({ny,nx}); size++;}}}
+    return size;}
+    
+// 전역 변수를 정의할 경우 함수 내에 초기화 코드를 꼭 작성해주세요.
+vector<int> solution(int m, int n, vector<vector<int>> picture) {
+    int district_num = 0; int final_max_size = 0;
+    vector<int> answer(2);
+    for(int y=0;y<m;y++) for(int x=0;x<n;x++) visited[y][x]=0;
+   
+    for(int y=0;y<m;y++){
+        for(int x=0;x<n;x++){
+            if(picture[y][x]!=0 && visited[y][x]==0){ //방문 안했었으면 같은 수라도 
+            // 구역 수가 추가되고 !! size도 어차피 큐에서 다시 들어올때마다 1로 초기화 
+                int size= bfs(y,x,m,n,picture);
+                max_size =max(max_size,size);
+                district_num++;
+            }
+        }
+    }
+    answer[0] = district_num; answer[1] = final_max_size;
+    return answer;
+}
+                
+
+
+// 프로그래머스 컬러링북 
+#include <vector>
+#include <queue>
 #include <iostream>
 #include <algorithm>
 #define MAX 10000001
 using namespace std;
+// 그냥 백준에서 풀듯이 풀어봐
+// 영역의 개수와 최대영역 넓이 bfs 로 푸는게 맞지
+// 백준 아파트단지와 유사문제 
 
-int map[MAX][MAX]; int visited[MAX][MAX];  int sy,sx; int answer{0};
+#include<vector>
+#include<queue>
+#include<iostream>
+using namespace std;
+
+int max_size; int dy[4]={-1,1,0,0}; int dx[4]={0,0,-1,1}; bool visited[100][100];
+
+int bfs(int y,int x, int m, int n, vector<vector<int>> map){
+    int color= map[a][b]; int size=1; queue<pair<int,int>> q;
+    q.push({y,x}); visited[y][x]=1;
+    while(!q.empty()){
+        int cy= q.front().first; int cx= q.front().second; q.pop();
+        for(int d=0;d<4;d++){
+            int ny= cy+dy[d]; int nx= cx+dx[d];
+            if(nx<0||ny<0||ny>=m||nx>=n) continue;
+            if(map[ny][nx]=0|| visited[ny][nx]!=0) continue;
+            if(map[ny][nx]=color) {
+                visited[ny][nx]=1; q.push({ny,nx}); size++;}}}
+    return size;}
+    
+// 전역 변수를 정의할 경우 함수 내에 초기화 코드를 꼭 작성해주세요.
+vector<int> solution(int m, int n, vector<vector<int>> picture) {
+    int district_num = 0; int final_max_size = 0;
+    vector<int> answer(2);
+    
+    
+    
+    answer[0] = district_num; answer[1] = final_max_size;
+    return answer;
+}
+
+
+
+
+
+
+// 프로그래머스 컬러링북 
+/* 그냥 백준에서 풀듯이 풀어봐
+   영역의 개수와 최대영역 넓이 bfs 로 푸는게 맞지
+   백준 아파트단지와 유사문제 */
+
+#include <vector>
+#include <queue>
+#include <iostream>
+#include <algorithm>
+#define MAX 10000001
+using namespace std;
+// 그냥 백준에서 풀듯이 풀어봐
+// 영역의 개수와 최대영역 넓이 bfs 로 푸는게 맞지
+// 백준 아파트단지와 유사문제 
+
+int map[MAX][MAX]; bool visited[MAX][MAX];  int sy,sx; int answer{0};
 int dy[4]={-1,1,0,0}; int dx[4]={0,0,-1,1};
 vector<int> v; 
 void bfs(int y, int x){
     queue<int> q;  visited[y][x]=1; q.push(map[y][x]);
     while(!q.empty()){
         int cur= q.front(); q.pop();
-        //int cy= y; int cx= x;
         for(int d=0;d<4;d++){
-            int ny= y+dy[4]; int x= cx+dx[d];
-            if(ny>sy||nx>sx||ny<0||nx<0) continue;
-            if(visited[ny][nx]) continue;
+            int ny= y+dy[4]; int nx= x+dx[d];
+            if(ny>=sy||nx>=sx||ny<0||nx<0) continue;
+            if(map[ny][nx]=0||visited[ny][nx]) continue;
             if(map[ny][nx]==cur){
                 v[cur]++; visited[ny][nx]=1; }}}}
-
+                
+bool g(int f,int s){
+    if(f>s) return true;
+    else return false;
+}
 
 int main(){
-    cin>>sx>>sy; for(int y=0;y<sy;y++) for(int x=0;x<sx;x++) cin>>map[y][x];
+    cin>>sy>>sx; for(int y=0;y<sy;y++) for(int x=0;x<sx;x++) cin>>map[y][x];
+    int max_num{0};
     
-    bool exitdouble{0}; //이중루프 break 하는 법 
     for(int y=0;y<sy;y++){
         for(int x=0;x<sx;x++){
-            if(!map[y][x]) {bfs(y,x); exitdouble=1; break;}
-        }
-        if(exitdouble) break;
-    }
-    sort(v.begin(), v.end(), greater<>());
+         max_num= max(max_num, map[y][x]);}}
+    
+    for(int y=0;y<sy;y++){
+        for(int x=0;x<sx;x++){
+            for(int i=1;i<=max_num;i++){
+                if(map[y][x]==i) {v[i]=0; bfs(y,x);}}}} //v[i]=0 새롭게 떨어졌지만 번호는 같은 경우 칸의 개수를 늘리지 않는다 
+                //근데 이러면 단지개수가 안늘어나네... 최대개수는 맞게구해도 ... 그리고 코드 자체에 오류 있음 
+    
+    sort(v.begin(), v.end(), g);
     int cnt{0};
     for(vector<int>::iterator iter=v.begin();iter!=v.end();iter++){
-        if(*iter!=0) cnt++;
-    }
-    cout<<cnt<<v[0];
-    
-    
-    return 0;
-}
+        if(*iter!=0) cnt++;}
+    cout<<cnt<<v[0];}
