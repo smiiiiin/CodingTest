@@ -1,0 +1,18 @@
+// 삼성 1206. [S/W 문제해결 기본] 1일차 - View
+#include<iostream>
+#include <cstdio>
+#include <algorithm>
+using namespace std;
+
+int main(int argc, char** argv){
+	int arr[10]; int t; cin>>t; 
+	
+	for(int i=0;i<t;i++) cin>>arr[i];
+    for(int i=0;i<t;i++){
+		if(arr[i-2]<arr[i] || arr[i-1]<arr[i]){
+            int temp= arr[i]-max(arr[i-2],arr[i-1);
+        if(arr[i+2]<arr[i] || arr[i+1]<arr[i]){
+            temp= arr[i]-max(arr[i+2],arr[i+1);                              
+    
+	
+	return 0;}
