@@ -1,7 +1,7 @@
 /* 
 
 마당 잔디 깎기
-시간제한: 최대404040개 케이스 합쳐 C/C++ 111초, Java 1.51.51.5초 / 메모리제한: 256MB256\text{MB}256MB(Stack 1MB1\text{MB}1MB)
+시간제한: 최대40개 케이스 C/C++ 1초, Java 1.5초 / 메모리제한: 256MB(Stack 1MB)
 
 그렉의 집 앞에는 마당이 있다. 마당의 크기는 세로 NNN 미터, 가로 MMM 미터이며, 마당에는 예쁜 잔디들이 자라나 있다. 
 잔디들의 구역은 111 제곱미터 넓이로 구분되며, 잔디들은 성장이 빨라서 매일 아침 1cm1\text{cm}1cm 씩 자란다. 
@@ -10,11 +10,8 @@
 그래서 매일 잔디를 깎을 때, 잔디의 높이가 가장 높은 구역을 깎기로 하였다. 또한 잔디를 모두 제거하면 안되기 때문에, 
 잔디는 1cm를 남겨두고 모두 깎기로 했다. 가끔 가장 높은 곳이 여러 곳이지만 기름이 모자라는 경우가 있을 수 있는데, 그런 경우에는 아무 곳이나 깎기로 했다.
 
-
 i일차에 깎는 길이가 Ai라 할 때, 
-1×a1+2×a2+⋯+(D−1)×(aD−1)+D×aD1 를 구하여라.
-
-
+1×a1+2×a2+⋯+(D−1)×(aD−1)+D×aD1 를 구하여라
 
 위 그림은 세로 4, 가로 5 미터인 마당의 예시이다. 이 마당에서 4 일 동안 잔디를 깎으며 각각 날마다 3 2 2 4의 기름을 구매한다고 하자.
 날마다 그렉이 깎은 잔디의 길이는 각각 총 114 61 40 67이다 
@@ -26,6 +23,7 @@ i일차에 깎는 길이가 Ai라 할 때,
 그렉이 구매하는 기름의 양은 1 이상 min⁡(400,N×M)이하의 정수이다.
 그렉이 잔디를 깎을 일 수 D는 3 이상 20,000 이하의 정수이다.
 초기 잔디의 높이는 1 이상 100이하의 정수이다.
+
 [입력]
 맨 처음 테스트 케이스의 개수 T
 각 테스트 케이스의 첫 번째 줄에는 마당의 세로 크기 N, 마당의 가로 크기 M, 그렉이 잔디를 깎는 일 수 D 가 주어지며, 
@@ -51,11 +49,9 @@ i일차에 깎는 길이가 Ai라 할 때,
 34 75 47
 8 9 9
 
-
 (출력)
 #1 624
 #2 464
-
 
 (sample_input.txt 에 대한 출력)
 #1 624
@@ -79,17 +75,14 @@ i일차에 깎는 길이가 Ai라 할 때,
 #19 16887577894318
 #20 18005725885041
 */
-
-
 //SAMSUNG SDS ALGORITHM특강 TEST
-
 #include <iostream>
 #include <algorithm> // sort, fill
 #include <cstdio> // scanf("%d",변수)
 #include <vector>
 using namespace std;
 
-int t; vector<int> map; vector<int> oil; vector<int> answer;
+int n,m,d,k,t; vector<int> map; vector<int> oil; vector<int> answer;
 
 int main() {
     cin>>t;
@@ -101,20 +94,23 @@ int main() {
     // 날마다 주어진 kill칸 갯수를 돌아가며
     // map 의 앞부분부터 kill개수만큼 1로 바꾸고 map[i]-1을 답벡터에 저장
     for(int day=0;day<d;day++){
-        int kill= oil[day];}
-        for(int i=0;i<kill;i++){ answer[day].push_back(map[i]-1); map[i]=1; }
+        int kill= oil[day];
+        for(int i=0;i<kill;i++){ answer[day]+=map[i]-1; map[i]=1; }
         for(int i=0;i<n*m;i++) map[i]++;
     }
     
     //답 출력하기
-    
-    
+        int result{0};
+        for(int i=0;i<d;i++) {result+= answer[i]*(i+1);
+            cout<<"#"<<i+1<<" "<<result<<endl;}
+    }
     // testcase돌릴때마다 map, oil, answer 초기화
     fill(map.begin(), map.end(),0);
     fill(oil.begin(), oil.end(),0);
     fill(answer.begin(), answer.end(),0);
     
-    return 0;}
+    
+        return 0;}
 /*
  문제 파악>
  매일 1cm씩 자란다
@@ -122,4 +118,3 @@ int main() {
  깎은 잔디의 cm를 저장하고 날짜를 곱한다
  1* (1일차에 깎은 cm)+ 2*(2일차에 깎은 cm)+ ...
 */
-
