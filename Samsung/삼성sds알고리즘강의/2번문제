@@ -1,0 +1,33 @@
+//SAMSUNG SDS ALGORITHM특강 TEST2: 엑스칼리버를 찾아서
+/*
+ <<문제>>
+ 
+ 보석, 칼날, 손잡이 3개를 모아 엑스칼리버를 만들면 왕이 된다
+ 세로 n, 가로m의 유적지 , 상하좌우이동 가능
+ <기호>
+ .평지 X산 A보석 B칼날 C손잡이  S왕궁
+ X는 ABC를 지나기 전까지 지날 수 없다
+ ABC를 가지고 S에 도착해라
+ 
+ <INPUT>
+ t,n,m,r,k,map
+ 
+ <OUTPUT>
+ #t번호 ABC를 가지고 왕궁에 도착하는 최단거리
+ 
+ <제한조건>
+ N과 M 은 3~100  그렉의 위치(세,가: R,K)는 N,M이하의 정수
+ 엑스칼리버를 완성하지 않은 상태서 왕궁을 지날 수 있고 평지서 시작
+*/
+
+
+#include <iostream>
+#include <algorithm> // sort, fill
+#include <stdio.h> // scanf("%d",변수)
+#include <vector>
+using namespace std;
+
+int main() {
+    cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
+    
+    return 0;}
