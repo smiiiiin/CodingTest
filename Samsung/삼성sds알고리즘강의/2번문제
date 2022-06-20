@@ -1,33 +1,76 @@
 //SAMSUNG SDS ALGORITHM특강 TEST2: 엑스칼리버를 찾아서
 /*
  <<문제>>
- 
  보석, 칼날, 손잡이 3개를 모아 엑스칼리버를 만들면 왕이 된다
  세로 n, 가로m의 유적지 , 상하좌우이동 가능
  <기호>
  .평지 X산 A보석 B칼날 C손잡이  S왕궁
  X는 ABC를 지나기 전까지 지날 수 없다
  ABC를 가지고 S에 도착해라
- 
  <INPUT>
  t,n,m,r,k,map
- 
  <OUTPUT>
  #t번호 ABC를 가지고 왕궁에 도착하는 최단거리
- 
  <제한조건>
  N과 M 은 3~100  그렉의 위치(세,가: R,K)는 N,M이하의 정수
  엑스칼리버를 완성하지 않은 상태서 왕궁을 지날 수 있고 평지서 시작
 */
 
-
 #include <iostream>
 #include <algorithm> // sort, fill
-#include <stdio.h> // scanf("%d",변수)
+#include <stdio.h>
 #include <vector>
+#include <queue>
 using namespace std;
+int dy[4]={-1,1,0,0}; int dx[4]={0,0,-1,1};
+int t,n,m,r,k; char map[901][901]; int visited[901][901];
+bool a{0}; bool b{0}; bool c{0};
+
+bool pass(){
+    if(a||b||c) return true;
+    else return false;}
+void bfs(int y, int x){
+    queue<pair<int,int>> q; visited[y][x]=1;
+    q.push({y,x});
+    while(!q.empty()){
+        int cy= q.front().first; int cx= q.front().second; q.pop();
+        
+        // a,b,c를 다 방문했고 왕국에 왔으면 최단거리 구한 후 종료
+        if(pass()&&map[cy][cx]=='S') {
+            cout<<visited[cy][cx]<<endl; break;}
+        
+        for(int d=0;d<4;d++){
+            int ny= cy+dy[d]; int nx= cx+dx[d];
+            if(ny>m||nx>n||ny<=0||nx<=0||visited[ny][nx]!=0) continue;
+            if(!pass()&& map[ny][nx]=='X') continue;
+            if(map[ny][nx]=='A') a=1;
+            if(map[ny][nx]=='B') b=1;
+            if(map[ny][nx]=='C') c=1;
+            q.push({ny,nx}); visited[ny][nx]=visited[cy][cx]+1;}}}
 
 int main() {
     cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
-    
-    return 0;}
+    cin>>t;
+    while(t--){
+        cin>>n>>m>>r>>k;
+        for(int y=1;y<=n;y++) for(int x=1;x<=m;x++) scanf("%c",&map[y][x]);
+        bfs(r,k);
+        for(int y=1;y<=n;y++){
+            for(int x=1;x<=m;x++){
+                printf("%d",visited[y][x]);}
+            printf("%\n");}
+        
+    }}
+
+
+/*
+ 1
+ 6 6 1 4
+ ......
+ ..B...
+ .XXC..
+ .XXXXA
+ .SXXX.
+ ......
+ 
+ */
