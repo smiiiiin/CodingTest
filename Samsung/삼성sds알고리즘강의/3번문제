@@ -1,0 +1,44 @@
+//SAMSUNG SDS ALGORITHM특강 TEST3: MBTI
+
+/*
+ <<문제>>
+ 16명 모든 알파벳 8개가 있어야한다. ISFJ ENTP
+ 원하는 알파벳 개수 : 2면 각 8개의 알파벳이 2번set를 최소 만족시켜야한다
+ 보수가 최소가 되게
+ 
+ <해결>
+ 돈을 기준으로 낮은 순부터 정렬해서 처음I면 E중에서 가장 낮은 돈
+ 그 두개 중 알파벳 다르면 다음자리로 넘어가고 두개가 같으면 다른 하나 중에서 낮은 가격 얻기
+*/
+
+#include <iostream>
+#include <algorithm> // sort, fill
+#include <stdio.h>
+#include <string>
+#include <map>
+using namespace std;
+int n,t; int money[17];
+map<int, string> m;
+
+int main() {
+    cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
+    cin>>t; while(t--){
+        cin>>n;
+        for(int i=1;i<=16;i++) cin>>money[i];
+        m.insert({money[0],"ENFJ"});
+        m.insert({money[1],"ENFP"});
+        m.insert({money[2],"ENTJ"}); //...넣다 가정
+        //돈을 기준으로 낮은 순부터 정렬 : map은 (키,- )를 중심으로 자동 오름차순이다
+        for(auto i: m){
+            if(i.second.compare("ENFJ")==0){
+                
+            }
+        
+        }
+        
+    }
+    
+    
+    }
+
+
