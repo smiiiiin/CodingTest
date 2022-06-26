@@ -60,4 +60,4 @@ int main(){
             map[v].push_back(i+10000);
             map[i+10000].push_back(v); }}
         cout <<"#"<<k<<" "<<bfs()<<"\n"; k++;}}
-
+ 
