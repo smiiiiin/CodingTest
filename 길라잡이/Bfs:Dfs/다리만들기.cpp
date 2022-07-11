@@ -1,5 +1,153 @@
 //백준 2146 다리만들기
 //https://www.acmicpc.net/submit/2146/41266419 참고하기 
+#include<iostream>
+#include<cstring> //memset()
+#include<vector>
+#include<queue>
+#include<algorithm>//min()
+ 
+#define endl "\n"
+#define MAX 100
+using namespace std;
+ 
+int N, Answer;
+int MAP[MAX][MAX];
+bool Visit[MAX][MAX];
+ 
+int dy[] = { -1, 1, 0, 0 };
+int dx[] = { 0, 0, -1, 1 };
+ 
+vector<pair<int, int>> V; 
+ 
+void Make_LandLabel(int y, int x, int L)
+{
+    queue<pair<int, int>> Q;
+    Q.push(make_pair(y, x));
+    Visit[y][x] = true;
+    MAP[y][x] = L;
+ 
+    while (Q.empty() == 0)
+    {
+        int y = Q.front().first;
+        int x = Q.front().second;
+        Q.pop();
+ 
+        for (int i = 0; i < 4; i++)
+        {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+ 
+            if (nx >= 0 && ny >= 0 && nx < N && ny < N)
+            {
+                if (Visit[ny][nx] == false && MAP[ny][nx] == -1)
+                {
+                    Visit[ny][nx] = true;
+                    MAP[ny][nx] = L;
+                    Q.push(make_pair(ny, nx));
+                }
+            }
+        }
+    }
+}
+ 
+int BFS(int Num)
+{
+    int Result = 0;
+    queue<pair<int, int>> Q;
+    for (int y = 0; y < N; y++)
+    {
+        for (int x = 0; x < N; x++)
+        {
+            if (MAP[y][x] == Num)
+            {
+                Visit[y][x] = true;
+                Q.push(make_pair(y, x));
+            }
+        }
+    }
+ 
+    while (Q.empty() == 0)
+    {
+        int S = Q.size();
+        for (int i = 0; i < S; i++)
+        {
+            int y = Q.front().first;
+            int x = Q.front().second;
+            Q.pop();
+ 
+            for (int d = 0; d < 4; d++)
+            {
+                int nx = x + dx[d];
+                int ny = y + dy[d];
+ 
+                if (nx >= 0 && ny >= 0 && nx < N && ny < N)
+                {
+                    if (MAP[ny][nx] != 0 && MAP[ny][nx] != Num) return Result;
+                    else if (MAP[ny][nx] == 0 && Visit[ny][nx] == false)
+                    {
+                        Visit[ny][nx] = true;
+                        Q.push(make_pair(ny, nx));
+                    }
+                } 
+            }
+        }
+        Result++;
+    }
+    return Result;
+}
+ 
+void Solution()
+{
+    int Land_Label = 1;
+    for (int i = 0; i < V.size(); i++)
+    {
+        int y = V[i].first;
+        int x = V[i].second;
+ 
+        if (Visit[y][x] == false)
+        {
+            Make_LandLabel(y, x, Land_Label);
+            Land_Label++;
+        }
+    }
+ 
+    for (int i = 1; i < Land_Label; i++)
+    {
+        Answer = min(Answer, BFS(i));
+        memset(Visit, false, sizeof(Visit));
+    }
+    cout << Answer << endl;
+}
+ 
+int main(void)
+{
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+ 
+    Answer = 987654321;
+    cin >> N;
+    for (int y = 0; y < N; y++)
+    {
+        for (int x = 0; x < N; x++)
+        {
+            cin >> MAP[y][x];
+            if (MAP[y][x] == 1)
+            {
+                MAP[y][x] = -1;
+                V.push_back(make_pair(y, x));
+            }
+        }
+    }
+    
+    Solution();
+ 
+    return 0;
+}
+
+//내거
+//백준 2146 다리만들기
+//https://www.acmicpc.net/submit/2146/41266419 참고하기 
 /*
 5
 1 1 0 0 1
