@@ -1,5 +1,7 @@
 //백준 2146 다리만들기
 //https://www.acmicpc.net/submit/2146/41266419 참고하기 
+//백준 2146 다리만들기
+//https://www.acmicpc.net/submit/2146/41266419 참고하기 
 #include<iostream>
 #include<cstring> //memset()
 #include<vector>
@@ -41,9 +43,9 @@ int BFS(int num){ // 단지번호마다: (?방문안했고) 내 단지 아니고
  
     while (!q.empty()){
         /* !!중요)
-         원래는 아래 2줄 코드 필요없이 진행되는 건데 res++더해주려고 딱딱 q의 단위를 끊어주는 거다
+         원래는 아래 2줄 코드 필요없이 진행되는 건데 res++더해주려고 "딱딱 q의 단위를 끊어주는" 거다
          map[y][x]=1인 얘들이 끝나면, 걔네가 소개해준 옆친구들 개수만큼만 딱 돌리기 그래서
-         친구를 소개해준 횟수만큼 res++를 더하는 거다. 즉 이동 수가 된다
+         친구를 소개해준 횟수만큼 res++를 더하는 거다. 즉 "이동 수"가 된다
         */
         int S = q.size();
         for (int i = 0; i < S; i++){
@@ -53,14 +55,14 @@ int BFS(int num){ // 단지번호마다: (?방문안했고) 내 단지 아니고
                 int ny = y + dy[d]; int nx = x + dx[d];
                 //틀 안벗어나기는 기본이다
                 if (nx < 0 || ny < 0 || nx >= n || ny >= n) continue;
-                
+                // 다른 육지에 도착: visited[ny][nx] == 0 !! 이거 추가하면 왜 안되는 건가요?
                 if (map[ny][nx] != 0 && map[ny][nx] != num) return res;
-                //위에 if문에서 visited[ny][nx] == 0 !! 이거 추가하면 왜 안되는 건가요?
+                // 바다면 다른친구 소개
                 else if (map[ny][nx] == 0 && visited[ny][nx] == 0){
                     visited[ny][nx] = true;
                     q.push(make_pair(ny, nx));}}
         }
-        //q가 비지 않는 동안 res++한다 // 이동의 횟수
+        //q가 비지 않는 동안 res++한다==이동의 횟수
         res++; }
     return res;}
 
