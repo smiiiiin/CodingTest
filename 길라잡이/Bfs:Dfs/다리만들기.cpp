@@ -5,421 +5,79 @@
 #include<vector>
 #include<queue>
 #include<algorithm>//min()
- 
 #define endl "\n"
 #define MAX 100
 using namespace std;
  
-int N, Answer;
-int MAP[MAX][MAX];
-bool Visit[MAX][MAX];
+int n, ans; int map[MAX][MAX]; bool visited[MAX][MAX];
+int dy[4] = { -1, 1, 0, 0 }; int dx[4] = { 0, 0, -1, 1 };
  
-int dy[] = { -1, 1, 0, 0 };
-int dx[] = { 0, 0, -1, 1 };
+vector<pair<int, int>> v;
  
-vector<pair<int, int>> V; 
+void Make_LandLabel(int y, int x, int l){
+    queue<pair<int, int>> q;
+    q.push({y, x}); visited[y][x] = 1; map[y][x] = l;
  
-void Make_LandLabel(int y, int x, int L)
-{
-    queue<pair<int, int>> Q;
-    Q.push(make_pair(y, x));
-    Visit[y][x] = true;
-    MAP[y][x] = L;
+    while (!q.empty() ){
+        int y = q.front().first; int x = q.front().second; q.pop();
  
-    while (Q.empty() == 0)
-    {
-        int y = Q.front().first;
-        int x = Q.front().second;
-        Q.pop();
+        for (int d = 0; d < 4; d++){
+            int ny = y + dy[d]; int nx = x + dx[d];
+            if (nx < 0 || ny < 0 || nx >= n || ny >= n) continue;
+            
+            if (visited[ny][nx] == 0 && map[ny][nx] == -1){
+                visited[ny][nx] = 1;
+                map[ny][nx] = l;
+                q.push(make_pair(ny, nx));}}}}
  
-        for (int i = 0; i < 4; i++)
-        {
-            int nx = x + dx[i];
-            int ny = y + dy[i];
+int BFS(int num){
+    int res = 0;
+    queue<pair<int, int>> qq;
+    for (int y = 0; y < n; y++){
+        for (int x = 0; x < n; x++){
+            if (map[y][x] == num){
+                visited[y][x] = 1;
+                qq.push(make_pair(y, x));}}}
  
-            if (nx >= 0 && ny >= 0 && nx < N && ny < N)
-            {
-                if (Visit[ny][nx] == false && MAP[ny][nx] == -1)
-                {
-                    Visit[ny][nx] = true;
-                    MAP[ny][nx] = L;
-                    Q.push(make_pair(ny, nx));
-                }
-            }
-        }
-    }
-}
+    while (!qq.empty()){
+        int S = qq.size();
+        for (int i = 0; i < S; i++){
+            int y = qq.front().first; int x = qq.front().second; qq.pop();
  
-int BFS(int Num)
-{
-    int Result = 0;
-    queue<pair<int, int>> Q;
-    for (int y = 0; y < N; y++)
-    {
-        for (int x = 0; x < N; x++)
-        {
-            if (MAP[y][x] == Num)
-            {
-                Visit[y][x] = true;
-                Q.push(make_pair(y, x));
-            }
-        }
-    }
- 
-    while (Q.empty() == 0)
-    {
-        int S = Q.size();
-        for (int i = 0; i < S; i++)
-        {
-            int y = Q.front().first;
-            int x = Q.front().second;
-            Q.pop();
- 
-            for (int d = 0; d < 4; d++)
-            {
-                int nx = x + dx[d];
-                int ny = y + dy[d];
- 
-                if (nx >= 0 && ny >= 0 && nx < N && ny < N)
-                {
-                    if (MAP[ny][nx] != 0 && MAP[ny][nx] != Num) return Result;
-                    else if (MAP[ny][nx] == 0 && Visit[ny][nx] == false)
-                    {
-                        Visit[ny][nx] = true;
-                        Q.push(make_pair(ny, nx));
-                    }
-                } 
-            }
-        }
-        Result++;
-    }
-    return Result;
-}
- 
-void Solution()
-{
-    int Land_Label = 1;
-    for (int i = 0; i < V.size(); i++)
-    {
-        int y = V[i].first;
-        int x = V[i].second;
- 
-        if (Visit[y][x] == false)
-        {
-            Make_LandLabel(y, x, Land_Label);
-            Land_Label++;
-        }
-    }
- 
-    for (int i = 1; i < Land_Label; i++)
-    {
-        Answer = min(Answer, BFS(i));
-        memset(Visit, false, sizeof(Visit));
-    }
-    cout << Answer << endl;
-}
- 
-int main(void)
-{
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
- 
-    Answer = 987654321;
-    cin >> N;
-    for (int y = 0; y < N; y++)
-    {
-        for (int x = 0; x < N; x++)
-        {
-            cin >> MAP[y][x];
-            if (MAP[y][x] == 1)
-            {
-                MAP[y][x] = -1;
-                V.push_back(make_pair(y, x));
-            }
-        }
-    }
-    
-    Solution();
- 
-    return 0;
-}
+            for (int d = 0; d < 4; d++){
+                int ny = y + dy[d]; int nx = x + dx[d];
 
-//내거
-//백준 2146 다리만들기
-//https://www.acmicpc.net/submit/2146/41266419 참고하기 
-/*
-5
-1 1 0 0 1
-1 0 0 0 1
-1 0 0 0 0
-0 0 0 0 0
-0 1 1 0 0
-*/
-
-////백준 2146 다리만들기 
-#include<iostream>
-#include<cstring> //memset()
-#include<vector>
-#include<queue>
-#include<algorithm>//min()
- 
-#define endl "\n"
-#define MAX 100
-using namespace std;
- 
-int N, Answer;
-int MAP[MAX][MAX];
-bool Visit[MAX][MAX];
- 
-int dy[] = { -1, 1, 0, 0 };
-int dx[] = { 0, 0, -1, 1 };
- 
-vector<pair<int, int>> V; 
- 
-void Make_LandLabel(int y, int x, int L)
-{
-    queue<pair<int, int>> Q;
-    Q.push(make_pair(y, x));
-    Visit[y][x] = true;
-    MAP[y][x] = L;
- 
-    while (Q.empty() == 0)
-    {
-        int y = Q.front().first;
-        int x = Q.front().second;
-        Q.pop();
- 
-        for (int i = 0; i < 4; i++)
-        {
-            int nx = x + dx[i];
-            int ny = y + dy[i];
- 
-            if (nx >= 0 && ny >= 0 && nx < N && ny < N)
-            {
-                if (Visit[ny][nx] == false && MAP[ny][nx] == -1)
-                {
-                    Visit[ny][nx] = true;
-                    MAP[ny][nx] = L;
-                    Q.push(make_pair(ny, nx));
-                }
-            }
-        }
-    }
-}
- 
-int BFS(int Num)
-{
-    int Result = 0;
-    queue<pair<int, int>> Q;
-    for (int y = 0; y < N; y++)
-    {
-        for (int x = 0; x < N; x++)
-        {
-            if (MAP[y][x] == Num)
-            {
-                Visit[y][x] = true;
-                Q.push(make_pair(y, x));
-            }
-        }
-    }
- 
-    while (Q.empty() == 0)
-    {
-        int S = Q.size();
-        for (int i = 0; i < S; i++)
-        {
-            int y = Q.front().first;
-            int x = Q.front().second;
-            Q.pop();
- 
-            for (int d = 0; d < 4; d++)
-            {
-                int nx = x + dx[d];
-                int ny = y + dy[d];
- 
-                if (nx >= 0 && ny >= 0 && nx < N && ny < N)
-                {
-                    if (MAP[ny][nx] != 0 && MAP[ny][nx] != Num) return Result;
-                    else if (MAP[ny][nx] == 0 && Visit[ny][nx] == false)
-                    {
-                        Visit[ny][nx] = true;
-                        Q.push(make_pair(ny, nx));
-                    }
-                } 
-            }
-        }
-        Result++;
-    }
-    return Result;
-}
- 
-void Solution()
-{
-    int Land_Label = 1;
-    for (int i = 0; i < V.size(); i++)
-    {
-        int y = V[i].first;
-        int x = V[i].second;
- 
-        if (Visit[y][x] == false)
-        {
-            Make_LandLabel(y, x, Land_Label);
-            Land_Label++;
-        }
-    }
- 
-    for (int i = 1; i < Land_Label; i++)
-    {
-        Answer = min(Answer, BFS(i));
-        memset(Visit, false, sizeof(Visit));
-    }
-    cout << Answer << endl;
-}
- 
-int main(void)
-{
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
- 
-    Answer = 987654321;
-    cin >> N;
-    for (int y = 0; y < N; y++)
-    {
-        for (int x = 0; x < N; x++)
-        {
-            cin >> MAP[y][x];
-            if (MAP[y][x] == 1)
-            {
-                MAP[y][x] = -1;
-                V.push_back(make_pair(y, x));
-            }
-        }
-    }
-    
-    Solution();
- 
-    return 0;
-}
-
-//내거
-#include <iostream>
-#include <vector>
-#include <queue>
-#include <utility>
-#include <algorithm>// min()
-#include <cstring> // memset
-using namespace std;
-
-vector <int> v[101];
-int map[101][101];
-int visited[101][101];
-bool visit[101][101];
-int dy[4]={-1,1,0,0}; int dx[4]={0,0,-1,1};
-int n,ret{0};
-
-void dfs(int y, int x, int r){//CONNECTED에 덩어리번호 붙이기 
-    visited[y][x]=r;
-    
-    for(int d=0;d<4;d++){
-        int ny= y+dy[d]; int nx= x+dx[d];
-        if(ny>=n||ny<0||nx>=n||nx<0) continue;
-        if(map[ny][nx]==1&&visited[ny][nx]==0){
-            dfs(ny,nx,r);
-        }
-    }
-}
-
-struct INFO{
-    int y,x,num;
-};
-queue <INFO> q;
-
-int bfs(int num){
-    int distance{0};
-    
-    for(int y=0;y<n;y++){ 
-        for(int x=0;x<n;x++){
-            if(visited[y][x]==num){
-                INFO info;
-                info.y=y; info.x=x; info.num=num;
-                q.push(info);
-                visit[y][x]=1;}
+                if (nx < 0 || ny < 0 || nx >= n || ny >= n) continue;
                 
-            }
-        }
-    
-    while(!q.empty()){
-        int s=q.size(); //와 이게 진짜 중요한거였다. 이거 이해하는데 5일 걸렸네...
-        //들어온 단계별로 level1인 친구들, level2인 친구들 깊이의 경계를 나눠준다. 
-        for(int i=0;i<s;i++){
-            
-        
-        int cy= q.front().y; int cx= q.front().x;
-        cout<<cy<<cx<<"(cy,cx) "<<"\n";
-        q.pop();
-        for(int d=0;d<4;d++){
-            int ny= cy+dy[d]; int nx= cx+dx[d];
-            if(ny>=n||ny<0||nx>=n||nx<0)continue;
-            
-            //방문x && 바다
-            if(!visit[ny][nx] &&map[ny][nx]==0){
-                visit[ny][nx]=1;
-                INFO in; in.y=ny; in.x=nx; in.num=0;
-                q.push(in);
+                if (map[ny][nx] != 0 && map[ny][nx] != num) return res;
                 
-            }
-            
-            //방문x && 다른 && 섬
-            if(!visit[ny][nx] && visited[ny][nx]!=num&& map[ny][nx]==1){ 
-                return distance;
-            }
+                else if (map[ny][nx] == 0 && visited[ny][nx] == false){
+                    visited[ny][nx] = true;
+                    qq.push(make_pair(ny, nx));}}
         }
-        }
-        distance++; //친구소개의 깊이마다 거리를 +1;
-         
-    }
-    
-    return distance;
-}
+        res++; }
+    return res;}
 
-int main()
-{
-    cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
-    cin>>n;
-    memset(visited,0, sizeof(visited));
-    for(int y=0;y<n;y++){
-        for(int x=0;x<n;x++){
-            cin>>map[y][x]; // !!!넣자마자 바로 bfs()하면 상하좌우를 돌릴 수가 없다. 
-            
-    }}
+int main(void){
+    ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+    ans = 987654321; cin >> n;
     
-    for(int y=0;y<n;y++){ //CONNECTED에 번호 붙이기 
+    for (int y = 0; y < n; y++){
+        for (int x = 0; x < n; x++){
+            cin >> map[y][x];
+            if (map[y][x] == 1){
+                map[y][x] = -1;
+                v.push_back(make_pair(y, x));}}}
     
-        for(int x=0;x<n;x++){
-            
-            if(visited[y][x]==0&&map[y][x]==1){
-                dfs(y,x,++ret);
-            }
-    }}
+    int Land_Label = 0;
+    for (int i = 0; i < v.size(); i++){
+        int y = v[i].first; int x = v[i].second;
+        if (visited[y][x] == 0) Make_LandLabel(y, x, ++Land_Label);
+    }
+ 
+    for (int i = 1; i < Land_Label; i++){
+        ans = min(ans, BFS(i));
+        memset(visited,0,sizeof(visited));}
     
-     cout<<"\n"<<"visited[y][x]"<<"\n";
-    for(int y=0;y<n;y++){
-        for(int x=0;x<n;x++){
-            cout<<visited[y][x]<<" ";
-            }
-            cout<<"\n";
-            }
-      
-    int ans{986754321};      
-    for(int i=1;i<=ret;i++){
-        ans= min(ans,bfs(i));
-       // memset(visit,0,sizeof(visit));
-    }        
-    
-    cout<<ans<<"\n";
-    
-         
-    return 0;
-}
+    cout << ans << endl;
+    return 0;}
