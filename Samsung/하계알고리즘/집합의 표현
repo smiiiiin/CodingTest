@@ -20,7 +20,11 @@ int find(int x) { //재귀로 root노드를 찾는다
     if(x==parent[x]) return x;
     parent[x] =find(parent[x]);
     return parent[x];}
-
+    /*
+    이렇게 해도 된다   :) 
+    //parent[x] =find(parent[x]);
+    return parent[x] =find(parent[x]);}
+*/
 void join(int x, int y) {
     x=find(x); y=find(y);
     if(x==y) return;
@@ -57,3 +61,6 @@ int main() {
  ! 합집합: 연결점 하나로, 우리는 하나
  
  */
+ 
+ 
+ 
