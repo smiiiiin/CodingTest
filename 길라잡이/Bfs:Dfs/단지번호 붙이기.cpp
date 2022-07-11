@@ -1,138 +1,48 @@
-// 2667 단지번호 붙이기 BFS , DFS 매트릭스로 기본맛. 뒤에 문제정답 있음.
-#include <iostream>
-#include <vector>
-#include <queue>
-#include <utility>
-#include <cstring> //memset
-using namespace std;
-
-vector <int> v[101];
-int map[101][101];
-int visited[101][101];
-int dy[4]={-1,1,0,0}; int dx[4]={0,0,-1,1};
-int n,ret{0};
-
-
-queue<pair<int,int>> q;
-void bfs(int y, int x, int r){
-    
-  
-  visited[y][x]=r;
-  q.push({y,x});
-  while(!q.empty()){
-      int cy= q.front().first; int cx= q.front().second;
-      cout<<cy<<cx<<"(cy,cx) ";
-      q.pop();
-      for(int d=0;d<4;d++){
-          int ny= cy+dy[d]; int nx= cx+dx[d];
-          if(ny>=n||ny<0||nx>=n||nx<0)continue;
-          if(map[ny][nx]==1&&visited[ny][nx]==0){
-              q.push({ny,nx});
-              visited[ny][nx]=r;
-          }
-      }
-      
-  }
-}
-
-void dfs(int y, int x, int r){
-    visited[y][x]=r;
-    
-    for(int d=0;d<4;d++){
-        int ny= y+dy[d]; int nx= x+dx[d];
-        if(ny>=n||ny<0||nx>=n||nx<0)continue;
-        if(map[ny][nx]==1&&visited[ny][nx]==0){
-            dfs(ny,nx,r);
-        }
-    }
-}
-
-int main()
-{
-    cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
-    cin>>n;
-    memset(visited,0, sizeof(visited));
-    for(int y=0;y<n;y++){
-        for(int x=0;x<n;x++){
-            cin>>map[y][x]; //넣자마자 바로 bfs()하면 상하좌우를 돌릴 수가 없다. 
-            
-    }}
-    
-    for(int y=0;y<n;y++){
-        for(int x=0;x<n;x++){
-            
-            if(visited[y][x]==0&&map[y][x]==1){
-                //bfs(y,x,++ret);
-                dfs(y,x,++ret);
-            }
-    }}
-    
-    
-    cout<<"\n"<<"visited[y][x]"<<"\n";
-    for(int y=0;y<n;y++){
-        for(int x=0;x<n;x++){
-            cout<<visited[y][x]<<" ";
-            }
-            cout<<"\n";
-            }
-            
-    return 0;
-}
-   
-    
-
-
-
-
-// 2667 단지번호 붙이기 BFS 
-//!!@@입력에 공백이 없으면,
+// 2667 단지번호 붙이기 BFS
+// BFS , DFS 매트릭스로 기본맛
+//입력에 공백이 없으면,
 //제발 scanf("%1d",&map[y][x]) cin쓰고 싶으면 string으로 하고 -'0'하기
-//int num[MAX]하면 틀린다. 범위를 좀 신경써라. 
-
 #include <queue>
 #include <algorithm>
+#include <cstring>
+#include <iostream>
 #include <cstdio>
 #define MAX 26
 using namespace std;
-int n;
-int map[MAX][MAX];
-int visited[MAX][MAX];
-int num[MAX*MAX]; //여기!
-int dy[4]={-1,1,0,0};
-int dx[4]={0,0,-1,1};
+
+int n; int map[MAX][MAX]; int visited[MAX][MAX]; int num[MAX*MAX];
+int dy[4]={-1,1,0,0}; int dx[4]={0,0,-1,1};
 queue<pair<int, int>> q;
 
 void bfs(int y, int x, int r){
-    q.push({y,x});
-    visited[y][x]= r; 
+    q.push({y,x}); visited[y][x]= r;
   while(!q.empty()){
-      int cy= q.front().first; int cx= q.front().second;
-      q.pop();
+      int cy= q.front().first; int cx= q.front().second; q.pop();
       
       for(int d=0;d<4;d++){
           int ny= cy+dy[d]; int nx=cx+dx[d];
-          if (ny<1||nx<1||ny>n||nx>n) continue;
+          if (ny<0||nx<0||ny>=n||nx>=n) continue;
+          
           if(map[ny][nx]==1 && visited[ny][nx]==0){
               q.push({ny,nx});
               visited[ny][nx]=r;
           } } } }
 
 int main(){
-    //cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
     memset(visited,0,sizeof(visited)); memset(map,0,sizeof(map));
     memset(num,0,sizeof(num)); int ret=0; cin>>n;
-    for(int y=1;y<=n;y++){
-        for(int x=1;x<=n;x++){
+    for(int y=0;y<n;y++){
+        for(int x=0;x<n;x++){
             scanf("%1d",&map[y][x]);}}
  
-    for(int y=1;y<=n;y++){
-        for(int x=1;x<=n;x++){
-            if(map[y][x]==1&&visited[y][x]==0){
+    for(int y=0;y<n;y++){
+        for(int x=0;x<n;x++){
+            if(map[y][x]==1&&visited[y][x]==0){ //1이고 방문한 적 없으면 돌아간다 bfs
                     bfs(y,x,++ret);}}}
     printf("%d\n",ret);
-    for(int y=1;y<=n;y++){
-        for(int x=1;x<=n;x++){
-            num[visited[y][x]]++;}} //0번 자리는 빼기
+    for(int y=0;y<n;y++){
+        for(int x=0;x<n;x++){
+            num[visited[y][x]]++;}} 
     sort(num+1,num+ret+1);
     for(int i=1;i<=ret;i++){ printf("%d\n",num[i]); }
     return 0;
