@@ -1,105 +1,38 @@
-// 백준 1922 네트워크 연결 : 트리(나무니깐 비순환, 연결그래프 ! 노드가 n일때 간선은 n-1
-// 간선이 하나 더 있으면 cycle이 되고 하나 더 적으면 연결이 끊어진다 ) mst>프림 알고리즘
-#include <iostream>
-#include <vector>
-#include <queue>
-
-using namespace std;
-
-int n, m; vector<pair<int,int>> edge[100001]; bool visited[100001];
-
-// 비용중심으로 정렬을 시킨다 greater는 오름차순
-// pq는 front()가 아니라 top()을 사용;
-int prim() {
-    // pq <자료형, 그릇<자료형>, 비교함수>
-    priority_queue <pair<int, int>, vector<pair<int, int>>, greater<pair<int, int >>> pq;
-    // {비용, 다음노드}
-    int result=0;
-    pq.push( { 0,1 }); // 초기값 비용은 0이고 노드는 1에서 시작한다
-    
-    for (int i = 1; i <= n; i++) {
-        // 비지 않는 동안, top()은 front()=cur같은 느낌. 다음노드를 방문했다면 pop();
-        while (!pq.empty() &&visited[pq.top().second]) pq.pop();
-        
-        // 다음노드 pq에서 자동정렬되니까 아마 가중치가 적은 노드를 먼저 연결 할것임
-        int next = pq.top().second;
-        int minCost = pq.top().first;
-        visited[next] = 1;
-        result += minCost;
-        for (auto o : edge[next]) { //next에 연결된 노드를 하나씩 가져오면서
-            pq.push({ o.second,o.first }); //그 노드들의 {비용,상대노드}pair를 넣는다
-        }
-    }
-    return result;}
-
-int main() {
-    ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-    cin >> n >> m;
-    
-    for (int i = 0; i < m; i++) {
-        int from, to, cost;
-        cin >> from >> to >> cost;
-        edge[from].push_back({ to ,cost });
-        edge[to].push_back({ from,cost });}
-
-    cout << prim();         return 0;}
-
-
-
-//네트워크 연결 (내생각) 완전 틀리겠지만...
-#include <iostream>
-#include <cstring>
-#include <vector>
+// 1922 네트워크 연결 : 트리- Prim 알고리즘
+// cost낮은 순으로 정렬한 후, 해당되는 노드를 칠하고 이에 인접하는 노드를
+// 칠해가는 과정
 #include <cstdio>
 #include <algorithm>
 using namespace std;
 
-int n,m,a,b,c;
-
-vector<int> matrix[1001];
-struct NODE{ int from, to, cost;};
-
-bool cmp(NODE N, NODE N1){
-    return N.cost< N1.cost; //작은게 앞에 있는 오름차순
-}
-int parent[1001];
-vector<NODE> v;
-// 방법 cost낮은 순으로 정렬한 후, 해당되는 노드를 칠하고 이에 인접하는 노드를
-// 칠해가는 과정
+struct NODE{ int from,to,cost;}; NODE v[100000]; //간선
+int n,m; int parent[1000];
+bool cmp(NODE N, NODE N1){ return N.cost< N1.cost;} //작은게 앞에 있는 오름차순
 
 int find(int x){
-    if(x==parent[x]) return x;
-    parent[x]= find(parent[x]); //저장하기 그래야 찾을때 더 빠르게
-    return parent[x];
-}
+    if(parent[x]==x) return x;
+    return find(parent[x]);}
 
 void join(int a,int b){
     int Agroup= find(a); int Bgroup= find(b);
     if(Agroup==Bgroup) return;
-    else parent[Agroup]=Bgroup;
-}
+    parent[Bgroup]=Agroup;}
 
 int main(){
-    cin>>n;
-    cin>>m;
+    scanf("%d",&n);scanf("%d",&m);
     for(int i=0;i<m;i++){
-        cin>>a>>b>>c;
-        matrix[a].push_back(b); // 노드에 이웃노드들을 저장한다 서로서로
-        matrix[b].push_back(a);
-        v.push_back({a,b,c});
-    }
-    sort(v.begin(), v.end(), cmp); // 노드가 가중치 오름차순으로 정렬된다
-    int sum{0};
-    memset(parent,-1,sizeof(parent));
+        scanf("%d %d %d",&v[i].from,&v[i].to,&v[i].cost);}
+    sort(v, v+m, cmp); // 노드가 가중치 오름차순으로 정렬된다
+    
+    // 초기화
+    for(int i=1;i<=n;i++) parent[i]=i; int sum{0};
+    
     //그럼 위에서부터 from-to노드를 join한다. 근데 join하려면 그 전에 find를 해야한다
     for(int i=0;i<m;i++){
-        if(parent[v[i].from]!=-1) continue;
+        //선이 연결되어 있지 않으면 연결한다
+        if(find(v[i].from)!=find(v[i].to)){
         join(v[i].from, v[i].to); sum+=v[i].cost;
-    }
+        }}
     
-    cout<<sum<<"\n";
-    
-    return 0;
-}
-
-
+        printf("%d\n",sum);
+        return 0;}
