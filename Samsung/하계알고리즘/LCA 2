@@ -5,44 +5,43 @@
 #include <cstring>
 
 using namespace std;
-// 노드 수 해봤자 10^5 < 2^17 이므로 2^17번째 부모까지만 보면됨
+
+// 노드 수= 10^5 < 2^17 이므로 2^17번째 까지만 보면됨
 const int MAX = 18; int n, m;
-// parents[i][n] : i의 2^n 번째 부모
+// parents[i][k] : i의 2^k 번째 부모
 int parents[100000][MAX]; int depth[100000]; vector<int> adj[100000];
 
 // BFS로 노드 깊이 저장
 void depthBFS(){
-    queue<int> q;q.push(1); depth[1]=0;
+    queue<int> q; q.push(1); depth[1]=0;
     while(!q.empty()){
         int cur=q.front(); q.pop();
         for(auto next: adj[cur]){
-            if(depth[next]==-1){
+            if(depth[next]!=-1) continue;
                 q.push(next);
-                depth[next]=depth[cur]+1;}}}}
+                depth[next]=depth[cur]+1;}}}
+
 
 int main(){
     ios_base::sync_with_stdio(false); cout.tie(NULL); cin.tie(NULL);
     cin >> n;
-    for (int i = 0; i < n-1; ++i){
-        int a, b; cin >> a >> b;
-        a--; b--;
+    for (int i = 0; i < n-1; ++i){ //간선 n-1개
+        int a, b; cin >> a >> b; //adj[0]노드에는 암것도 x
         adj[a].push_back(b);
         adj[b].push_back(a);}
 
     // -1로 초기화
-    memset(parents,-1,sizeof(parents));
     fill(depth,depth+n, -1);
-    // root 의 깊이는 0
-    depth[0] = 0;
 
     depthBFS();
 
     // 점핑테이블 부모노드 저장
     // 2^n번째: 할머니(좌)= 부모님의 부모(우)
     // (좌) 2^(n+1)= (우) 2^n + 2^n= 2* 2^n = 2^(n+1)
-    for (int n = 1; n < MAX-1; ++n){
-        for (int i = 1; i < n; ++i){
-            if(parents[i][n]!=-1) parents[i][n+1] = parents[parents[i][n]][n];
+    memset(parents,-1,sizeof(parents));
+    for (int k = 1; k <= n; n++){
+        for (int i = 1; i < MAX; i++){
+            if(parents[i][k]!=-1) parents[i][k+1] = parents[parents[i][k]][k];
         }
     }
     cin >> m;
@@ -71,9 +70,9 @@ int main(){
 
     // a==b 이면 a=b 가 공통조상
     if(a!=b){ //다르면 a==b일때까지 똑같이 올라간다
-        for (int n = MAX-1; n>=0; n--){
-            if(parents[a][n]!=parents[b][n]){ //다르면
-                a = parents[a][n]; b = parents[b][n]; //같이 2^n칸 오른다
+        for (int j = MAX-1; j>=0; j--){
+            if(parents[a][j]!=parents[b][j]){ //다르면
+                a = parents[a][j]; b = parents[b][j]; //같이 2^n칸 오른다
             }
         }
         // 위 과정이 끝나면 최종 a, b 는 같은 부모 아래 있음
