@@ -43,3 +43,63 @@ int main() {
         edge[to].push_back({ from,cost });}
 
     cout << prim();         return 0;}
+
+
+
+//네트워크 연결 (내생각) 완전 틀리겠지만...
+#include <iostream>
+#include <cstring>
+#include <vector>
+#include <cstdio>
+#include <algorithm>
+using namespace std;
+
+int n,m,a,b,c;
+
+vector<int> matrix[1001];
+struct NODE{ int from, to, cost;};
+
+bool cmp(NODE N, NODE N1){
+    return N.cost< N1.cost; //작은게 앞에 있는 오름차순
+}
+int parent[1001];
+vector<NODE> v;
+// 방법 cost낮은 순으로 정렬한 후, 해당되는 노드를 칠하고 이에 인접하는 노드를
+// 칠해가는 과정
+
+int find(int x){
+    if(x==parent[x]) return x;
+    parent[x]= find(parent[x]); //저장하기 그래야 찾을때 더 빠르게
+    return parent[x];
+}
+
+void join(int a,int b){
+    int Agroup= find(a); int Bgroup= find(b);
+    if(Agroup==Bgroup) return;
+    else parent[Agroup]=Bgroup;
+}
+
+int main(){
+    cin>>n;
+    cin>>m;
+    for(int i=0;i<m;i++){
+        cin>>a>>b>>c;
+        matrix[a].push_back(b); // 노드에 이웃노드들을 저장한다 서로서로
+        matrix[b].push_back(a);
+        v.push_back({a,b,c});
+    }
+    sort(v.begin(), v.end(), cmp); // 노드가 가중치 오름차순으로 정렬된다
+    int sum{0};
+    memset(parent,-1,sizeof(parent));
+    //그럼 위에서부터 from-to노드를 join한다. 근데 join하려면 그 전에 find를 해야한다
+    for(int i=0;i<m;i++){
+        if(parent[v[i].from]!=-1) continue;
+        join(v[i].from, v[i].to); sum+=v[i].cost;
+    }
+    
+    cout<<sum<<"\n";
+    
+    return 0;
+}
+
+
