@@ -1,0 +1,81 @@
+#include <bits/stdc++.h>
+using namespace std;
+// 노드 수 해봤자 10^5 < 2^17 이므로 어떤점이든 2^17번째 부모까지만 보면됨
+const int MAX = 18;
+int N, M;
+// parents[i][k] : i의 2^k 번째 부모
+int parents[100000][MAX];
+// 노드의 깊이 ( 루트는 깊이 0 )
+int depth[100000];
+// 인접 리스트 
+vector<int> adj[100000];
+// DFS 로 트리 제작, 각 노드들의 2^0 부모 와 깊이 저장
+void MakeTreeDFS(int curr){
+	for(int next: adj[curr]){
+		if(depth[next]==-1){
+			parents[next][0] = curr;
+			depth[next] = depth[curr]+1;
+			MakeTreeDFS(next);
+		}
+	}
+}
+int main(){ios_base::sync_with_stdio(false); cout.tie(NULL); cin.tie(NULL);
+cin >> N;
+for (int i = 0; i < N-1; ++i){
+	int a, b;
+	cin >> a >> b;
+	a--;
+	b--;
+	adj[a].push_back(b);
+	adj[b].push_back(a);
+}
+// parents 값을 -1로 초기화 하고 시작
+memset(parents,-1,sizeof(parents));
+fill(depth,depth+N, -1);
+// root 의 깊이는 0
+depth[0] = 0;
+// 트리 만들어~
+MakeTreeDFS(0);
+// i 의 2^j 번째 부모 k가 있으면, i의 2^j * 2 번째 부모는 k의 2^j번째 부모
+for (int j = 0; j < MAX-1; ++j){
+	for (int i = 1; i < N; ++i){
+		int k = parents[i][j];
+		if(k!=-1) parents[i][j+1] = parents[k][j];
+	}
+}
+cin >> M;
+for (int i = 0; i < M; ++i){
+	int a, b;
+	cin >> a >> b;
+	a--; 
+	b--;
+	// depth[a] >= depth[b] 로 생각하기 위해 조정
+	if(depth[a] < depth[b]) swap(a,b);
+	int diff = depth[a] - depth[b];
+	// a 와 b 를 같은 높이로 맞춰주기
+	int j = 0;
+	while(diff){
+		if(diff%2) {
+			a = parents[a][j];
+		}
+		j++;
+		diff/=2;
+	}
+	// a==b 이면 a=b 가 공통조상이겠죠.
+	if(a!=b){
+		// 2^17, 2^16, ... 2, 1 번째 부모를 비교
+// 가장 중요한 스킬!!!!!!!!!!!1
+		for (int j = MAX-1; j>=0; j--){
+// 2^j번째 조상이 다른게 나오면 a, b 를 각각의 2^j번째 조상으로 위치변경			
+			if(parents[a][j]!=parents[b][j]){
+				a = parents[a][j];
+				b = parents[b][j];
+			}			
+		}
+		// 위 과정이 끝나면 최종 a, b 는 같은 부모 아래 있다.
+		a = parents[a][0];  
+	}
+	cout << a+1 << '\n';
+}
+return 0;
+}
