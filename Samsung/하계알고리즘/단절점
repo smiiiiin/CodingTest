@@ -1,11 +1,14 @@
 // 백준 11266 단절점
-// 내가 할머니와 연결되어 있다면 부모노드는 필요없음 그때 부모노드는 단절점이 될 수 없음?
+/*  나를 기준으로 부모는 나보다 항상 방문순서가 먼저다(부모와 나의 관계는 명백)
+    나를 기준으로 자식이 이미 조상과 연결되어 있다면 나는 없어도 되는 존재 이므로 단절점이 아니다
+*/
+
 #include<iostream>
 #include<cstring>
 #include<vector>
 #define MAX 100001
 using namespace std;
-//루트노드에 대한 판단 20%는 작성하지 않았다 
+//루트노드에 대한 판단 20%는 작성하지 않았다
 
 int v,e,a,b;
 vector<int> adj[1001];
@@ -14,11 +17,7 @@ int cut_vertex[1001]; //각 정점의 단절점 여부 저장
 int answer[10001], s_ans; //출력할 단절점 정보와 개수
 int order;// 방문 순서
 
-/*  나를 기준으로 부모는 나보다 항상 방문순서가 먼저다(부모와 나의 관계는 명백)
-    미래의 얘기라서 불확실한건 나와 자식의 관계
-    나를 기준으로 자식이 이미 조상과 연결되어 있다면 나는 없어도 되는 존재 이므로 단절점이 아니다
-*/
-
+int child=0;
 int dfs(int cur, int parent){
     visited[cur]= ++order; //방문 Order 저장
     
@@ -41,10 +40,12 @@ int dfs(int cur, int parent){
         //방문하지 않은 경우
         else{
             //이제 방문할 거니까 자식들을 수집해서 나 자신을 판단해야한다
+            ++child;
             int low = dfs(next,cur); //부모가 자신이니까
             
             if(visited[cur]<= low) cut_vertex[cur]=1;
             min_order= low < min_order ? low : min_order ;}}
+    if(parent==0 && child>=2) cut_vertex[cur]=1;
     return min_order;}
 
 int main(){
@@ -53,6 +54,7 @@ int main(){
         cin>>a>>b;
         adj[a].push_back(b);
         adj[b].push_back(a);}
+    // 백준 단절점 예시 input 그래프를 방문순서대로
     
     // 주어진 그래프가 연결그래프가 아니므로 연결그래프면 1번노드부터 시작dfs(1); 하면된다
     for(int i=1;i<=v;i++){
