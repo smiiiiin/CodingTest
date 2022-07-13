@@ -1,0 +1,68 @@
+// 백준 11266 단절점
+// 내가 할머니와 연결되어 있다면 부모노드는 필요없음 그때 부모노드는 단절점이 될 수 없음?
+#include<iostream>
+#include<cstring>
+#include<vector>
+#define MAX 100001
+using namespace std;
+//루트노드에 대한 판단 20%는 작성하지 않았다 
+
+int v,e,a,b;
+vector<int> adj[1001];
+int visited[1001]; //방문순서 (미방문일 경우, 0)
+int cut_vertex[1001]; //각 정점의 단절점 여부 저장
+int answer[10001], s_ans; //출력할 단절점 정보와 개수
+int order;// 방문 순서
+
+/*  나를 기준으로 부모는 나보다 항상 방문순서가 먼저다(부모와 나의 관계는 명백)
+    미래의 얘기라서 불확실한건 나와 자식의 관계
+    나를 기준으로 자식이 이미 조상과 연결되어 있다면 나는 없어도 되는 존재 이므로 단절점이 아니다
+*/
+
+int dfs(int cur, int parent){
+    visited[cur]= ++order; //방문 Order 저장
+    
+    // 내 부모에게 넘겨줄 low(현재 나의 return 값) 저장하는 변수
+    // 부모한텐 low이고 나한테는 min_order
+    // 나와 연결된 점 중 방문한 연결점이 방문했던 점 중 order가 가장 빠른 것
+    int min_order=visited[cur];
+    
+    
+    // 연결된 점을 탐색한다
+    for(auto next: adj[cur]){
+        if(next== parent) continue; //직계부모노드인 경우 넘긴다
+        
+        if(visited[next]>0){ //다음 것이 이미 방문했다면 나는 필요없지만 내 정보를
+            // 부모에게 넘겨줘야한다
+            // 나 부모말고도 이사람 통해서 올 수 있어. 라고 부모노드한테 알려준다
+            min_order= visited[next] < min_order ? visited[next] : min_order ;
+            
+        }
+        //방문하지 않은 경우
+        else{
+            //이제 방문할 거니까 자식들을 수집해서 나 자신을 판단해야한다
+            int low = dfs(next,cur); //부모가 자신이니까
+            
+            if(visited[cur]<= low) cut_vertex[cur]=1;
+            min_order= low < min_order ? low : min_order ;}}
+    return min_order;}
+
+int main(){
+    cin>>v>>e;
+    for(int i=0;i<e;i++){
+        cin>>a>>b;
+        adj[a].push_back(b);
+        adj[b].push_back(a);}
+    
+    // 주어진 그래프가 연결그래프가 아니므로 연결그래프면 1번노드부터 시작dfs(1); 하면된다
+    for(int i=1;i<=v;i++){
+        if(visited[i]==0) dfs(i,0);}
+
+    // 단절점 정보 출력
+    for(int i=1;i<=v;i++){
+        if(cut_vertex[i]) answer[s_ans++]=i;}
+    
+    cout<<s_ans;
+    for(int i=0;i<s_ans;i++) cout<<answer[i];
+    cout<<"\n";
+    return 0;}
