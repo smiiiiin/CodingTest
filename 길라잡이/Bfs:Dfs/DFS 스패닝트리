@@ -1,0 +1,64 @@
+// DFS 스패닝 트리에서 간선의 종류는 4가지 tree(트리의 간선) , foward(사이클생김, 트리 아님, 할머니에서 손자로) , back(손자에서 할머니로) , cross( 그 외의 간선)
+// 백준 11266 단절점문제 기초를 위해서 
+/*  나를 기준으로 부모는 나보다 항상 방문순서가 먼저다(부모와 나의 관계는 명백)
+    나를 기준으로 자식이 이미 조상과 연결되어 있다면 나는 없어도 되는 존재 이므로 단절점이 아니다
+*/
+
+#include<iostream>
+#include<cstring>
+#include<vector>
+using namespace std;
+vector<int> adj[1001]; int discovered[1001]; int finished[1001]; int cnt;
+
+void dfs(int node){
+    discovered[node] = cnt++;
+
+    for (auto next : adj[node]) {
+        cout << "(" << node << "," << next << ") : ";
+
+        //  아직 방문하지 않았다면
+        if (discovered[next] == -1) {
+            cout << "tree edge" << endl;
+            dfs(next);
+        }
+
+        //  next를 방문했지만 순서가 node보다 늦다면
+        else if (discovered[node] < discovered[next])
+            cout << "forward edge" << endl;
+
+        //  next를 방문했지만 순서가 node보다 빠르다면
+        //  next가 종료하지 않았다면 => next는 node의 선조가 됨.
+        else if (finished[next] == 0)
+            cout << "back edge" << endl;
+
+        //  이 외에는 모두 교차 간선
+        else
+            cout << "cross edge" << endl;
+    }
+    finished[node] = 1;
+}
+
+int n,e,a,b;
+
+int main(){
+    cin>>n>>e;
+    memset(discovered,-1,sizeof(discovered));
+    //인접리스트 완
+    while(e--){cin>>a>>b; adj[a].push_back(b); adj[b].push_back(a);}
+    for(int i=1;i<=n;i++) if(discovered[i]==-1) dfs(i);
+    
+    return 0;}
+
+/*
+ 
+ 7 7
+ 1 4
+ 4 5
+ 5 1
+ 1 6
+ 6 7
+ 2 7
+ 7 3
+ 
+ 
+ */
