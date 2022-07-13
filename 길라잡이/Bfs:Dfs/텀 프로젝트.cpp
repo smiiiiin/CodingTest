@@ -1,4 +1,51 @@
-//백준 9466 텀프로젝트 
+
+//나 하는중
+//백준 9466 텀 프로젝트
+#include<iostream>
+#include<cstring>
+#include<queue>
+#define MAX 100001
+using namespace std;
+
+int t,n,cnt; int arr[MAX]; int visited[MAX]; //처음시작노드
+
+void bfs(int start){
+    queue<int> q;
+    q.push(start);
+    while(!q.empty()){
+        int cur=q.front(); q.pop();
+        int next=arr[cur];
+        if(visited[next]!=-1 ) { visited[next]=cur;
+            q.push(next);}
+    }
+    
+    
+}
+
+int main(){
+    cin>>t;
+    while(t--){
+        memset(arr,-1,sizeof(arr)); memset(visited,-1,sizeof(visited));
+        cin>>n;
+        for(int i=0;i<n;i++) cin>>arr[i];
+        for(int i=0;i<n;i++){
+            if(visited[i]!=-1) bfs(i);
+        }
+        }
+    return 0;}
+
+
+
+
+
+
+
+
+
+
+
+
+
 //내가 dfs쓰는 거 포기하고 이걸로 하려고 하는데도 이해가 안간다. 
 #include <iostream>
 #include <queue>
