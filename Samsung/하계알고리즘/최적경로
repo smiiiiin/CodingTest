@@ -1,0 +1,54 @@
+//삼성 외판원순회(TSP) 1247 최적경로
+/*
+ 노드 n
+ 김대리는 회사> 고객들> 내집 의 경로
+ 가장짧은 거리
+ */
+#include<iostream>
+#include<vector>
+#include<cstring>
+#include<math.h>
+ 
+using namespace std;
+// 최단경로의 이동거리
+vector<pair<int, int>> posi;// 노드들의 위치를 저장한다
+bool visited[12]; int min_dist;
+ 
+int cal_dist(pair<int,int> p1, pair<int,int> p2){
+    return abs(p1.second-p2.second)+abs(p1.first-p2.first);
+}
+ 
+void dfs(int start_index, int dist, int size) {
+    if (size == posi.size() - 2) {
+        dist += cal_dist(posi[start_index], posi[1]);
+        min_dist=min(min_dist,dist);
+        return;
+    }
+
+    for (int i = 2; i < posi.size(); i++) {
+        if (visited[i] == false && i!=start_index) {
+                   visited[i] = true;
+            dfs(i, dist + cal_dist(posi[start_index], posi[i]), size + 1);
+                   visited[i] = false;
+        }
+    }
+}
+ 
+int main() {
+    int T;
+    cin >> T;
+    for (int t = 1; t <= T; t++) {
+        min_dist = 9999999; posi.clear(); memset(visited,0,sizeof(visited));
+        int N, x, y;
+        cin >> N;
+        for (int i = 0; i < N+2; i++) {
+            cin >> x >> y;
+            posi.push_back({x,y});
+        }
+        dfs(0, 0, 0);
+        cout << "#" << t << " " << min_dist << endl;
+    }
+ 
+    return 0;
+}
+
