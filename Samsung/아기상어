@@ -1,104 +1,78 @@
-// 16236 아기상어
-
+// 16236 아기상어 그점으로부터의 가중치를 계산해야하는데 그 점이 계속 움직이면
+// struct안에 답을 넣어라
 #include <iostream>
 #include <queue>
+#include <cmath>
+#include <vector>
 using namespace std;
- 
-struct SHARK {
-    int x,y, time;
-};
- 
-int n;
-int map[20][20];
- 
-int shark_size, shark_eat; //얘는 struct에 넣는 방식으로 못할까?
-SHARK shark;
 
- 
-const int dx[] = { 0, 0, -1, +1 };
-const int dy[] = { -1, +1, 0, 0 };//상하좌우
+int n; int map[20][20]; // bool visited[20][20]={0,}; //여기에 놓으면 틀리네...wow
+int dy[] = {-1, 0, 0, 1}, dx[] = {0, -1, 1, 0};
 
+struct Fish{
+    int y, x, time; //시간(답)이 곧 이동한 칸 개수
+    bool operator<(const Fish &b) const{
+        if (time == b.time){
+            if (y == b.y)
+                return b.x<x;
+            return b.y<y;}
+        return b.time<time;}};
+
+queue<Fish> q; //좌표랑 거리(=시간) 답이랑 같이 저장
+
+// !! 움직인다. 먹는다를 각각 나눈 것이다 q는 움직이는 것, pq는 먹는 것
+
+int getMaxTime(){
+    int res_time = 0, eat = 0, size = 2;
+    //priority_queue<Fish> pq; //메모리 초과
     
- 
-int main()
-{
-    cin>>n;
-    for (int x = 0; x < n; ++x) {
-        for (int y = 0; y < n; ++y) {
-            cin>> map[x][y];
-            if (map[x][y] == 9) {
-                shark.y = y; shark.x = x; shark.time = 0;
-                shark_size = 2; shark_eat = 0;
-                map[x][y] = 0;
+    while (true){ //q는 q여서 이동하는거야 편안하게 생각해 근데
+        //while(1)을 만들면서 pq를 안에 넣어주면서 우선순위 생각하면서 먹는 것 까지 고려한다
+        //왜? 먹는데에 우선순위가 있으니까 말그대로-
+        //while(1) 왜 하는거야? 다 먹을때까지 계속 먹을거니까
+        priority_queue<Fish> pq;
+        bool visited[20][20]={0,};
+        // bfs로 먹을 수 있는 먹이 모두 찾기
+        while (!q.empty()){
+            Fish cur = q.front(); q.pop();
+
+            for (int d = 0; d < 4; d++){
+                int ny = cur.y + dy[d], nx = cur.x + dx[d];
+                if (ny < 0 || nx < 0 || ny >= n || nx >= n) continue;
+                //size는 언제 키우나
+                if (visited[ny][nx] || map[ny][nx] > size) continue;
+                visited[ny][nx] = 1;
+                q.push({ny, nx, cur.time + 1});
+                if (map[ny][nx] < size && map[ny][nx] != 0)
+                    pq.push({ny, nx, cur.time + 1});
             }
         }
-    }//여기까지 맵을 채운다. 물고기들의 사이즈랑 아기상어의 위치를, 아기상어 정보 넣고 아기상어 사이즈 0으로 초기화 여기에는 먹을 물고기는 없는거나 다름없어지는 거다.
+        
+        // 다 먹었으면 break;
+        if (pq.empty()) break;
+        
+       
+        // 먹이 먹기= 조건에 맞는 순서에 따라 먹어야 하며 물고기 숫자가 0이 된다는 것을 의미
+        int feedY = pq.top().y; int feedX = pq.top().x;
+        if (++eat == size){ eat = 0; size++;}
+        
+        // 먹이 위치로 이동
+        map[feedY][feedX] = 0;
+        q.push({feedY, feedX, 0});
+        res_time += pq.top().time;}
 
-    bool is_update = true;
-        while (is_update) { //update가 멈추면 그만두게 한다(먹을 게 없다)
-        is_update = false;
-     
-            bool visited[20][20] = { false, }; //,뒤에 다 false로 초기화
-            queue<SHARK> q; //후보들을 넣어 둘 큐를 만든다.
-            visited[shark.x][shark.y] = true; //아기상어의 위치는 방문한거임.
-            q.push(shark);// 아기상어를 큐에 넣는다.
-     
-            SHARK selected; //min같은 느낌: 내가 min인데 나보다 작으면 네가 min이다.
-            selected.x = 20; selected.time = -1; //selected의 초기화다. 선택 안되도록.
-            
-            while (!q.empty()) {
-                SHARK cur = q.front();  q.pop(); //pop은 커서를 오른쪽으로
-                //움직이는 역할을 하는 듯하게 한다.
-    
-
-                for (int dir = 0; dir < 4; ++dir) {// 인접한 상하좌우를 둘러보며
-                    //후보군들을 생성한다.
-                    SHARK next;// 새로운 노드/셀/block? 을 만듦.
-                    next.x = cur.x + dx[dir];
-                    next.y = cur.y + dy[dir];
-                    next.time = cur.time + 1;
-     
-                    if (next.y < 0 || next.y >= n || next.x < 0 || next.x >= n) {
-                        continue; //반복문의 끝으로 이동한다.
-                        
-                    }
-                    //들른 적 없고 갈 수 있으면
-                    if (visited[next.x][next.y] == false && shark_size >= map[next.x][next.y]) {
-                        visited[next.x][next.y] = true; //간다
-                        q.push(next); //후보군을 queue에 하나씩 넣고 -1
-                    }
-                    
-                   }
-                
-                //초기화 상태가 아닌데 && (                          )하면 종료한다.
-                if (selected.time != -1 && selected.time < cur.time) {
-                    break;
-                }
-                
-                // 먹을 수 있고 0이 아니면(먹이가 있으면)
-                if (map[cur.x][cur.y] < shark_size && map[cur.x][cur.y] != 0) {
-                 is_update = true; //먹는다- 이때 밑에 이프문과 연동된다.
-                    if ( (selected.x == cur.x && selected.y > cur.y)|| selected.x > cur.x ) {
-                        selected = cur; //높이가 같으면 왼쪽에 있거나 높이 있는것.
-                        //== 높이 있는게 우선, 그 다음 왼쪽에 있는것.
-                    } //상하좌우 해서 (4번이하의)cur이동(for문) 끝에 결정되는 selected.
-                }
-        }
-                 
-        if (is_update) { //bool을 통해서 동기화: 필요할 때 마다 호출이 가능하다. //먹는다= 이동한다= 선택한다
-            shark= selected;//cout<<selected.time;은 못함. 지역변수라서?
-            ++shark_eat;
-            if (shark_eat == shark_size) {
-                ++shark_size; //사이즈 키우고
-                shark_eat = 0;//먹은 것 0으로 초기화하고 : 내생각엔 이부분 때문에 SHARK구조체에 size,eat 변경시 에러인것 같음.
-            }
-            map[shark.x][shark.y] = 0;}
-          }
-
-        cout<<shark.time;
-     
-        return 0;
-    }
+    return res_time;}
 
 
-    
+
+
+int main(){
+    ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+    cin >> n;
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++){
+            cin >> map[i][j];
+            if (map[i][j] == 9){
+                map[i][j] = 0; q.push({i, j, 0});}}
+    cout << getMaxTime() << '\n';
+    return 0;}
