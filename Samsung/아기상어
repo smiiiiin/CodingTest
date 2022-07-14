@@ -1,5 +1,6 @@
 // 16236 아기상어 그점으로부터의 가중치를 계산해야하는데 그 점이 계속 움직이면
 // struct안에 답을 넣어라
+// pq.pop()은 왜 안해?
 #include <iostream>
 #include <queue>
 #include <cmath>
@@ -53,8 +54,8 @@ int getMaxTime(){
         
        
         // 먹이 먹기= 조건에 맞는 순서에 따라 먹어야 하며 물고기 숫자가 0이 된다는 것을 의미
-        int feedY = pq.top().y; int feedX = pq.top().x;
-        if (++eat == size){ eat = 0; size++;}
+        int feedY = pq.top().y; int feedX = pq.top().x; eat++;
+        if (eat == size){ eat = 0; size++;}
         
         // 먹이 위치로 이동
         map[feedY][feedX] = 0;
