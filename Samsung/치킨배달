@@ -1,11 +1,14 @@
-// 15686 치킨배달 : 그래프 DFS 
+// 15686 치킨배달 : 그래프 DFS
 #include <iostream>
 #include <algorithm>
 #include <vector>
 using namespace std;
 
 int n, m,a, ret{0x7ffffff};
-struct POSI{int y, x;};
+struct POSI{
+    int y, x;
+    // POSI(int y_posi,int x_posi) {y=y_posi; x=x_posi;}; !struct 재정의 할 수 ㅇ
+};
 int dis(POSI p, POSI p2){ return abs(p.y-p2.y)+abs(p.x-p2.x);}
 vector<POSI> home, shop, pick; //집 별로, 가게별로, 선택된 가게별로 정렬
 
@@ -25,7 +28,7 @@ void update(){
     return;}
 
 
-void dfs(int idx, int sz){ //치킨거리를 선택해본다 //
+void dfs(int idx, int sz){ //치킨거리를 선택해본다
     if(sz==m){update();} //가게 선택 다 했으면 그때의 치킨거리 구하기
     
     for(int i=idx; i<shop.size(); i++){
@@ -42,7 +45,8 @@ int main() {
         for(int x=0;x<n;++x){
             cin>>a;
             if(a==1) home.push_back({y,x});
-            if(a==2) shop.push_back({y,x}); //이거 struct 재정의로도 해보기 꼭!
+            // if(a==1) home.push_back(POSI(y,x)); // ! struct 재정의 시 문법
+            if(a==2) shop.push_back({y,x});
         }}
     
     dfs(0,0);
