@@ -1,4 +1,13 @@
 // 2098 외판원 순회 : 비트마스킹 + DP
+/*   <idea>
+ 
+     dp[cur][visited] : [cur][cur노드까지 방문한 노드] 까지 가중치의 최소값
+     3,4,2 방문한 visited 비트마스킹의 수가 있고 현재노드는 4
+     여기까지의 가중치의 최소값 = dp[4][14]
+     <14인 이유>
+     idx 4 3 2 1 0  **참고로 node번호= idx번호+1; idx는 0부터 시작하니깐
+           1 1 1 0 이므로 숫자는 14
+*/
 #include <iostream>
 #include <cstring>
 #include <algorithm>
@@ -6,32 +15,27 @@ using namespace std;
 
 const int INF = 987654321;
 int n, weight[16][16];
-/* dp[cur][visited] : [cur][cur노드까지 방문한 노드] 까지 가중치의 최소값
- 3,4,2 방문한 visited 비트마스킹의 수가 있고 현재노드는 4
- 여기까지의 가중치의 최소값 = dp[4][14]
- <14인 이유>
- idx 4 3 2 1 0  **참고로 node번호= idx번호+1; idx는 0부터 시작하니깐
-       1 1 1 0 이므로 숫자는 14
-*/
+
 int dp[16][1<<16]; // ?
 
 int TSP(int cur, int visited){
-    int &ret = dp[cur][visited];
-    if(ret != -1) return ret;
+    int &res = dp[cur][visited]; //참조, 캐시에 저장함으로써 시간절약
+    if(res != -1) return res;
     // 모든 마을 방문했는가
     if(visited == (1<<n)-1){
         // current -> 0 이동 가능한지
         if(weight[cur][0] != 0) return weight[cur][0];
-        
-        return INF;}
+    return INF;}
     
-    ret = INF;
-    for (int i = 0; i < n; ++i){
-        // 방문했거나 || current -> i 로 길이 없거나
-        if(visited & (1<<i) || weight[cur][i] == 0) continue;
-        ret = min(ret, TSP(i, visited|(1<<i)) + weight[cur][i]);}
+    res = INF;
+    for (int next = 0; next < n; ++next){
+        // visited 10진수정수를 2진수로 변경 시, i번째가 방문 했거나
+        // cur에서 i까지 길이 없거나(가중치가 없다는 건 길이 없다는것)
+        if(visited & (1<<next) || weight[cur][next] == 0) continue;
+        // '|'더하는 건 i노드도 방문했다고 업데이트 하는 거임
+        res = min(res, TSP(next, visited|(1<<next)) + weight[cur][next]);}
    
-    return ret;}
+    return res;}
 
 int main (){
     ios_base::sync_with_stdio(false);cout.tie(NULL);cin.tie(NULL);
@@ -42,3 +46,24 @@ int main (){
     memset(dp,-1,sizeof(dp));
     cout << TSP(0,1) << '\n';
 return 0;}
+
+
+
+/*
+ 
+ https://www.youtube.com/watch?v=yHBYeguDR0A
+ 14분 부터 영상 참고해서 보길 바람 비트연산자
+#include<iostream>
+using namespace std;
+bool getbit(int num, int idx){
+    // 0 & 무슨수가 오던간에 =0이니까 알고싶은idx만큼 1을 << 왼쪽으로 쉬프트해서
+    // 곱하면 그 인덱스자리 숫자만 알 수 있어. 이때 num은 무조건 10진수인데
+    // 2진수로 변환되서 연산이 이뤄진다 비트연산자니까
+    return (num & (1<<idx))!=0;
+}
+int main(){
+    cout<<getbit(9,3);
+    // 1001
+    return 0;
+}
+*/
