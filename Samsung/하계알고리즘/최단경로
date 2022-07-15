@@ -5,38 +5,38 @@
 #define INF 2147000000
 #define MAX 20001
 using namespace std;
+
 struct Edge{
-    int ver;
+    int to_node;
     int dist;
-    //Edge(int a,int b):ver(a),dist(b){};
-    Edge(int a,int b){ver=a; dist=b;}
-    //struct 연산자 오버로딩 외우기 앞에는 항상 점을 붙이기
+    Edge(int a,int b){to_node=a; dist=b;}
     bool operator <(const Edge e) const {return e.dist<dist;}};
+priority_queue<Edge> pq;
 
-priority_queue<Edge> q;
-vector<pair<int,int>> g[MAX]; //자기 노드에 {가르키는 노드, 거리} 저장
+// 입력
+vector<pair<int,int>> adj[MAX]; //자기 노드에 {가르키는 노드, 거리} 저장
 
-//나까지의 최단거리 저장하는 곳
-vector<int>ans(MAX,INF); //벡터 초기화, max크기만큼 다 inf로
+// 출력: 나까지의 최단거리 저장하는 곳
+vector<int>ans(MAX ,INF); // ! 푹푹 벡터 초기화, max크기만큼 다 inf로
 
 void dijkstra(int x){
     ans[x]=0;
-    q.push(Edge(x,0)); //노드번호, 비용
-    while(!q.empty()){
-        int v=q.top().ver; int d=q.top().dist; q.pop();
+    pq.push(Edge(x,0)); //노드번호, 비용
+    while(!pq.empty()){
+        int v=pq.top().to_node; int d=pq.top().dist; pq.pop();
         
-        for(auto next: g[v]){
+        for(auto next: adj[v]){
             int nextV=next.first; int nextD=d+ next.second;
-            if(ans[nextV]>nextD){ //지금보다 더 최단거리라면 
+            if(ans[nextV]>nextD){ //지금보다 더 최단거리라면
                 ans[nextV]=nextD;
-                q.push(Edge(nextV,nextD));}}}}
+                pq.push(Edge(nextV,nextD));}}}}
 
 int main(){
     int V,E,K,a,b,c;
     cin>>V>>E>>K; //노드, 간선개수, 시작번호
     for(int i=0;i<E;i++){
         cin>>a>>b>>c;
-        g[a].push_back({b,c});}
+        adj[a].push_back({b,c});} // from to cost
     
     dijkstra(K);
     
