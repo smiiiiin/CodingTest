@@ -1,0 +1,37 @@
+// 2098 외판원 순회 : 비트마스킹 + DP 비트연산자에 대한 공부 아래 링크 참조
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+using namespace std;
+
+const int INF = 987654321;
+int n, weight[16][16];
+int dp[16][1<<16];
+
+int TSP(int cur, int visited){
+    int& res = dp[cur][visited]; //참조, 캐시(시간단축)
+    if(res!=-1) return res; //무지성암기(1)
+    
+    if(visited== (1<<n)-1){ // dfs 끝까지 다 돌면 ! 여기 '=='이다 마치 if(size==m)
+        if(weight[cur][0]!=0) return weight[cur][0]; //근데 갈길 없었으면 update
+        return INF;} //윗줄, 0이 아니면 weight 0 -> update느낌
+    
+    res= INF; //무지성암기(2)
+    // and& 랑 or| 비트연산자 헷갈리지 말기 :)
+    for(int next=0;next<n;next++){ //dfs 하나하나 O(n!)로 다돌리기
+        //방문 했거나 갈길 없으면 다음
+        if(visited & (1<<next)|| weight[cur][next]==0) continue;
+        //통과한 친구들은 dfs돌리기
+        res= min(res, TSP(next, visited| (1<<next)) +weight[cur][next]);
+    }
+    return res;}
+
+int main (){
+    ios_base::sync_with_stdio(false);cout.tie(NULL);cin.tie(NULL);
+    cin >> n;
+    for (int i = 0; i < n; ++i){
+        for (int j = 0; j < n; ++j)
+            cin >> weight[i][j];}
+    memset(dp,-1,sizeof(dp));
+    cout << TSP(0,1) << '\n';
+return 0;}
