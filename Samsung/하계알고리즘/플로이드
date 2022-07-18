@@ -1,0 +1,46 @@
+// 11404 플로이드
+#include <iostream>
+#include <algorithm>
+using namespace std;
+ 
+#define INF 987654321
+#define MAX 101 
+int n, m;
+int ans[MAX][MAX]; //플로이드 워셜알고리즘의 ans는 2차원 배열이다 
+int from, to, cost;
+ 
+void floyd_warshall() {
+    for (int i = 1; i <= n; i++)             // i vertex를 거치는 경우
+        for (int f = 1; f <= n; f++)         // from vertex
+            for (int t = 1; t <= n; t++)     // to vertex
+                if (ans[f][i] != INF && ans[i][t] != INF)        
+                    ans[f][t] = min(ans[f][t], ans[f][i] + ans[i][t]);
+}
+ 
+int main(){
+    cin >> n >> m;
+    for (int i = 1; i <= n; i++) {        // 초기화
+        for (int j = 1; j <= n; j++) {
+            ans[i][j] = INF;
+        }
+    }
+    
+    for (int i = 0; i < m; i++) {    // from vertex에서 to vertex 입력, 가중치 입력
+        cin >> from >> to >> cost;
+        if (ans[from][to] > cost) 
+            ans[from][to] = cost;
+    }
+    
+    floyd_warshall();
+    
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= n; j++) {
+            if ( i == j || ans[i][j] == INF)
+                cout << 0 << " ";
+            else
+                cout << ans[i][j] << " ";
+        }
+        cout << endl;
+    }
+    return 0;
+}
