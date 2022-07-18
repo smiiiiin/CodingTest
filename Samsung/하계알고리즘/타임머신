@@ -1,6 +1,4 @@
-//백준 11657 타임머신
-
-//틀린 내 오답 
+// 11657 타임머신
 #include<iostream>
 #include<algorithm>
 #include<vector>
@@ -19,7 +17,7 @@ int main(){
 
 	cin >> n >> m;
 
-	for (int i = 0; i < m; i++){
+	for (int i = 0; i < m; i++){ //간선마다 노드, 비용값을 넣는다 
 		cin >> A >> B >> C;
 		adj[A].push_back({ B,C });}
 	
@@ -28,18 +26,17 @@ int main(){
 	ans[1] = 0; // 시작점 0으로 초기화
 	
 	for (int y = 1; y <= n; y++)
-		for (int x = 1; x <= n; x++)
-		{
-		    for(auto next: adj[x]){
-		        
-		        int nn= next.first; int nc= next.second;
-		        if(ans[x]==INF) continue;
-		        ans[nn]=min(ans[nn],ans[x]+ans[nc]);
-		        if(y==n) cycle_of_minus = true;
-		    }
-			
-		}
+		for (int x = 1; x <= n; x++){
+			for (auto next: adj[x]){
+				int nn = next.first; int nc = next.second;
+				
+				if(ans[x] == INF) continue; //이건 왜할까? 
 
+                if(ans[nn]>ans[x]+nc){
+                    ans[nn]= ans[x]+nc; // update된 경우에
+                    if (y == n) cycle_of_minus = true;
+                }}}
+	
 	if (cycle_of_minus) cout << -1 << '\n';
 	else{
 		for (int i = 2; i <= n; i++)
