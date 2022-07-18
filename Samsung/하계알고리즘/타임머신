@@ -32,10 +32,10 @@ int main(){
 				
 				if(ans[x] == INF) continue; //이건 왜할까? 
 
-                if(ans[nn]>ans[x]+nc){
-                    ans[nn]= ans[x]+nc; // update된 경우에
-                    if (y == n) cycle_of_minus = true;
-                }}}
+                		if(ans[nn]>ans[x]+nc){
+                   			ans[nn]= ans[x]+nc; // update된 경우에
+                    			if (y == n) cycle_of_minus = true;}
+		}}
 	
 	if (cycle_of_minus) cout << -1 << '\n';
 	else{
