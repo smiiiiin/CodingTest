@@ -7,14 +7,14 @@
 using namespace std;
 
 struct Edge{
-    int node;
-    int cost;
+    int node; int cost;
     Edge(int a,int b){node=a; cost=b;}
     bool operator <(const Edge e) const {return e.cost<cost;}};
+
 priority_queue<Edge> pq;
 
 // 입력
-vector<pair<int,int>> adj[MAX]; //자기 노드에 {가르키는 노드, 거리} 저장
+vector<Edge> adj[MAX]; //자기 노드에 {가르키는 노드, 거리} 저장
 
 // 출력: 나까지의 최단거리 저장하는 곳
 vector<int>ans(MAX ,INF); // ! 푹푹 벡터 초기화, max크기만큼 다 inf로
@@ -23,20 +23,20 @@ void dijkstra(int x){
     ans[x]=0;
     pq.push(Edge(x,0)); //노드번호, 비용
     while(!pq.empty()){
-        int v=pq.top().node; int d=pq.top().cost; pq.pop();
+        int cn=pq.top().node;  pq.pop();
         
-        for(auto next: adj[v]){
-            int next_n=next.first; int next_c=d+ next.second;
-            if(ans[next_n]>next_c){ //지금보다 더 최단거리라면
-                ans[next_n]=next_c;
-                pq.push(Edge(next_n,next_c));}}}}
+        for(auto next: adj[cn]){
+            int nn=next.node; int nc= ans[cn]+ next.cost;
+            if(ans[nn]>nc) { ans[nn]= nc; //대박... 그냥 넣는게 아니라, 작을때만 넣어야했어..
+            pq.push(Edge(nn,nc));}
+        }}}
 
 int main(){
     int V,E,K,a,b,c;
     cin>>V>>E>>K; //노드, 간선개수, 시작번호
     for(int i=0;i<E;i++){
         cin>>a>>b>>c;
-        adj[a].push_back({b,c});} // from to cost
+        adj[a].push_back(Edge(b,c));} // from to cost
     
     dijkstra(K);
     
