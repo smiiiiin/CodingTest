@@ -1,45 +1,48 @@
 // 1753 최단경로: 그래프 이론, 다익스트라
-#include<iostream>
-#include<vector>
-#include<queue>
-#define INF 2147000000
+#include <iostream>
+#include <vector>
+#include <queue>
+#define INF 987654321
 #define MAX 20001
 using namespace std;
 
-struct Edge{
-    int node; int cost;
-    Edge(int a,int b){node=a; cost=b;}
-    bool operator <(const Edge e) const {return e.cost<cost;}};
+struct NODE{
+    int to_node, cost;
+    NODE(int a, int b){to_node=a; cost=b;}
+    bool operator< (const NODE n)const {return n.cost<cost;}
+};
 
-priority_queue<Edge> pq;
+vector<NODE> adj[MAX]; //입력
+vector<int>ans(MAX ,INF);//출력 !! 핵중요! 
+//int ans[MAX]; // 이러고 memset으로 INF 초기화하면 답이 -213384293막 이런식으로 나온다 일단 외우자
+priority_queue<NODE> pq;
 
-// 입력
-vector<Edge> adj[MAX]; //자기 노드에 {가르키는 노드, 거리} 저장
 
-// 출력: 나까지의 최단거리 저장하는 곳
-vector<int>ans(MAX ,INF); // ! 푹푹 벡터 초기화, max크기만큼 다 inf로
-
-void dijkstra(int x){
-    ans[x]=0;
-    pq.push(Edge(x,0)); //노드번호, 비용
+void daijkstra(int starter){
+    ans[starter]=0; pq.push(NODE(starter,0));
     while(!pq.empty()){
-        int cn=pq.top().node;  pq.pop();
-        
+        int cn= pq.top().to_node; pq.pop(); //int cc=pq.top().cost;
         for(auto next: adj[cn]){
-            int nn=next.node; int nc= ans[cn]+ next.cost;
-            if(ans[nn]>nc) { ans[nn]= nc; //대박... 그냥 넣는게 아니라, 작을때만 넣어야했어..
-            pq.push(Edge(nn,nc));}
-        }}}
+            int nn= next.to_node; int nc= ans[cn]+ next.cost;
+            if(ans[nn]> nc) {ans[nn]=nc; pq.push(next);}
+        }
+    }
+}
 
-int main(){
-    int V,E,K,a,b,c;
-    cin>>V>>E>>K; //노드, 간선개수, 시작번호
-    for(int i=0;i<E;i++){
-        cin>>a>>b>>c;
-        adj[a].push_back(Edge(b,c));} // from to cost
+int main(void) {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+    int n, m; cin >> n >> m;
+    int s; cin>>s;
+    for(int i = 0; i < m; i++) {
+        int a,b,c;
+        cin >> a>>b>>c;
+        adj[a].push_back(NODE(b,c));
+    }
+    daijkstra(s);
     
-    dijkstra(K);
+    for(int i=1;i<=n;i++){
+        cout<< (ans[i]!=INF ? to_string(ans[i]): "INF")<<"\n";
+    }
     
-    for(int i=1;i<=V;i++)
-        cout<<(ans[i]==INF?"INF":to_string(ans[i]))<<'\n';
+    return 0;
 }
