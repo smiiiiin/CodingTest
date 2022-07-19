@@ -1,43 +1,47 @@
-// 11657 타임머신
+// 11657: 타임머신  || 다익스트라, 벨만, 플로이드 순으로 노드개수 0이 5,3,2개까지
 #include<iostream>
-#include<algorithm>
 #include<vector>
 #include<queue>
+#define INF 2107000000 //int 범위는 0이 6개! (=백만)
+#define MAX 2001
 using namespace std;
-#define INF 987654321
 
-int n, m; int A, B, C; int a, b;
-vector<pair<int, int>> adj[501]; //입력
-long long ans[501]; //출력
-bool cycle_of_minus; //음의사이클
+// 입력
+vector<pair<int,int>> adj[MAX]; //자기 노드에 {가르키는 노드, 거리} 저장
 
+// 출력: 나까지의 최단거리 저장하는 곳
+vector<long long>ans(MAX ,INF); // ! 푹푹 벡터 초기화, max크기만큼 다 inf로
+
+//pq랑 struct대신 무한서클
+bool infinite_cycle;
+int n,m;
+
+void bellman_ford(int starter){
+    ans[starter]=0;
+    for(int y=1;y<=n;y++){
+        for(int cur=1;cur<=n;cur++){
+            for(auto next: adj[cur]){
+                int nn= next.first;
+                if(ans[cur]==INF) continue; //이건 왜?
+                
+                if(ans[nn] > ans[cur]+ next.second){
+                    ans[nn]=ans[cur]+ next.second;
+                    if(y==n) infinite_cycle=1; //아니 지금도 update된다고? 여기에 무한궤도가 있네라고 판단
+                }
+            }}}}
 
 int main(){
-	ios_base::sync_with_stdio(0); cin.tie();
-
-	cin >> n >> m;
-
-	for (int i = 0; i < m; i++){ //간선마다 노드, 비용값을 넣는다 
-		cin >> A >> B >> C;
-		adj[A].push_back({ B,C });}
-	
-	for (int i = 1; i <= n; i++) ans[i] = INF; // 모든 노드를 INF로 세팅
-
-	ans[1] = 0; // 시작점 0으로 초기화
-	
-	for (int y = 1; y <= n; y++)
-		for (int x = 1; x <= n; x++){
-			for (auto next: adj[x]){
-				int nn = next.first; int nc = next.second;
-				
-				if(ans[x] == INF) continue; //이건 왜할까? 
-
-                		if(ans[nn]>ans[x]+nc){
-                   			ans[nn]= ans[x]+nc; // update된 경우에
-                    			if (y == n) cycle_of_minus = true;}
-		}}
-	
-	if (cycle_of_minus) cout << -1 << '\n';
-	else{
-		for (int i = 2; i <= n; i++)
-			cout << (ans[i] != INF ? ans[i] : -1) << '\n';}}
+    ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+    int a,b,c;
+    cin>>n>>m;
+    for(int i=0;i<m;i++){
+        cin>>a>>b>>c;
+        adj[a].push_back({b,c});} // from to cost
+    
+    bellman_ford(1);
+    
+    if(infinite_cycle) cout<<-1<<"\n";
+    else{
+        for(int i=2;i<=n;i++){
+            cout<<(ans[i]!=INF ? ans[i]:-1) <<'\n';}
+    }}
