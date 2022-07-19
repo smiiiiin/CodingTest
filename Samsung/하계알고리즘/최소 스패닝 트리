@@ -15,16 +15,16 @@ bool visited[10001];
 vector<NODE> adj[10001];
 
 long long prim() {
-    priority_queue<NODE>pq; // first는 가중치 second 는 정점 minheap
-    pq.push(NODE(1,0)); //1번 정점부터 시작       // 가중치가 가장작은것이 top으로 가게된다!
+    priority_queue<NODE>pq;
+    pq.push(NODE(1,0));
     
     while(!pq.empty()) {
-        int cn= pq.top().to_node;int cc= pq.top().cost; pq.pop();
+        int cn= pq.top().to_node; int cc= pq.top().cost; pq.pop();
         
         if(visited[cn]) continue;
         visited[cn] = 1; ans += cc;
         
-        for (auto next: adj[cn]) { //현재 정점에서 이동 할 수 있는 방문하지 않은 정점 푸쉬
+        for (auto next: adj[cn]) { 
             if (!visited[next.to_node]) pq.push(next);}
     }
     
