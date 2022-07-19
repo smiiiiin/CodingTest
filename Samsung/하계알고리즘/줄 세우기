@@ -1,5 +1,5 @@
 // 2252 줄 세우기
-// 위상정렬 알고리즘 - DAG에 대한 정렬 
+// 위상정렬 알고리즘 - DAG에 대한 정렬
 // (그래프를 그렸을 때, 나를 찌르는 선(indegree)이 있다면 그것부터 해결해야지 내가 작동한다 )
 
 #include <iostream>
@@ -10,20 +10,20 @@ using namespace std;
 int n,m; int inDegree[32001]; //vector<int> v[]배열크기 지정시, 푹푹 팔 수 있다
 vector<int> graph[32001];
  
-void TopologicalSort(void){
+void DAG(void){
     queue<int> q;
-    // 앞에 할일 없으면 걔네들을 큐에 넣는다 
-    for(int i=0;i<n;i++) if(!inDegree[i]) q.push(i);
+    // 앞에 할일 없으면 걔네들을 큐에 넣는다
+    for(int i=1;i<=n;i++) if(!inDegree[i]) q.push(i);
     
     while(!q.empty()){
       int cur=q.front(); q.pop(); cout<< cur<<" ";
       
       // 큐에서 나가는 outDegree노드를 배회하면서 걔네들의 선을 없애주고 걔네들도 이제 앞에 뭐가 없으면
-      // 큐에 넣어준다 
+      // 큐에 넣어준다
       
-      for(int i=0;i<gragh[i].size();i++){
-       inDegree[gragh[cur][i]]--;
-       if(inDegree[graph[cur][i]]==0) q.push(graph[cur][i]);
+      for(auto next: graph[cur]){
+       inDegree[next]--;
+       if(inDegree[next]==0) q.push(next);
         }}}
 
  
@@ -36,18 +36,5 @@ int main() {
         graph[a].push_back(b);
         inDegree[b]++;}
     
-    TopologicalSort();
+    DAG();
     return 0;}
- 
-/*
- n은 학생 수, m은 체크 수
- 각 학생들에겐 번호가 매겨짐
- 2 4 의 의미: 2는 4앞에 서야함
- 1 3
- 
- cout<< 1 3 2 4 ;
- 
- */
-
-
-
