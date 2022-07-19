@@ -1,8 +1,9 @@
-// 1197 최소 스패닝 트리
+// 1197 최소 스패닝 트리 : long long ans;와 visited 유의하기 
 #include <iostream>
 #include <vector>
 #include <queue>
-
+// #define INF 987654321
+#define MAX 10001
 using namespace std;
 
 struct NODE{
@@ -10,38 +11,38 @@ struct NODE{
     NODE(int a, int b){to_node=a; cost=b;}
     bool operator< (const NODE n)const {return n.cost<cost;}
 };
-long long ans{0}; //int ans[MAX] 대신에 prim은 답이 하나고, 무방향이다
-bool visited[10001];
-vector<NODE> adj[10001];
 
-long long prim() {
-    priority_queue<NODE>pq;
-    pq.push(NODE(1,0));
-    
-    while(!pq.empty()) {
+vector<NODE> adj[MAX]; //입력
+long long ans; bool visited[MAX]; //출력 , 출력하는데 필요한 것 long long이여야한다
+// 문제에서 가중치가 2147000000까지 일 수도 있는데 이거 1개라도 있고 +1이면 바로 int범위 벗어난다
+priority_queue<NODE> pq;
+
+
+void prim(int starter){
+    pq.push(NODE(starter,0)); // visited[starter]=1; 여기다가 표시하면 시작을 못해
+    while(!pq.empty()){
         int cn= pq.top().to_node; int cc= pq.top().cost; pq.pop();
-        
+        // 대부분 top(); 을 기준으로 방문하고 싶으면 방문 안했다면 하기 >> 이런식으로 생각하기:) 
         if(visited[cn]) continue;
-        visited[cn] = 1; ans += cc;
+        visited[cn]=1; ans+=cc;
         
-        for (auto next: adj[cn]) { 
-            if (!visited[next.to_node]) pq.push(next);}
+        for(auto next: adj[cn]){
+            if(!visited[next.to_node]) pq.push(next);}
     }
-    
-     return ans;}
-
+}
 
 int main(void) {
     ios_base::sync_with_stdio(false); cin.tie(NULL);
     int n, m; cin >> n >> m;
-    
     for(int i = 0; i < m; i++) {
         int a,b,c;
         cin >> a>>b>>c;
         adj[a].push_back(NODE(b,c));
-        adj[b].push_back(NODE(a,c));}
+        adj[b].push_back(NODE(a,c));
+    }
+    prim(1);
     
-    long long result = prim();
-    cout<< result;
+    cout<<ans<<"\n";
+    
     return 0;
 }
