@@ -1,1 +1,30 @@
+// 2252 줄세우기 DAG : 아니 그니까 이걸 어떻게 생각해내냐고...
+#include<iostream>
+#include<vector>
+#include<queue>
+#define INF 987654321
+using namespace std;
+
+int n,m; vector<int> adj[32001];
+int inDegree[32001];
+
+void DAG(){
+    queue<int> q;
+    for(int i=1;i<=n;i++){ if(inDegree[i]==0) q.push(i);}
+    while(!q.empty()){
+        int cur= q.front();cout<<cur<<" "; q.pop();
+        for(auto next: adj[cur]){
+            inDegree[next]--;
+            if(inDegree[next]==0) { q.push(next);}}}}
+
+int main(){
+    cin>>n>>m;
+    while(m--){
+        int a,b;
+        cin>>a>>b;
+        adj[a].push_back(b); inDegree[b]++;}
+    
+    DAG();
+    return 0;
+}
 
