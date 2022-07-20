@@ -1,47 +1,45 @@
-// 11657: 타임머신  || 다익스트라, 벨만, 플로이드 순으로 노드개수 0이 5,3,2개까지
-#include<iostream>
-#include<vector>
-#include<queue>
-#define INF 2107000000 //int 범위는 0이 6개! (=백만)
-#define MAX 2001
+// 11657 타임머신 : 벨만포드 노드 1000단위까지, 가중치가 10000* 6000
+// int 범위는 2147000000 이므로 저 가중치를 6천만 x 노드개수 (500) 이므로 int를 벗어난다
+#include <iostream>
+#include <vector>
+#include <cstring>
+#define MAX 2001 //0이 3개까지 5,3,2(다익, 벨만, 플로)
+#define INF 987654321
 using namespace std;
-
-// 입력
-vector<pair<int,int>> adj[MAX]; //자기 노드에 {가르키는 노드, 거리} 저장
-
-// 출력: 나까지의 최단거리 저장하는 곳
-vector<long long>ans(MAX ,INF); // ! 푹푹 벡터 초기화, max크기만큼 다 inf로
-
-//pq랑 struct대신 무한서클
+// 입력 arr[]은 내가 원하는 얘가 있으니까 자식노드라고 생각
 bool infinite_cycle;
+vector<pair<int,int>> adj[MAX]; vector<long long> ans(MAX,INF);
 int n,m;
 
-void bellman_ford(int starter){
-    ans[starter]=0;
+
+void bellman_ford( int node) {
+    ans[node]=0;
     for(int y=1;y<=n;y++){
         for(int cur=1;cur<=n;cur++){
-            for(auto next: adj[cur]){
-                int nn= next.first;
-                if(ans[cur]==INF) continue; //이건 왜?
-                
-                if(ans[nn] > ans[cur]+ next.second){
-                    ans[nn]=ans[cur]+ next.second;
-                    if(y==n) infinite_cycle=1; //아니 지금도 update된다고? 여기에 무한궤도가 있네라고 판단
-                }
+            for( auto next: adj[cur]){
+                if(ans[cur]==INF) continue;
+                if(ans[next.first]>ans[cur]+next.second){
+                    ans[next.first]=ans[cur]+next.second;
+                    if(y==n) infinite_cycle=1;}
             }}}}
 
-int main(){
-    ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-    int a,b,c;
+
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
     cin>>n>>m;
-    for(int i=0;i<m;i++){
-        cin>>a>>b>>c;
-        adj[a].push_back({b,c});} // from to cost
-    
+    int a,b,c;
+    for(int i=1;i<=m;i++){
+        cin>>a>>b>>c; adj[a].push_back({b,c});
+    }
     bellman_ford(1);
-    
     if(infinite_cycle) cout<<-1<<"\n";
-    else{
-        for(int i=2;i<=n;i++){
-            cout<<(ans[i]!=INF ? ans[i]:-1) <<'\n';}
-    }}
+    else {
+        for(int y=2;y<=n;y++){
+            cout<< (ans[y]==INF ?  -1 : ans[y])<<"\n";
+        }
+    }
+    
+    return 0;}
+
+
