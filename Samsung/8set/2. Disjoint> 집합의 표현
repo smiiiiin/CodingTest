@@ -1,0 +1,33 @@
+// 1717 집합의 표현: Disjoint //초기화랑 변수명 일치시키는 것
+#include <iostream>
+#include <algorithm>
+#define MAX 1000001 //0이 3개까지 5,3,2(다익, 벨만, 플로)
+#define INF 987654321
+using namespace std;
+
+int parent[MAX]; int n,m;
+
+int find(int x){
+    if(x==parent[x]) return x;
+    return parent[x]=find(parent[x]);
+}
+
+void join(int a,int b){
+    a= find(a); b= find(b); //이게 진짜 레전드... 변수를 꼭 내가 입력한걸로 해야해
+    if(a==b) return;
+    else parent[b]=a;
+}
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+    cin>>n>>m; int a,b,c;
+    for(int i=1;i<=n;i++) parent[i]=i; //제발 초기화~!!
+    
+    for(int y=1;y<=m;y++){ //ans infinite로 초기화
+        cin>>a>>b>>c;
+        if(a==0) join(b,c);
+        else {
+            if( find(b)==find(c)) cout<<"YES"<<"\n";
+            else cout<<"NO"<<"\n";}
+    }return 0;}
+
