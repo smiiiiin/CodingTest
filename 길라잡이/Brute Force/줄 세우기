@@ -22,14 +22,13 @@ int main() {
     return 0;
 }
 
-// 내코드 왜틀려!!!
+// 내코드 :) :)
 // 1681 줄 세우기
-
 #include<iostream>
 #include <vector>
 #include <string>
 using namespace std;
-#define MAX 1000000
+#define MAX 987654321   //이거 처음에 잘못해서 틀렸지만 크게 잡으니 시간은 많이 걸려도 통과 ;) 
 int n,m; vector<int> v;
 
 bool ban(int cur){
