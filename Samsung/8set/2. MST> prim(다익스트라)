@@ -1,0 +1,42 @@
+// 1197 최소스패닝트리 mst> prim알고리즘
+#include <iostream>
+#include <vector>
+#include <queue>
+#define MAX 10001 //0이 3개까지 5,3,2(다익, 벨만, 플로)
+#define INF 987654321
+using namespace std;
+int n,m;
+struct NODE{
+    int to_node, cost;
+    NODE(int a, int b){to_node=a; cost=b;}
+    bool operator< (const NODE n)const {return n.cost<cost;}
+};
+priority_queue<NODE> pq;
+vector<NODE> adj[MAX];
+// vector<int> ans(MAX,INF); 가 아니라
+long long ans; bool visited[MAX];
+
+void prim(int starter){ // pq에 넣은게 방문한게 아니야, pop()한게 방문한거야
+    pq.push(NODE(starter,0));
+    while(!pq.empty()){
+        int cn=pq.top().to_node; int cc= pq.top().cost; pq.pop();
+        if(visited[cn]) continue;
+        visited[cn]=1; ans+= cc;
+        
+        for(auto next: adj[cn]){
+            if(!visited[next.to_node]) pq.push(next);
+        }}}
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+    cin>>n>>m; int a,b,c;
+    
+    for(int i=1;i<=m;i++) { //무향그래프이므로 양쪽에 넣어준다
+        cin>>a>>b>>c;
+        adj[a].push_back({b,c});
+        adj[b].push_back({a,c});}
+    
+    prim(1);
+    cout<<ans<<"\n";
+    return 0;}
+
