@@ -14,7 +14,7 @@ void floyd(){
         for(int f=1;f<=n;f++){
             for(int t=1;t<=n;t++){
                 
-                //이건 이제 알겠음 INF끼리의 연산이 될까봐 머리아프니까 미연에 방지
+                //f->i 로의 길이 없거나, i->t로의 길이 없으면, update대상이 아니다
                 if(ans[f][i]==INF ||ans[i][t]==INF ) continue;
                 if(ans[f][t]> ans[f][i]+ans[i][t]){
                     ans[f][t]=ans[f][i]+ans[i][t];
@@ -37,7 +37,7 @@ int main(void) {
     for(int i=1;i<=m;i++){ //입력
         cin>>a>>b>>c;
         
-        //이거 왜함? 어차피 한번 입력하고 당연히 c값은 ans[a][b]의 초기값인 INF보다 작을텐데...
+        //시작도시와 도착도시의 연결은 하나가 아닐 수도 있다!!! (문제 잘 보기) 
         if(c<ans[a][b]) ans[a][b]=c;
     }
     
