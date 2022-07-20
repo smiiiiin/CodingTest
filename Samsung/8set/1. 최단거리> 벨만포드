@@ -1,0 +1,38 @@
+// 11657 타임머신: 벨만포드 10분
+#include <iostream>
+#include <vector>
+#define MAX 501 //0이 3개까지 5,3,2(다익, 벨만, 플로)
+#define INF 987654321
+using namespace std;
+
+bool infinite_cycle;
+vector<pair<int, int>> adj[MAX]; vector<long long> ans(MAX,INF);
+int n,m,s;
+
+void bellman_ford() {
+    ans[1]=0;
+    for(int r=1;r<=n;r++){
+        for(int cur=1;cur<=n;cur++){
+            for(auto next: adj[cur]){
+                if(ans[cur]==INF) continue;
+                if(ans[next.first]> ans[cur]+next.second){
+                    ans[next.first]=ans[cur]+next.second;
+                    if(r==n) infinite_cycle=1;}
+            }}}}
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+    cin>>n>>m; int a,b,c;
+    for(int i=1;i<=m;i++){
+        cin>>a>>b>>c; adj[a].push_back({b,c});}
+    
+    bellman_ford();
+    if(infinite_cycle) cout<< -1<<"\n";
+    else {
+        for(int i=2;i<=n;i++){
+            cout<<(ans[i]!=INF ? ans[i]: -1)<<"\n";
+        }
+    }
+
+    return 0;}
+
