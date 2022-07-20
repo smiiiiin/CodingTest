@@ -1,4 +1,4 @@
-// 11657 타임머신: 벨만포드 10분
+// 11657 타임머신: 벨만포드 10분 ans<long long> 이랑 bool infinite_cycle이랑 그걸 확인하는 r부터 1~n까지 계속 포함시켜서 범위 유의하기
 #include <iostream>
 #include <vector>
 #define MAX 501 //0이 3개까지 5,3,2(다익, 벨만, 플로)
