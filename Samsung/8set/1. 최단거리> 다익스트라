@@ -1,4 +1,4 @@
-// 1753 최단경로: 다익스트라 (15m)
+// 1753 최단경로: 다익스트라 (15m) // pq에 넣을때 next를 넣는데 아니라 update된 정보를 싸넣어야지 NODE(nn, nc)!, 1부터로 하자 그냥...:) 
 #include <iostream>
 #include <vector>
 #include <queue>
