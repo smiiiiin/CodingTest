@@ -1,0 +1,47 @@
+// 11404 플로이드: 플로이드 15분 from-to유의하기 1~n까지, 나까지의 값없는경우랑, 두 노드사이
+// 선 2개 이상인 경우를 대비해여 INF처리 어떻게 할건지
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#define MAX 101 //0이 3개까지 5,3,2(다익, 벨만, 플로)
+#define INF 987654321
+using namespace std;
+
+//only one 입력이 하나다
+int ans[MAX][MAX];
+int n,m,s;
+
+void floyd() {
+    for(int i=1;i<=n;i++){
+        for(int f=1;f<=n;f++){
+            for(int t=1;t<=n;t++){
+                if(ans[f][i]==INF|| ans[i][t]==INF) continue;
+                if(ans[f][t]>ans[f][i]+ans[i][t]){
+                    ans[f][t]=ans[f][i]+ans[i][t];}
+            }}}}
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+    cin>>n>>m; int a,b,c;
+    
+    for(int y=1;y<=n;y++){ //ans infinite로 초기화
+            for(int x=1;x<=n;x++){
+                ans[y][x]=INF;
+            }}
+        
+    
+    for(int y=1;y<=m;y++){
+        cin>>a>>b>>c;
+        ans[a][b]= min( ans[a][b], c); //두 노드 사이에 연결된 선이 여러개 일 수 있어서
+    }
+    floyd();
+    
+    for(int y=1;y<=n;y++){
+        for(int x=1;x<=n;x++){
+            if(y==x|| ans[y][x]==INF) cout<<0<<" ";
+            else cout<<ans[y][x]<<" ";}
+        cout<<"\n";
+    }
+
+    return 0;}
+
