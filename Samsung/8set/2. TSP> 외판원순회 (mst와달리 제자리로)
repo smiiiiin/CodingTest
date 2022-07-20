@@ -1,0 +1,43 @@
+// 2098 외판원 순회
+#include<iostream>
+#include<algorithm>
+#include<cstring>
+#define INF 987654321
+#define MAX 16
+using namespace std;
+
+int weight[MAX][MAX];
+int dp[MAX][1<<MAX];
+int n;
+
+int tsp(int cur, int visited){
+    
+    if(visited==(1<<n)-1) {
+        if(weight[cur][0]!=0) return weight[cur][0];
+        return INF;}
+    
+    int& res= dp[cur][visited];
+    if(res!=-1) return res; //res가 처음이 아니라면 이게 답이다
+    res=INF;
+    
+    for(int next=0;next<n;next++){
+        // 다음노드 방문했거나 다음노드로 가는길이 없으면 pass
+        if(visited & (1<<next) || weight[cur][next]==0) continue;
+        // 여기 제발~ tsp의 visited자리에는 그것만 들어가되, 그 값에는 weight을 넣어줘야지
+        res= min(res, tsp(next, visited | (1<<next)) + weight[cur][next]);}
+    return res;
+}
+
+int main(){
+    cin>>n;
+    memset(dp,-1,sizeof(dp)); //이거 기억 못함
+    for(int y=0;y<n;y++){
+        for(int x=0;x<n;x++){
+            cin>>weight[y][x];
+        }
+    }
+
+    cout<<tsp(0,1)<<"\n";
+    
+    return 0;
+}
