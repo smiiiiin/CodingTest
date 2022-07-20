@@ -1,0 +1,52 @@
+// 1197 최소스패닝트리 mst> kruskal알고리즘 : Disjoint이용
+// 야야- struct안에 pq조합이랑 그냥 Pq안쓰고 vector-sort할때 정렬이랑 다르니까 유의해라
+#include <iostream>
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+int n,m;
+struct NODE{
+    int from, to , cost;
+    NODE(int a,int b,int c){ from=a; to=b; cost=c;}
+};
+
+bool cmp(NODE n1,NODE n2){
+    return n1.cost<n2.cost;
+}
+
+int parent[10010];
+vector<NODE> v;
+
+int find(int x){
+    if(x==parent[x]) return x;
+    return parent[x]= find(parent[x]);
+}
+
+void join(int a, int b){
+    a=find(a); b= find(b);
+    if(a==b) return;
+    else parent[b]=a;
+}
+
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+    cin>>n>>m; int a,b,c;
+    for(int i=0;i<n;i++) parent[i]=i;
+    
+    for(int i=0;i<m;i++){
+        cin>>a>>b>>c;
+        v.push_back(NODE(a,b,c));}
+    sort(v.begin(), v.end(),cmp); //정렬 해줘야한다
+    long long ans{0};
+    
+    for(int i=0;i<m;i++){ //벡터는 0부터 들어간다
+        int x= find(v[i].from);
+        int y= find(v[i].to);
+        if(y!=x) {join(x,y); ans+= v[i].cost;}
+    }
+    cout<<ans<<"\n";
+    
+    return 0;}
+
