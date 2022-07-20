@@ -1,5 +1,6 @@
 // 11657 타임머신 : 벨만포드 노드 1000단위까지, 가중치가 10000* 6000
 // int 범위는 2147000000 이므로 저 가중치를 6천만 x 노드개수 (500) 이므로 int를 벗어난다
+
 #include <iostream>
 #include <vector>
 #include <cstring>
@@ -17,6 +18,9 @@ void bellman_ford( int node) {
     for(int y=1;y<=n;y++){
         for(int cur=1;cur<=n;cur++){
             for( auto next: adj[cur]){
+                // 큐에서 소개받은 얘들이 아니고 그냥 하나하나 다 돌리는건데
+                // 나까지 오는길이 없었으면 애초에 나를 거쳐서- 라는 말이 성립이 안된다
+                // update대상이 아니다 
                 if(ans[cur]==INF) continue;
                 if(ans[next.first]>ans[cur]+next.second){
                     ans[next.first]=ans[cur]+next.second;
@@ -41,5 +45,4 @@ int main() {
     }
     
     return 0;}
-
 
