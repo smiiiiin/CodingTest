@@ -1,4 +1,5 @@
-// 2252 줄세우기 DAG : 아니 그니까 이걸 어떻게 생각해내냐고...
+// 2252 줄세우기 DAG : DAG는 큐고 입력adj와 inDegree를 이용해서 처음에 넣을떄
+// DAG는 다 돌려서 indegree(전에 할일)이 0이면 넣고) front()할때 보여준다
 #include<iostream>
 #include<vector>
 #include<queue>
