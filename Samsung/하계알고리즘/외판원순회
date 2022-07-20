@@ -10,16 +10,16 @@ int dp[16][1<<16];
 // visited는 10진수로 숫자가 들어오니까 비트연산자 쓰는 순간 이진수가 될 뿐임
 
 int TSP(int cur, int visited){
-    int &res = dp[cur][visited]; //참조, 캐시에 저장함으로써 시간절약
-    if(res != -1) return res; //일단 무지성암기(1)
-   
-    // 모든 마을 방문했다면 
+    // 모든 마을 방문했다면
     // dfs()의 경우, 여기 if(size ==m) return; 인데
     // 여기서는 visited로 size만큼 방문 했으면~ 이렇게 되는것임
     if(visited == (1<<n)-1){
         // 이동 가능한지 : current -> 0
         if(weight[cur][0] != 0) return weight[cur][0];
     return INF;}
+    
+    int &res = dp[cur][visited]; //양방향 동기화
+    if(res != -1) return res; //일단 무지성암기(1)
     
     res = INF; //일단 무지성암기(2)
     
@@ -42,7 +42,6 @@ int main (){
     memset(dp,-1,sizeof(dp));
     cout << TSP(0,1) << '\n';
 return 0;}
-
 
 
 
