@@ -1,0 +1,53 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+    int n, b, label = 1; cin >> n >> b;
+    for (int i = 0; i < n; i++) {
+        bool plus = 1;
+        while (plus) {
+            plus = 0;
+            string s = to_string(label);
+            for (auto c : s) {
+                if (c - '0' == b) {
+                    plus = 1; label++; break;
+                }
+            }
+        }
+        if (i == n - 1) cout << label<<"\n";
+        label++;
+    }
+    return 0;
+}
+
+// 내코드 왜틀려!!!
+// 1681 줄 세우기
+
+#include<iostream>
+#include <vector>
+#include <string>
+using namespace std;
+#define MAX 1000000
+int n,m; vector<int> v;
+
+bool ban(int cur){
+    string str="";
+    str= to_string(cur);
+    for(int i=0;i<str.length();i++){
+        if(str[i]-'0' ==m) return 1;}
+    return 0;}
+
+int main(){
+    cin>>n>>m;
+    for(int i=1;i<=MAX;i++){
+        if(ban(i)) continue;
+        else{
+            v.push_back(i);
+            if(v.size()==n) break;
+        }
+    }
+    cout<< v[n-1]<<"\n";
+    return 0;
+}
