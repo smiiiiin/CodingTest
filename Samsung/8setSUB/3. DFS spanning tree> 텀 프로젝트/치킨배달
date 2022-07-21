@@ -1,1 +1,44 @@
+// 15686 치킨배달 : 그래프 DFS
+#include <iostream>
+#include <algorithm>
+#include <vector>
+using namespace std;
 
+int n, m,a, ret{0x7ffffff};
+struct POSI{int y, x;};
+
+int dis(POSI p, POSI p2){ return abs(p.y-p2.y)+abs(p.x-p2.x);}
+vector<POSI> home, shop, pick; //집 별로, 가게별로, 선택된 가게별로 정렬
+
+void update(){
+    int sum{0}; // 직전에 선언
+    for(int i=0; i<home.size();i++){ // 집마다 돌면서
+        int mini{1000000}; // 직전에 선언
+        for(int j=0; j<pick.size();j++) //그냥 다 해보기
+        { mini= min(mini, dis(home[i],pick[j]));}
+        sum+=mini;}
+    ret= min(ret,sum);
+    return;}
+
+
+void dfs(int idx, int sz){ //치킨거리를 선택해본다
+    if(sz==m){update();} //가게 선택 다 했으면 그때의 치킨거리 구하기
+    
+    for(int i=idx; i<shop.size(); i++){
+        pick.push_back(shop[i]); //넣었다
+        dfs(i+1,sz+1); //여기서 사이즈 차면
+        pick.pop_back();}} //뺐다
+
+
+int main() {
+    cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
+    ret= 0x7ffffff; //답은 min이니 이걸로 초기화
+    cin>>n>>m;
+    for(int y=0;y<n;++y){
+        for(int x=0;x<n;++x){
+            cin>>a;
+            if(a==1) home.push_back({y,x});
+            if(a==2) shop.push_back({y,x});}}
+    
+    dfs(0,0);
+    cout<<ret; return 0; }
