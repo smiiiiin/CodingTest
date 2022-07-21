@@ -1,1 +1,38 @@
 
+//백준 9466 텀 프로젝트 : dfs 방문 //매듭을 마무리 짓는건 항상 바닥에 있는 나다 
+#include <iostream>
+#include <queue>
+#include <cstring>
+#define MAX 100001
+using namespace std;
+// 입력 arr[]은 내가 원하는 얘가 있으니까 자식노드라고 생각
+int t, n; int arr[MAX]; int visited[MAX]; int cnt;
+
+void dfs( int node) {
+    if(visited[node]==-1) visited[node]=1; //방문 안했다면 해주고
+    //다음노드
+    int next= arr[node];
+    
+    if(visited[next]==-1) dfs(next); //방문안했으면 다음노드로
+    else if(visited[next]<2){ //방문했는데 마무리 안됐으면
+        for(int moving=next; moving!=node; moving=arr[moving]){
+            cnt++;// 이동하면서 카운트
+        }
+        cnt++;
+    }
+    visited[node]=2; //매듭을 마무리 짓는건 바닥에 있는 cur나다.
+    } // 사이클완성
+
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+    cin >> t; while (t--) {
+        // 초기화
+        cnt = 0; memset(visited, -1, sizeof(visited));
+        
+        cin >> n; for (int i = 1; i <= n; i++) cin >> arr[i];
+        
+        for (int i = 1; i <= n; i++) dfs(i);
+        
+        cout << n-cnt << '\n';}
+    return 0;}
