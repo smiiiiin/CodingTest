@@ -1,5 +1,5 @@
 
-//백준 9466 텀 프로젝트 : dfs 방문 //매듭을 마무리 짓는건 항상 바닥에 있는 나다 
+//백준 9466 텀 프로젝트 : dfs 방문 //매듭을 마무리 짓는건 항상 바닥에 있는 나다 !! cnt초기화 하고 배열넣을때 1부터 넣는다
 #include <iostream>
 #include <queue>
 #include <cstring>
