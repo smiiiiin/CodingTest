@@ -1,43 +1,46 @@
-//백준 9466 텀 프로젝트 : dfs 이용 이게더 이해하기 쉽다 나는 
+//백준 9466 텀 프로젝트 : dfs 이용 이게더 이해하기 쉽다 나는
 #include <iostream>
 #include <queue>
 #include <cstring>
 #define MAX 100001
 using namespace std;
 // 입력 arr[]은 내가 원하는 얘가 있으니까 자식노드라고 생각
-int t, n; int arr[MAX]; bool visited[MAX]; bool done[MAX]; int cnt;
+int t, n; int arr[MAX]; int visited[MAX]; int cnt;
 
 void dfs( int node) {
-
-    visited[node] = 1;
-    int next = arr[node];
+    //방문 안했다면 해주고 다음노드
+    if (visited[node]==-1) visited[node] = 1; int next = arr[node];
     
-    if (!visited[next]) dfs( next);
+    if (visited[next]==-1) dfs( next);
     // visited[next]=1은 next인데 방문을 했다는 의미: back_edge거나 자기자신 가르키는 경우
-    else if (!done[next]) {//방문은 했지만 사이클done이 아니라면 next까지 포함해서 사이클 완성
-        //자기 자신을 포함한 팀의 멤버를 카운트
-        for (int i = next; i != node; i = arr[i]) { //자식노드로 연결해서 cycle완성
+    else if (visited[next]<2) {//방문은 했지만 사이클완성이 아니라면
+        for (int i = next; i != node; i = arr[i]) { // cycle안에 노드 개수 세기
             cnt++;
         }
         cnt++;}  //그리고 나자신까지 +1;
     
-    done[node] = 1;} //여기만 이해가 안가
+    visited[node] = 2;} // 사이클완성
 
 
 int main() {
     ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
     cin >> t; while (t--) {
         // 초기화
-        cnt = 0; memset(visited, false, sizeof(visited)); memset(done, false, sizeof(done));
+        cnt = 0; memset(visited, -1, sizeof(visited));
         
-        cin >> n;
-        for (int i = 1; i <= n; i++) cin >> arr[i];
+        cin >> n; for (int i = 1; i <= n; i++) cin >> arr[i];
         
-        for (int i = 1; i <= n; i++) {
-            if (!visited[i]) dfs(i);}
+        for (int i = 1; i <= n; i++) dfs(i);
         
         cout << n-cnt << '\n';}
     return 0;}
+
+
+
+
+
+
+
 
 
 
