@@ -1,0 +1,34 @@
+//DFS, 재귀, 백트래킹, (스택 or 복사), 모든노드, visited(큐도 마찬가지)
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int pan[21][21]; int team1[11]; int team2[11];
+int pick[21]; int n, ret;
+
+void update(){
+    int team1_size{0}, team2_size{0};
+    for(int i=1; i<=n; i++){
+        if(pick[i]==1) team1[++team1_size]= i;
+        else team2[++team2_size]= i;}
+    
+    int sum_1=0; int sum_2=0;
+    for(int i=1;i<=n/2;i++){
+        for(int j=i+1;j<=n/2;j++){
+            sum_1+=pan[team1[i]][team1[j]]+pan[team1[j]][team1[i]];
+            sum_2+=pan[team2[i]][team2[j]]+pan[team2[j]][team2[i]];}}
+    
+    ret= min(ret, abs(sum_1-sum_2));}
+
+void dfs(int cur, int size){
+    if(size==n/2){ update(); return;}
+    
+    for(int i=cur;i<=n;++i){
+        pick[i]=1;
+        dfs (i+1, size+1);
+        pick[i]=0;}}
+
+int main() {
+    cin>>n; for(int y=1;y<=n;y++){
+        for(int x=1;x<=n;x++) cin>>pan[y][x];}
+    ret= 0x7ffffff; dfs(1,0); cout<<ret; return 0;}
