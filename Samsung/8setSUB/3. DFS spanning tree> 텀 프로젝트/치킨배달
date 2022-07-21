@@ -1,23 +1,32 @@
-// 15686 치킨배달 : 그래프 DFS
+// 15686 치킨배달 : 그래프 DFS !!
+// 너무 중요! min() 쓰는 방법: 내공간만큼 비교해서 그밖에
+// for문 도는만큼 값이 나오고 변수는 켜켜이 한겹밖에서 초기화해야한다 !!! 필수
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#define MAX 0x7ffffff
 using namespace std;
 
-int n, m,a, ret{0x7ffffff};
+int n, m,a; int min_thd{MAX};
 struct POSI{int y, x;};
-
-int dis(POSI p, POSI p2){ return abs(p.y-p2.y)+abs(p.x-p2.x);}
 vector<POSI> home, shop, pick; //집 별로, 가게별로, 선택된 가게별로 정렬
+int dis(POSI a, POSI b){return abs(a.y-b.y)+abs(a.x-b.x);}
 
-void update(){
-    int sum{0}; // 직전에 선언
-    for(int i=0; i<home.size();i++){ // 집마다 돌면서
-        int mini{1000000}; // 직전에 선언
-        for(int j=0; j<pick.size();j++) //그냥 다 해보기
-        { mini= min(mini, dis(home[i],pick[j]));}
-        sum+=mini;}
-    ret= min(ret,sum);
+// 최소 2번하고 싶으면 변수명을 3번 만들어서 밖으로밖으로
+
+void update(){ //선택된 치킨집들에 대해서 각집마다 최소거리들의 합을 더한 후,
+    // 그 값끼리 비교해서 가장 작은 값이 '치킨거리'다.
+    
+    int min_sec{0}; //켜켜이 직전에 선언
+    // min_fir개수는 알고리즘 수식을 쓴 장소에서 (for pick-) 만큼 비교를 하고
+    // 괄호 하나 벗어난 home.size 만큼 생성된다!!!
+    for(int i=0;i<home.size();i++){
+    int min_fir{MAX};
+        for(int j=0;j<pick.size();j++){
+             min_fir= min(min_fir, dis(home[i],pick[j]));}
+        min_sec+=min_fir;
+    }
+    min_thd=min(min_sec,min_thd );
     return;}
 
 
@@ -32,8 +41,16 @@ void dfs(int idx, int sz){ //치킨거리를 선택해본다
 
 int main() {
     cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
-    ret= 0x7ffffff; //답은 min이니 이걸로 초기화
     cin>>n>>m;
+    for(int y=0;y<n;++y){
+        for(int x=0;x<n;++x){
+            cin>>a;
+            if(a==1) home.push_back({y,x});
+            if(a==2) shop.push_back({y,x});}}
+    
+    dfs(0,0);
+    cout<<min_thd; return 0; }
+
     for(int y=0;y<n;++y){
         for(int x=0;x<n;++x){
             cin>>a;
