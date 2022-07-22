@@ -1,0 +1,39 @@
+// BFS>QUEUE> 토마토 9:35-10:00
+#include <iostream>
+#include <queue>
+#include <cstring>//memset
+#define MAX 1001
+using namespace std;
+int m,n; int map[MAX][MAX];
+int visited[MAX][MAX]; //상태와 일수를 의미한다 -1은 초기상태, 익으면 +1씩
+
+int ret{0}; int dy[4]={-1,1,0,0}; int dx[4]={ 0,0,-1,1};
+queue<pair<int, int>> q;
+
+void bfs(){
+    while(!q.empty()){
+        int cy= q.front().first; int cx= q.front().second;
+        q.pop();
+        for(int d=0;d<4;d++){
+            int ny= cy+dy[d]; int nx=cx+dx[d];
+            if(ny>n || ny<=0 || nx>m || nx<=0 ) continue;
+            if(map[ny][nx]==0&& visited[ny][nx]==-1){
+                map[ny][nx]=1; visited[ny][nx]=visited[cy][cx]+1;
+                q.push({ny,nx});ret= visited[ny][nx];}}}}
+    
+int main(){
+    cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(false);
+    memset(visited,-1,sizeof(visited));
+    cin>>m>>n;
+    for(int y=1;y<=n;y++){
+       for(int x=1;x<=m;x++){
+         cin>>map[y][x];
+         if(map[y][x]==1){
+             q.push({y,x}); // 익은얘들을 큐에 넣고 익었다고 +1 표시
+             visited[y][x]=0;}}}
+    bfs();
+    // 다 둘러봤는데 하나라도 익지 않은게 있다면 다 못익힌다는 의미: 결과 -1
+    for (int y = 1; y <= n; y++) {
+        for (int x = 1; x <= m; x++) {
+            if (map[y][x] == 0) ret= -1;}}
+    cout<<ret<<"\n"; return 0;}
