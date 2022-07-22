@@ -1,0 +1,61 @@
+// 너무너무 중요한 vector<int> v[MAX]; map<int,int> m;
+// PERSON p[MAX]; 3가지 차이점
+#include<iostream>
+#include <vector>
+#include<map>
+#define MAX 10
+
+using namespace std;
+struct PERSON {
+    int height,weight,score; // 키, 몸무게, 비만도 백분위
+    PERSON(int a,int b,int c){
+        height=a;weight=b;score=c;
+    }
+    bool operator<(const PERSON n)const{
+        return n.score>score;
+    }
+};
+struct PAST{ int height,weight;};
+
+int main(){
+
+    // 1번>  일명, 푹푹벡터: 키는 [MAX]만큼 그냥 정수(int)고
+    // 푹푹 아래로 NODE덩어리(=뭉탱이)를 넣는거다
+    PERSON perfect= PERSON(158,42,100);
+    vector<PERSON> adj[MAX];
+    adj[1].push_back(PERSON(180,69,98)); //이런식으로 값을 넣고
+    adj[1].push_back(PERSON(163,49,80));
+    adj[2].push_back(perfect);
+    adj[3].push_back(perfect);
+    adj[3].push_back(perfect);
+        
+        for(auto next: adj[1]){
+            cout<<" "<<next.height<<" "<<next.weight<<" "<<next.score<<" \n";
+        } //180 69 98 줄 개행 163 49 80 이렇게 나올 것이다
+        
+    
+    // 2번> 구조체 배열 : 뭉탱이 자체가 값으로 나열돼 있는거다
+    PERSON person_arr[2]={{0,0,0},{0,0,0}}; //이거는 cin으로 넣거나
+    // 값을 꼭 초기화 해줘야한다 우항없이 좌항만 못씀.
+    for(int i=0;i<2;i++) {
+        person_arr[i].height=(i+1)*10;
+        person_arr[i].weight=-1;
+        person_arr[i].score=-1;}
+    for(int i=0;i<2;i++){
+        cout<<person_arr[i].height<<"\n";
+    } //10 줄개행 20
+    
+    // 3번> map : map<키, 값> 일대일대응으로 푹푹벡터와 달리 키값으로 struct를 넣을 수
+    // 있는 어마무시한 장점이!!! 대신, 키로 쓰는 struct에 반드시 bool operator<() 가
+    // 들어있어서 정렬이 가능해야한다 + 얘도 2번처럼 cin으로 넣거나 값을 초기화 해야한다
+    
+    // map<PERSON,PERSON> m; 그냥 이렇게는 못쓴다
+    PERSON sumin= PERSON(158, 40, 100);
+    PAST before_sumin={150,30};
+    map<PERSON,PAST> m;
+    m[sumin]= before_sumin;
+    // 이렇게 하면 나라는 뭉텅이 키로 나의 과거정보를 접근할 수 있다
+    cout<< m[sumin].height<<"\n"; //150출력
+    
+    return 0;
+}
