@@ -1,7 +1,6 @@
 // 1197 최소스패닝트리 mst> prim알고리즘 : daijkstra이용 || 다익스트라와 달리, 한번 택하면 갈필요없다 계속적인 업데이트가 필요없음
 // 답이 long long ans; 형으로 하나이고, 무방향인 트리, 그러나 가중치는 음수일 수 있고, 말그대로 mstree다. 
-// pq나올때 모든 것은 나올때 유효함으로 정렬도 내가 소개다해주고 소개해준 단위로 정렬이 된다 소개다끝나고 정렬 후, 나오고 | 정렬된 순으로 다시 소개
-// 그래서 pq.top(); 부분에서 유의한다 
+// 1197 최소스패닝트리 mst> prim알고리즘 : daijkstra이용 10:20-
 #include <iostream>
 #include <algorithm>
 #include <vector>
@@ -9,39 +8,41 @@
 #define MAX 10001
 using namespace std;
 int n,m;
-
 struct NODE{
-    int to_node , cost;
-    NODE(int a,int b){ to_node=a; cost=b;}
-    bool operator<(const NODE n) const{
-        return n.cost<cost;}};
-
-priority_queue<NODE> pq;
+    int to_node, cost;
+    NODE(int a, int b){ to_node=a; cost=b;}
+    bool operator<(const NODE n)const {return n.cost<cost;}
+};
 vector<NODE> adj[MAX];
-long long ans{0}; int visited[MAX];
+long long ans; int visited[MAX];
+        
+priority_queue<NODE> pq;
 
 void prim(){
+    //pq에 뭘넣지
     pq.push({1,0});
     while(!pq.empty()){
+        // ?? 너 어떻게 들어왔어! 봤던얘야 pass, pop(); 할때 방송출연 도장쾅(==visited) 하면서 뭘 한다(춤을 추던, 노랠 하던)
         int cn= pq.top().to_node; int cc= pq.top().cost; pq.pop();
         if(visited[cn]) continue;
-        visited[cn]=1; ans+= cc;
+        visited[cn]=1; ans+=cc;
+        
+        // 제작진들한테 지인 소개해준다
         for(auto next: adj[cn]){
-            if(!visited[next.to_node]) pq.push(next);
+            if(visited[next.to_node]) continue; // 아 얘 봤던얘야
+            pq.push({next.to_node, next.cost}); //newface들만 친구로 소개할 수 있다
         }
     }
-    
 }
 
 
 int main() {
+    cin>>n>>m;
     ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-    cin>>n>>m; int a,b,c;
-    for(int i=1;i<=m;i++){
-        cin>>a>>b>>c;
-        adj[a].push_back({b,c}); adj[b].push_back({a,c});}
-    
+    for(int i=0;i<m;i++){
+        int a,b,c; cin>>a>>b>>c;
+        adj[a].push_back(NODE(b,c));
+        adj[b].push_back(NODE(a,c)); } //양방향으로 넣어준다
     prim();
     cout<<ans<<"\n";
     return 0;}
-
