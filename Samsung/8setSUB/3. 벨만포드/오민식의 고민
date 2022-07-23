@@ -4,13 +4,14 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#define MAX 101
 #define INF 987654321
 using namespace std;
 
-int n, m,start_node,finish_node;
-vector<pair<int, int>> adj[101]; //입력
-vector<long long> ans(51,-INF); // 출력: 돈(+), 거리(비용-)
-int money[101];
+int n,m,start_node, finish_node;
+vector<pair<int,int>> adj[MAX];
+vector<long long> ans(51, -INF);
+int money[MAX];
 
 // MST 프림함수와 매우 유사 (TV에 나올때 큐는 pop! top or front! 기준
 bool bfs(int s) { //사이클의 유무
@@ -46,12 +47,10 @@ int main() {
     
     for (int i = 0; i < n; i++) cin>>money[i];
     
-    //무한궤도는 둘다 1,1 이면 무한궤도가 된다
-    bool infinite_cycle = bellman();
-    if(infinite_cycle) cout<<"Gee"<<"\n";
-    // 길이 없는 경우
-    else if (ans[finish_node] == -INF) cout<<"gg"<<"\n";
-    // 갈 수 있고 cycle 없어서 값 나오는 경우
-    else cout<<ans[finish_node]<<"\n"; return 0;}
-
+    //무한궤도 bfs도 return 1이고 그다음 연결되서 retun1이면 무한궤도다
+    bool infinite_cycle= bellman();
+    if(infinite_cycle) cout<<"Gee"<<"\n"; // 무한궤도
+    else if( ans[finish_node]==-INF) cout<<"gg"<<"\n"; // 길없음
+    else cout<<ans[finish_node]<<"\n"; // 값나옴 
+    return 0;}
 
