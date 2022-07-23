@@ -1,49 +1,45 @@
+// 알고스팟
+/*
+ (1,1)방에서 map의 맨끝까지 벽을 몇번 부숴야하는가 벽은1, 아닌 곳은 0
+ */
 #include <iostream>
 #include <cstdio>
 #include <string>
 #include <vector>
 #include <queue>
 #define MAX 101
-#define INF 987654321 //or 0x3f3f3f
+#define INF 987654321
 using namespace std;
-int n, m; int map[MAX][MAX]; int wall[MAX][MAX];
+int n, m; int map[MAX][MAX]; int ans[MAX][MAX];
 int dy[4]= { -1,1,0,0 }; int dx[4]={0,0,-1,1};
 
 void bfs() {
     queue<pair<int,int>> q;
-    wall[0][0]=0;
-    q.push({0,0});
+    ans[0][0]=0; q.push({0,0});
     while(!q.empty()){
-        int cy= q.front().first;  int cx= q.front().second;
-        q.pop();
+        int cy= q.front().first;  int cx= q.front().second; q.pop();
         for(int d=0;d<4;d++){
             int ny= cy+dy[d]; int nx= cx+dx[d];
             if(ny<0||nx<0||ny>=m||nx>=n) continue;
-            if(map[ny][nx]==0){
-                if(wall[ny][nx]>wall[cy][cx]){ //안가봤으면 INF니까 그 의미로만 거른다면, 언제 최소로 대체?
-                    wall[ny][nx]=wall[cy][cx];
-                    q.push({ny,nx});
-                }
-            }
-            else if(map[ny][nx]==1){
-                if(wall[ny][nx]>wall[cy][cx]+1){ //+1이 무슨 의미지? 
-                    wall[ny][nx]=wall[cy][cx]+1;
-                    q.push({ny,nx});
-                }
-                
-            }
             
-    }
-    }}
+            // 벽이 아니면 가중치는 없다
+            if(map[ny][nx]==0){
+                if(ans[ny][nx]>ans[cy][cx]){
+                    ans[ny][nx]=ans[cy][cx];
+                    q.push({ny,nx});}}
+            
+            // 벽이 있으면 가중치가 생기고 더해야한다
+            else if(map[ny][nx]==1){
+                if(ans[ny][nx]>ans[cy][cx]+1){
+                    ans[ny][nx]=ans[cy][cx]+1; q.push({ny,nx});}}}}}
 
 int main() {
-    //ios_base::sync_with_stdio(false); cin.tie(NULL);
-    cin >> n >> m;
-    string str;
+    ios_base::sync_with_stdio(1); cin.tie(0); cout.tie(0);
+    cin >> n >> m; string str;
     for (int y = 0; y < m; y++) {
         for (int x = 0; x < n; x++) {
-            wall[y][x] = INF;
+            ans[y][x] = INF;
             scanf("%1d",&map[y][x]);}}
     bfs();
-    printf("%d\n" , wall[m-1][n-1]);
-    return 0;}
+    printf("%d\n" , ans[m-1][n-1]); return 0;}
+
