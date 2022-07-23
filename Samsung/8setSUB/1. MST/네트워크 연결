@@ -1,1 +1,43 @@
+// 1922 네트워크 연결 : MST > 크루스칼= disjoint이용
+
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#define  MAX 1001 // 그래서 크기도 +1해야한다 
+using namespace std;
+
+struct NODE{ int from, to, cost;
+    NODE(int a, int b, int c){
+        from=a; to= b; cost=c;}
+    bool operator<(const NODE n)const{
+        return n.cost>cost;}};
+
+int n,m,sum{0}; int parent[MAX]; vector<NODE> v;
+
+int find(int x){
+    if(x==parent[x]) return x;
+    return parent[x]= find(parent[x]);}
+
+void join(int a, int b){
+    a=find(a); b= find(b);
+    if(a==b) return;
+    parent[b]=a;}
+
+int main(){
+    cin>>n>>m;
+    int a,b,c;
+    for(int i=1;i<=n;i++) parent[i]=i;
+    // 1번노드부터 가중치 정렬할건데 가장 가중치 적은걸 맨앞에 오게끔 미리 넣어두고
+    v.push_back(NODE(0,0,-1));
+    for(int i=1;i<=m;i++) {
+        cin>>a>>b>>c; v.push_back(NODE(a,b,c));}
+    
+    sort(v.begin(), v.end());
+    // 0번노드에는 아까 넣은 NODE(0,0,-1); 이 있을 거임 그래서 1부터 정렬
+    for(int i=1;i<=m;i++){
+        if(find(v[i].from)!=find(v[i].to)){
+            sum+= v[i].cost;
+            join(v[i].from, v[i].to);}}
+    cout<<sum<<"\n";
+    return 0;}
 
