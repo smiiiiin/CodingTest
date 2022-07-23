@@ -9,7 +9,7 @@ using namespace std;
 
 //only one 입력이 하나다
 int ans[MAX][MAX];
-int n,m,s;
+int n,m;
 
 void floyd() {
     for(int i=1;i<=n;i++){
