@@ -23,18 +23,16 @@ bool bfs(int s, int e) { //사이클의 유무
             q.push(next.first);}}
     return 0;}
 
-bool bellman(int S, int isCycle) { //익숙한 벨만에 (매개변수가 생김)
-    ans[S] = money[S]; //원래 ans[s]=0; 인데 돈이 추가됐으니 돈을 추가
-    for (int r = 0; r < n-1 + isCycle; r++) {
-        for (int cur = 0; cur < n; cur++) {
-            for (auto next: adj[cur]) {
-                if (ans[cur] == -INF) continue;
-                int nn = next.first; int nc = next.second;
-                if (ans[nn] < ans[cur] + nc + money[nn]) { //money[nn]만 더함
-                    ans[nn] = ans[cur] + nc + money[nn];
-                    if (r == n - 1) { //무한궤도 있다는거다
-                        if (bfs(nn, finish_node)) return 1; //이부분
-                    }}}}} // 쟤를 그냥 지나치면 무한 사이클은 없고 -1을 출력
+bool bellman(int s, int isCycle) { //익숙한 벨만에 (매개변수가 생김)
+    ans[s]=money[s];
+    for(int r=0;r<n-1+isCycle; r++){
+        for(int cur=0;cur<n;cur++){
+            for(auto next: adj[cur]){
+                if(ans[cur]==-INF) continue;
+                if(ans[next.first]<ans[cur]+ next.second+money[next.first]){
+                    ans[next.first]=ans[cur]+ next.second+money[next.first];
+                    if(r==n-1){
+                        if(bfs(next.first,finish_node)) return 1;}}}}}
     return 0;} //이부분
 
 int main() {
@@ -47,7 +45,7 @@ int main() {
         scanf("%d", &money[i]);}
     
     //무한궤도는 둘다 1,1 이면 무한궤도가 된다
-    int infinite_cycle = bellman(start_node, 1);
+    bool infinite_cycle = bellman(start_node, 1);
     if(infinite_cycle) printf("Gee\n");
     // 길이 없는 경우
     else if (ans[finish_node] == -INF) printf("gg\n");
