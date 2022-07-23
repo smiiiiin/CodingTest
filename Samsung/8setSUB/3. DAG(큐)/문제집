@@ -30,3 +30,4 @@ int main() {
             if (--inDegree[next] == 0) pq.push(next);}
     
     return 0;}
+ 
