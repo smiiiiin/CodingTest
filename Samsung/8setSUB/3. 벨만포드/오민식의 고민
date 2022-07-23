@@ -1,5 +1,4 @@
 // 1219 오민식의 고민 : 벨만포드
-// 1219 오민식의 고민 : 벨만포드
 #include <cstdio>
 #include <vector>
 #include <queue>
@@ -9,10 +8,10 @@ using namespace std;
 int n, m,start_node,finish_node;
 vector<pair<int, int>> adj[101]; //입력
 vector<long long> ans(51,-INF); // 출력: 돈(+), 거리(비용-)
-int money[101];
+int money[101]; bool b;
 
 // MST 프림함수와 매우 유사 (TV에 나올때 큐는 pop! top or front! 기준
-int bfs(int s, int e) {
+bool bfs(int s, int e) { //사이클의 유무
     bool visited[101] = { 0 };
     queue<int> q; q.push(s);
     while(!q.empty()){
@@ -21,13 +20,11 @@ int bfs(int s, int e) {
         visited[cur]=1; if(cur==e) return 1;
         for(auto next: adj[cur]){
             if(visited[next.first]) continue;
-            q.push(next.first);
-        }
-    }
+            q.push(next.first);}}
     return 0;}
 
-int bellman(int S, int isCycle) { //익숙한 벨만에 (매개변수가 생김)
-    ans[S] = money[S];
+bool bellman(int S, int isCycle) { //익숙한 벨만에 (매개변수가 생김)
+    ans[S] = money[S]; //원래 ans[s]=0; 인데 돈이 추가됐으니 돈을 추가
     for (int r = 0; r < n-1 + isCycle; r++) {
         for (int cur = 0; cur < n; cur++) {
             for (auto next: adj[cur]) {
@@ -36,9 +33,9 @@ int bellman(int S, int isCycle) { //익숙한 벨만에 (매개변수가 생김)
                 if (ans[nn] < ans[cur] + nc + money[nn]) { //money[nn]만 더함
                     ans[nn] = ans[cur] + nc + money[nn];
                     if (r == n - 1) { //무한궤도 있다는거다
-                        if (bfs(nn, finish_node)) return nn; //이부분
+                        if (bfs(nn, finish_node)) return 1; //이부분
                     }}}}} // 쟤를 그냥 지나치면 무한 사이클은 없고 -1을 출력
-    return -1;} //이부분
+    return 0;} //이부분
 
 int main() {
     scanf("%d %d %d %d", &n, &start_node, &finish_node, &m);
@@ -49,12 +46,10 @@ int main() {
     for (int i = 0; i < n; i++) { //노드당 벌 수 있는 돈
         scanf("%d", &money[i]);}
     
+    //무한궤도는 둘다 1,1 이면 무한궤도가 된다
     int infinite_cycle = bellman(start_node, 1);
-    // 갈수 없는 경우
-    if (ans[finish_node] == -INF) printf("gg\n");
-    // 갈 수 있는데 무한궤도 (돈방석)
-    else if (infinite_cycle!=-1) printf("Gee\n");
+    if(infinite_cycle) printf("Gee\n");
+    // 길이 없는 경우
+    else if (ans[finish_node] == -INF) printf("gg\n");
     // 갈 수 있고 cycle 없어서 값 나오는 경우
     else printf("%lld\n", ans[finish_node]); return 0;}
-
-
