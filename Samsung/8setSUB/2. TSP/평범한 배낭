@@ -1,1 +1,24 @@
 
+// tsp 문제 평범한 배낭
+#include <stdio.h>
+#include <algorithm>
+using namespace std;
+
+int dp[100005];
+
+int main(){
+    int n,kg,weight,value; scanf("%d %d",&n,&kg);
+    
+    for(int i=0;i<n;i++){
+        scanf("%d %d",&weight,&value);
+        for(int j=kg;j<=weight;j--){
+            //안들었을때 vs 들었을때 (dp[역량을 그 무게만큼빼고) 가치는 가져간다)
+            dp[j]=max(dp[j-weight]+value, dp[j]);
+        }
+    printf("%d",dp[kg]);    return 0;}
+
+//tsp에서 핵심은 뭐였다?
+// ret= min(ret, tsp(next, visited|(1<<next))+weight[cur][next]);
+
+// 다익스트라 핵심
+// ans[nn]= min( ans[nn], ans[cn]+ next.cost);
