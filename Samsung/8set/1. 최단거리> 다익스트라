@@ -1,50 +1,35 @@
-// 1753 최단경로: 다익스트라 (15m) // pq에 넣을때 next를 넣는데 아니라 update된 정보를 싸넣어야지 NODE(nn, nc)!, 1부터로 하자 그냥...:) 
-#include <iostream>
-#include <vector>
-#include <queue>
-#include <cstring>
-#define MAX 20001 //0이 3개까지 5,3,2(다익, 벨만, 플로)
+// 1753 최단경로: 다익스트라 (15m) // pq에 넣을때 next를 넣는데 아니라 update된 정보를 싸넣어야지 NODE(nn, nc)!, 그리고 1부터로 필수 ) 
+#include<iostream>
+#include<vector>
+#include<queue>
+#define MAX 20001
 #define INF 987654321
 using namespace std;
-struct NODE{
-    int to_node, cost;
-    NODE (int a,int b){to_node=a; cost=b;}
-    bool operator< (const NODE n)const{ return n.cost<cost;}
-};
 
+struct NODE{ int to_node, cost;
+    NODE(int a,int b){ to_node= a; cost= b;}
+    bool operator<(const NODE n)const{
+        return n.cost<cost;}};
+
+vector<NODE> adj[MAX];
+vector<int> ans(MAX, INF);
 priority_queue<NODE> pq;
-vector<NODE> adj[MAX]; vector<int> ans(MAX,INF);
-int n,m,s;
 
-
-void daijkstra(int starter) {
-    ans[starter]=0;
-    pq.push(NODE(starter,0));
+void daijkstra(int node){
+    pq.push(NODE(node,0));ans[node]=0;
     while(!pq.empty()){
-        int cn= pq.top().to_node;  pq.pop();//int cc= pq.top().cost;
+        int cn= pq.top().to_node; pq.pop(); //int cc= pq.top().cost;
         for(auto next: adj[cn]){
-            int nn= next.to_node; int nc= ans[cn]+ next.cost;
-            if(ans[nn]>nc){
-                ans[nn]=nc; pq.push(NODE(nn,nc)); // 그값을 갱신해서 넣어야지
-            }
-        }
-    }
-    
-}
+            int nn= next.to_node; int nc= ans[cn]+next.cost;
+            if(ans[nn]> nc) {ans[nn]=nc; pq.push(NODE(nn, nc));}}}}
 
-int main() {
-    ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-    cin>>n>>m;
-    cin>>s;
-    int a,b,c;
+int main(){
+    cin.tie(0); cout.tie(0); ios_base::sync_with_stdio(1);
+    int n,m,s; cin>>n>>m;
+    cin>>s; int a,b,c;
     for(int i=1;i<=m;i++){
         cin>>a>>b>>c; adj[a].push_back(NODE(b,c));}
-    
     daijkstra(s);
-    
-    for(int i=1;i<=n;i++) {
-        cout<< (ans[i]!=INF ? to_string(ans[i]): "INF")<<"\n";
-    }
-
+    for(int i=1;i<=n;i++){
+        cout<<(ans[i]!=INF ? to_string(ans[i]): "INF")<<"\n";}
     return 0;}
-
