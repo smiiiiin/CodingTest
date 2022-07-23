@@ -1,15 +1,17 @@
-
 // 1766 문제집
+// 나는 PQ sort를 정방향이라고 생각하자 greater 은 더 큰 이니깐 점점 커지는거다 즉 오름차순
+// 근데 sort(v.begin, v.end(), greater<>()); 하면 내림차순이 된다
 #include<cstdio>
 #include<queue>
 #include<vector>
+#include<iostream>
 #define MAX 32004
 using namespace std;
  
 int main() {
     int n, m, inDegree[MAX + 1] = { 0 };
     vector<int> adj[MAX + 1];
-    priority_queue<int, vector<int>, greater<int> > pq;
+    priority_queue<int, vector<int>, greater<int> > pq; //오름차순
  
     scanf("%d%d", &n, &m);
     for (int i = 0 ; i < m; i++) {
