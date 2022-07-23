@@ -1,0 +1,64 @@
+// 1219 오민식의 고민 : 플로이드 워셜
+#include <cstdio>
+#include <vector>
+#include <queue>
+#define INF 987654321
+using namespace std;
+
+int n, m,start,finish;
+vector<pair<int, int>> adj[101]; //입력
+int money[101]; long long ans[101]; // 출력: 돈(+), 거리(비용-)
+
+int bfs(int S, int E) {
+    if (S == E) return 1;
+    int visited[101] = { 0 };
+    queue<int> q;
+    q.push(S); visited[S] = 1;
+    while (!q.empty()) {
+        int cur = q.front(); q.pop();
+        for (auto next: adj[cur]) {
+            int nn = next.first;
+            if (visited[nn]) continue;
+            visited[nn] = 1;
+            if (nn == E) return 1;
+            q.push(nn);}}
+    return 0;}
+
+int bellman(int S, int isCycle) {
+    ans[S] = money[S];
+    for (int j = 0; j < n-1 + isCycle; j++) {
+        for (int cur = 0; cur < n; cur++) {
+            for (auto next: adj[cur]) {
+                if (ans[cur] == -INF) continue;
+                int nn = next.first; int nc = next.second;
+                
+                if (ans[nn] < ans[cur] + nc + money[nn]) {
+                    ans[nn] = ans[cur] + nc + money[nn];
+                    if (j == n - 1) { //음의 사이클이 있다는거다
+                        if (bfs(nn, finish)) return nn;
+                    }}}}}
+    return -1;}
+
+int main() {
+    scanf("%d %d %d %d", &n, &start, &finish, &m);
+    adj->clear(); //2차원배열 clear하는 법
+    int a,b,c;
+    for (int i = 0; i < m; i++) { //길에 대한 마이너스 비용
+        scanf("%d %d %d", &a, &b, &c);
+        adj[a].push_back({b, -c});}
+    
+    for (int i = 0; i < n; i++) { //노드당 벌 수 있는 돈
+        scanf("%d", &money[i]);}
+    
+    // 양의 무한대여부를 확인할거니까 음의 무한대로 초기화
+    fill_n(ans, sizeof(ans) / sizeof(long long), -INF);
+    
+    int infinite_cycle = bellman(start, 1);
+    // 갈수 없는 경우
+    if (ans[finish] == -INF) printf("gg\n");
+    // 갈 수 있는데 무한궤도 (돈방석)
+    else if (infinite_cycle!=-1) printf("Gee\n");
+    // 갈 수 있고 cycle 없어서 값 나오는 경우
+    else printf("%lld\n", ans[finish]);
+    return 0;}
+
