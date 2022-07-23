@@ -1,1 +1,23 @@
 
+// 11403 경로찾기 플로이드 워셜
+#include <iostream>
+#define MAX 100
+using namespace std;
+int n; int ans[MAX][MAX];
+
+void floyd(){
+    for(int i=0;i<n;i++){
+        for(int f=0;f<n;f++){
+            for(int t=0;t<n;t++){
+                if(ans[f][i] && ans[i][t]) ans[f][t]=1;}}}}
+           
+int main(){
+    cin>>n;
+    for(int y=0;y<n;y++){
+        for(int x=0;x<n;x++){
+            cin>>ans[y][x];}}
+    floyd();
+    for(int y=0;y<n;y++){
+        for(int x=0;x<n;x++){
+            cout<< ans[y][x]<<" ";}
+        cout<<"\n";}}
