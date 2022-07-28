@@ -1,0 +1,40 @@
+//14888 연산자 끼워넣기
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+int n;
+
+pair<int,int> dfs(vector<int> &a, int idx, int cur, int plus, int minus, int mul, int div) {
+    
+    if (idx == n) return make_pair(cur, cur);
+    
+    vector<pair<int,int>> res;
+    if (plus > 0) {
+        res.push_back(dfs(a,idx+1,cur+a[idx],plus-1,minus,mul,div));}
+    
+    if (minus > 0) {
+        res.push_back(dfs(a,idx+1,cur-a[idx],plus,minus-1,mul,div));}
+    
+    if (mul > 0) {
+        res.push_back(dfs(a,idx+1,cur*a[idx],plus,minus,mul-1,div));}
+    
+    if (div > 0) {
+        res.push_back(dfs(a,idx+1,cur/a[idx],plus,minus,mul,div-1));}
+    
+    auto ans = res[0];
+    for (auto p : res) {
+        if (ans.first < p.first) ans.first = p.first;
+        if (ans.second > p.second) ans.second = p.second;
+    }
+    return ans;}
+
+int main() {
+    cin >> n; vector<int> a(n);
+    for (int i=0; i<n; i++) cin >> a[i];
+    int plus, minus, mul, div;
+    cin >> plus >> minus >> mul >> div;
+    
+    auto p = dfs(a, 1, a[0], plus, minus, mul, div);
+    cout << p.first << '\n'; cout << p.second << '\n';
+    return 0;}
