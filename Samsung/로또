@@ -1,0 +1,26 @@
+// 6603 로또
+#include <iostream>
+#include <vector>
+using namespace std;
+
+vector<int> lotto; int n;
+
+void dfs(vector<int>& a, int idx, int cnt) {
+    if(cnt==6){
+        for(int i: lotto) cout<<i<<" ";
+        cout<<"\n"; return;
+    }
+    if(idx==n) return;
+    
+    lotto.push_back(a[idx]);
+    dfs(a,idx+1,cnt+1);
+    lotto.pop_back();
+    
+    dfs(a,idx+1,cnt);}
+
+int main() {
+    while (1) {
+        cin>>n; if(n==0) break; vector<int> a(n);
+        for(int i=0;i<n;i++) cin>>a[i];
+        dfs(a,0,0); cout<<"\n";}
+        return 0;}
