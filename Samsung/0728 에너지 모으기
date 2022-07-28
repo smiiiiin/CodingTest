@@ -1,0 +1,21 @@
+// 16198 에너지 모으기
+#include <iostream>
+#include <vector>
+using namespace std;
+int n;
+int dfs(vector<int> &a) {
+    if (n == 2) return 0;
+    int ans = 0;
+    for (int i=1; i<n-1; i++) {
+        int energy = a[i-1]*a[i+1];
+        vector<int> b(a);
+        b.erase(b.begin()+i);
+        energy += dfs(b);
+        if (ans < energy) ans = energy;}
+    return ans;}
+
+int main() {
+    cin >> n; vector<int> a(n);
+    for (int i=0; i<n; i++) cin >> a[i];
+    cout << dfs(a) << '\n';
+    return 0;}
