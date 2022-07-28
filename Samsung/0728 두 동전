@@ -1,0 +1,45 @@
+//16197 두 동전
+#include <iostream>
+using namespace std;
+int n, m; string a[20];
+int dy[] = {1,-1,0,0}; int dx[] = {0,0,1,-1};
+
+int dfs(int sz, int y1, int x1, int y2, int x2) {
+    if (sz == 11) return -1;
+    bool fall1=0, fall2=0;
+    if (y1 < 0 || y1 >= n|| x1 < 0 || x1 >= m ) fall1 = 1;
+    if (y2 < 0 || y2 >= n|| x2 < 0 || x2 >= m ) fall2 = 1;
+    if (fall1 && fall2) return -1;
+    if (fall1 || fall2) return sz;
+    int ans = -1;
+    
+    for (int k=0; k<4; k++) {
+        int ny1 = y1+dy[k]; int nx1 = x1+dx[k];
+        int ny2 = y2+dy[k]; int nx2 = x2+dx[k];
+        
+        if (0 <= ny1 && ny1 < n && 0 <= nx1 && nx1 < m && a[ny1][nx1] == '#') {
+            ny1 = y1; nx1 = x1;}
+        
+        if (0 <= ny2 && ny2 < n && 0 <= nx2 && nx2 < m &&  a[ny2][nx2] == '#') {
+            ny2 = y2;  nx2 = x2;}
+        
+        int temp = dfs(sz+1, ny1, nx1, ny2, nx2);
+        if (temp == -1) continue;
+        if (ans == -1 || ans > temp) ans = temp;}
+    
+    return ans;}
+
+int main() {
+    cin >> n >> m;
+    int y1,x1,y2,x2; y1=x1=y2=x2=-1;
+    
+    for (int y=0; y<n; y++) {
+        cin >> a[y];
+        for (int x=0; x<m; x++) {
+            if (a[y][x] == 'o') {
+                if (y1 == -1) { y1 = y; x1 = x;}
+                else { y2 = y; x2 = x; }
+                a[y][x] = '.';}}}
+            
+    cout << dfs(0,y1,x1,y2,x2) << '\n';
+    return 0;}
