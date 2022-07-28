@@ -1,0 +1,42 @@
+// 2580 스도쿠
+#include <iostream>
+using namespace std;
+int n=9; int a[10][10]; bool c[10][10];
+bool c2[10][10]; bool c3[10][10];
+
+
+int square(int x, int y) {
+    return (x/3)*3+(y/3);}
+
+bool go(int z) {
+    if (z == 81) {
+        for (int y=0; y<n; y++) {
+            for (int x=0; x<n; x++) cout << a[y][x] << ' ';
+            cout << '\n';}
+        return 1;}
+    
+    int y = z%n; int x = z/n;
+    
+    if (a[x][y] != 0) return go(z+1);
+    else {
+        for (int i=1; i<=9; i++) {
+            if (c[x][i] == 0 && c2[y][i] == 0 && c3[square(x,y)][i]==0) {
+                c[x][i] = c2[y][i] = c3[square(x,y)][i] = 1;
+                a[x][y] = i;
+                if (go(z+1)) return 1;
+                a[x][y] = 0;
+                c[x][i] = c2[y][i] = c3[square(x,y)][i] = 0;
+            }}}
+    return 0;}
+
+int main() {
+    for (int y=0; y<n; y++) {
+        for (int x=0; x<n; x++) {
+            cin >> a[y][x];
+            if (a[y][x] != 0) {
+                c[y][a[y][x]] = 1;
+                c2[x][a[y][x]] = 1;
+                c3[square(y,x)][a[y][x]] = 1;}}}
+    go(0); return 0;}
+
+
